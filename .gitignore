@@ -1,0 +1,34 @@
+# Ignore files in Automation Studio projects
+# Place gitignore file parallel to project (*.apj) file
+# More information at https://git-scm.com/docs/gitignore
+
+# Ignore AR system files
+/AR/System
+# Ignore entire Binaries directory relative to gitignore
+/Binaries
+# Ignore everything inside Diagnosis directory
+/Diagnosis/**
+# Make exception for subdirectories (credit https://stackoverflow.com/a/41112097)
+!/Diagnosis/**/
+# Ignore temporary safety files
+/Physical/*/*/*/DLFiles
+# Ignore Temp directory
+/Temp
+# Ignore upgrade files
+/Upgrades
+
+# Ignore set and isopen files
+/*.set
+/*.isopen
+
+# Ignore archives
+/*.zip
+
+# Ignore logs
+/debug.log
+/ConvertLog.txt
+
+# Exception for watch and trace configurations
+# Uncomment to use
+#!/Diagnosis/**/*.PVM
+#!/Diagnosis/**/*.tc
