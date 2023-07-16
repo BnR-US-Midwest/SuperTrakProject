@@ -8,6 +8,7 @@
     <AutomationRuntime Version="D4.92" />
     <Build GccVersion="4.1.2" />
     <DefaultTargetMemory Tasks="UserROM" />
+    <Transfer SavedOfflineInstallationFolder="" SavedPipDestinationFolder="" SavedRuntimeUtilityCenterPackagePath="" />
     <Vc FirmwareVersion="V4.72.5" />
   </Configuration>
 </Cpu>
