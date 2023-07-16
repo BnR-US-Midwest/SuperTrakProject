@@ -1,5 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
-  <Objects />
+  <Objects>
+    <Object Type="Library" Language="Binary" Description="ATS SuperTrak G3 Conveyor Controller">SuperTrak</Object>
+    <Object Type="Library" Language="binary" Description="The ArEventLog library can be used to collect additional error information and for further processing.">ArEventLog</Object>
+    <Object Type="Library" Language="binary" Description="This library provides read and write access to non-cyclic I/O data points.">AsIOAcc</Object>
+    <Object Type="Library" Language="binary" Description="The AsARCfg library supports reading and writing Automation Runtime configurations.">AsARCfg</Object>
+    <Object Type="Library" Language="binary" Description="OBSOLETE - The AsArLog library is replaced by ArEventLog and exists only for compatibility reasons.">AsArLog</Object>
+    <Object Type="Library" Language="binary" Description="The AsArProf library is used to operate the AR Profiler from an application.">AsArProf</Object>
+    <Object Type="Library" Language="binary" Description="The AsArSdm library supports the System Diagnostics Manager">AsArSdm</Object>
+    <Object Type="Library" Language="binary" Description="The AsGuard library supports technology guarding functions.">AsGuard</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs for exchanging and formatting data (message based) via HTTP (TCP).">AsHttp</Object>
+    <Object Type="Library" Language="binary" Description="The AsIO library makes it possible to determine the states and values of a data point and carry out forcing operations.">AsIO</Object>
+    <Object Type="Library" Language="binary" Description="The AsIODiag library provides functions for creating and evaluating I/O module information.">AsIODiag</Object>
+    <Object Type="Library" Language="binary" Description="This library provides functions for enabling and disabling configuration or mapping modules.">AsIOMMan</Object>
+    <Object Type="Library" Language="binary" Description="The AsIOTime library is used to generate time stamps based on system time of the I/O system.">AsIoTime</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs for exchanging data (data stream) via stream sockets (TCP).">AsTCP</Object>
+    <Object Type="Library" Language="binary" Description="The AsTime Library supports DATE_AND_TIME and TIME data types.">astime</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs for exchanging data packets via datagram sockets (UDP).">AsUDP</Object>
+    <Object Type="Library" Language="binary" Description="The AsXml library supports reading and writing of XML files.">AsXml</Object>
+    <Object Type="Library" Language="binary" Description="The BRSystem library provides the user with a number of system functions for e.g. handling permanent memory, accessing exception information, etc.">brsystem</Object>
+    <Object Type="Library" Language="binary" Description="The DataObj library can be used to dynamically create, dynamically delete and copy data objects, etc. ">DataObj</Object>
+    <Object Type="Library" Language="binary" Description="The FileIO library provides function blocks for file handling.">FileIO</Object>
+    <Object Type="Library" Language="binary" Description="The SYS_LIB library contains functions for memory management and operating system manipulation as well as hardware-specific functions.">sys_lib</Object>
+    <Object Type="Library" Language="binary" Description="This library contains runtime functions for IEC tasks.">runtime</Object>
+  </Objects>
 </Package>
