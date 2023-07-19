@@ -3,6 +3,7 @@
 <Cpu xmlns="http://br-automation.co.at/AS/Cpu">
   <Objects>
     <Object Type="File" Description="Software configuration">Cpu.sw</Object>
+    <Object Type="Package">TextSystem</Object>
   </Objects>
   <Configuration ModuleId="5PC900.TS17-00">
     <AutomationRuntime Version="D4.92" />

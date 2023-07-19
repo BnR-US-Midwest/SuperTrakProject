@@ -7,5 +7,6 @@
     <Object Type="Package" Description="Global libraries">Libraries</Object>
     <Object Type="Program" Language="IEC">TrakCyclic</Object>
     <Object Type="Package">User</Object>
+    <Object Type="File">Project.language</Object>
   </Objects>
 </Package>
