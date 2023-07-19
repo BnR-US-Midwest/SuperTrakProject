@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File">ST_7001.dat</Object>
+    <Object Type="File">ST_7002.dat</Object>
+    <Object Type="File">ST_7003.dat</Object>
+    <Object Type="File">ST_7004.dat</Object>
+    <Object Type="File">ST_7005.dat</Object>
+    <Object Type="File">ST_7006.dat</Object>
+    <Object Type="File">ST_7007.dat</Object>
+    <Object Type="File">ST_7008.dat</Object>
+    <Object Type="File">ST_7009.dat</Object>
+    <Object Type="File">ST_7010.dat</Object>
+    <Object Type="File">ST_7011.dat</Object>
+    <Object Type="File">ST_7012.dat</Object>
+    <Object Type="File">ST_7013.dat</Object>
+    <Object Type="File">ST_7014.dat</Object>
+    <Object Type="File">ST_700a.dat</Object>
+    <Object Type="File">ST_700b.dat</Object>
+    <Object Type="File">ST_700c.dat</Object>
+    <Object Type="File">ST_700d.dat</Object>
+    <Object Type="File">ST_700e.dat</Object>
+    <Object Type="File">ST_700f.dat</Object>
+    <Object Type="File">ST_900f.dat</Object>
+  </Objects>
+</Package>

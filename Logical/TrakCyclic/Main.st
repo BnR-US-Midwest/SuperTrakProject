@@ -1,6 +1,6 @@
 
 PROGRAM _INIT
-	SuperTrakInit('/DEVICE=USER_PATH', '127.0.0.1', 'IF3,IF4');
+	SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\Configuration', '127.0.0.1', 'IF3,IF4');
 END_PROGRAM
 
 PROGRAM _CYCLIC
