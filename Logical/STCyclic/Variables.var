@@ -1,0 +1,20 @@
+(*Control interface*)
+VAR
+	ControlData : ARRAY[0..499] OF USINT;
+	StatusData : ARRAY[0..499] OF USINT;
+	ControlInterface : SuperTrakControlInterface_t;
+END_VAR
+(*Service channel*)
+VAR
+	PLCInterfaceRevision : UINT;
+	RequestData : ARRAY[0..127] OF USINT;
+	ResponseData : ARRAY[0..127] OF USINT;
+	ServiceChannel : ServiceChannel_t;
+	RequestHeader : REFERENCE TO ServiceChannelHeader_t;
+	ResponseHeader : REFERENCE TO ServiceChannelHeader_t;
+END_VAR
+(*StCom system control*)
+VAR
+	ControlSystem : StControl;
+	SystemParameters : StControlParType;
+END_VAR
