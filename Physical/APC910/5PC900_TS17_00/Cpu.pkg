@@ -4,6 +4,7 @@
   <Objects>
     <Object Type="File" Description="Software configuration">Cpu.sw</Object>
     <Object Type="Package">TextSystem</Object>
+    <Object Type="Package">VariableMap</Object>
   </Objects>
   <Configuration ModuleId="5PC900.TS17-00">
     <AutomationRuntime Version="D4.92" />

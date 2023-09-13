@@ -36,7 +36,7 @@ PROGRAM _CYCLIC
 	// Call StCom system
 	// This function block receives commands from other StCom function blocks
 	// The commands are processed in the PLC interface
-	ControlSystem.StLink := ADR(gStLink);
+	ControlSystem.StLink := ADR(StComLink);
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem.StCtrlData := ADR(ControlData);
 	ControlSystem.StCtrlDataSize := SIZEOF(ControlData);
@@ -69,6 +69,9 @@ PROGRAM _CYCLIC
 	ELSIF ServiceChannel.state = scSTATE_SEND THEN
 		ServiceChannel.state := scSTATE_RECV;
 	END_IF
+	
+	// Share StCom link
+	Interface.Status.LinkAddress := ADR(StComLink);
 	
 END_PROGRAM
 

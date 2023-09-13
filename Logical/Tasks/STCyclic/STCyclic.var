@@ -1,0 +1,3 @@
+VAR
+	gSTCyclic : STCyclicInterfaceType; (*Global interface*)
+END_VAR
