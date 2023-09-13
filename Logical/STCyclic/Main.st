@@ -1,6 +1,7 @@
 
 PROGRAM _INIT
 	
+	// Initialize SuperTrak, set configuration path
 	SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\Configuration', '127.0.0.1', 'IF3,IF4');
 	
 	// Set PLC interface to revision 0 for StCom
@@ -9,29 +10,32 @@ PROGRAM _INIT
 	
 	// Initialize StCom system parameters
 	SystemParameters.NrOfCommands := 48;
-	SystemParameters.NrOfSections := SECTION_MAX;
-	SystemParameters.NrOfTargets := TARGET_MAX;
-	SystemParameters.NrOfPallets := PALLET_MAX;
+	SystemParameters.NrOfSections := 4;
+	SystemParameters.NrOfTargets := 4;
+	SystemParameters.NrOfPallets := 4;
 	ControlSystem.Enable := TRUE;
 	
+	// Initialize service channel identifier for StCom
 	ServiceChannel.channelId := 1;
-	ServiceChannel.state := scSTATE_RECV;
 	
 END_PROGRAM
 
 PROGRAM _CYCLIC
 	
-	// Call control interface and SuperTrak cyclic
+	// Process control and status data of PLC interface for StCom
 	ControlInterface.pControl := ADR(ControlData);
 	ControlInterface.pStatus := ADR(StatusData);
 	ControlInterface.controlSize := SIZEOF(ControlData);
 	ControlInterface.statusSize := SIZEOF(StatusData);
 	
+	// Process control data before SuperTrak cyclic and status data after
 	SuperTrakProcessControl(0, ControlInterface);
 	SuperTrakCyclic1();
 	SuperTrakProcessStatus(0, ControlInterface);
 	
-	// Call StCom control manager
+	// Call StCom system
+	// This function block receives commands from other StCom function blocks
+	// The commands are processed in the PLC interface
 	ControlSystem.StLink := ADR(gStLink);
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem.StCtrlData := ADR(ControlData);
@@ -45,6 +49,7 @@ PROGRAM _CYCLIC
 	ControlSystem();
 	
 	// Call service channel
+	// This is used for a short amount of time to configure the PLC interface for StCom
 	ServiceChannel.pRequestHeader := ADR(RequestData);
 	ServiceChannel.pResponseHeader := ADR(ResponseData);
 	ServiceChannel.pRequestValues := ADR(RequestData) + SIZEOF(ServiceChannelHeader_t);
