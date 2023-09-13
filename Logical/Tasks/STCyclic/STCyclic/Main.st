@@ -70,8 +70,9 @@ PROGRAM _CYCLIC
 		ServiceChannel.state := scSTATE_RECV;
 	END_IF
 	
-	// Share StCom link
+	// Share StCom link and active status
 	Interface.Status.LinkAddress := ADR(StComLink);
+	Interface.Status.Active := ControlSystem.Active;
 	
 END_PROGRAM
 
