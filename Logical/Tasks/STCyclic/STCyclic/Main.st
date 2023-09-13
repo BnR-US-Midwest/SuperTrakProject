@@ -74,6 +74,10 @@ PROGRAM _CYCLIC
 	Interface.Status.LinkAddress := ADR(StComLink);
 	Interface.Status.Active := ControlSystem.Active;
 	
+	// User logging
+	LogStComSystemStatus;
+	LogStComServiceChannel;
+	
 END_PROGRAM
 
 PROGRAM _EXIT

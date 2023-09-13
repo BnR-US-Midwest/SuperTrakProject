@@ -1,0 +1,6 @@
+VAR
+	FirstScan : BOOL := TRUE;
+	PreviousStComSystemActive : BOOL;
+	PreviousServiceChannelState : USINT;
+	Values : UserLogFormatType;
+END_VAR
