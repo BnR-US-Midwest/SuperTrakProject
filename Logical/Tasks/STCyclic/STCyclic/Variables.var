@@ -1,22 +1,22 @@
-(*Control interface*)
+(*PLC interface*)
 VAR
-	ControlData : ARRAY[0..499] OF USINT;
-	StatusData : ARRAY[0..499] OF USINT;
-	ControlInterface : SuperTrakControlInterface_t;
+	ControlData : ARRAY[0..499] OF USINT; (*Raw input data to PLC interface used for StCom*)
+	StatusData : ARRAY[0..499] OF USINT; (*Raw output data from PLC interface used for StCom*)
+	PLCInterfaceParameters : SuperTrakControlInterface_t; (*PLC interface data parameters*)
 END_VAR
 (*Service channel*)
 VAR
-	PLCInterfaceRevision : UINT;
-	RequestData : ARRAY[0..127] OF USINT;
-	ResponseData : ARRAY[0..127] OF USINT;
-	ServiceChannel : ServiceChannel_t;
-	RequestHeader : REFERENCE TO ServiceChannelHeader_t;
-	ResponseHeader : REFERENCE TO ServiceChannelHeader_t;
+	PLCInterfaceRevision : UINT; (*Revision number 0 required for StCom*)
+	RequestData : ARRAY[0..127] OF USINT; (*Raw service channel input data used for StCom*)
+	ResponseData : ARRAY[0..127] OF USINT; (*Raw service channel output data used for StCom*)
+	ServiceChannel : ServiceChannel_t; (*Service channel instance interface*)
+	RequestHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in raw service channel input data*)
+	ResponseHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in raw sercive channel output data*)
 END_VAR
-(*StCom system control*)
+(*StCom control*)
 VAR
-	Interface : STCyclicInterfaceType;
-	StComLink : StLinkType;
-	ControlSystem : StControl;
-	SystemParameters : StControlParType;
+	Interface : STCyclicInterfaceType; (*Task interface*)
+	StComLink : StLinkType; (*Link for all StCom function blocks*)
+	ControlStCom : StControl; (*StCom runtime manager and SuperTrak system control function block*)
+	StComParameters : StControlParType; (*StControl function block parameters*)
 END_VAR

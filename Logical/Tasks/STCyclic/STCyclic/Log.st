@@ -6,11 +6,11 @@ ACTION LogStComSystemStatus:
 		UserLogBasic(USERLOG_SEVERITY_INFORMATION, 200, 'First scan');
 	END_IF
 	
-	IF ControlSystem.Active AND NOT PreviousStComSystemActive THEN
+	IF ControlStCom.Active AND NOT PreviousStComActive THEN
 		UserLogBasic(USERLOG_SEVERITY_INFORMATION, 210, 'StCom StSystem function block active');
 	END_IF
 	
-	PreviousStComSystemActive := ControlSystem.Active;
+	PreviousStComActive := ControlStCom.Active;
 	
 END_ACTION
 

@@ -4,6 +4,6 @@
   <Objects>
     <Object Type="File" Description="Global types">STCyclic.typ</Object>
     <Object Type="File" Description="Global variables">STCyclic.var</Object>
-    <Object Type="Program" Language="IEC">STCyclic</Object>
+    <Object Type="Program" Language="IEC" Description="SuperTrak cyclic update and StCom control">STCyclic</Object>
   </Objects>
 </Package>
