@@ -4,5 +4,6 @@
   <Objects>
     <Object Type="Program" Language="IEC">MachMgr</Object>
     <Object Type="Package" Description="SuperTrak cyclic update">STCyclic</Object>
+    <Object Type="Package" Description="StCom system control">STSystem</Object>
   </Objects>
 </Package>

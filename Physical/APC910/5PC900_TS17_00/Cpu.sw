@@ -4,6 +4,7 @@
   <TaskClass Name="Cyclic#1">
     <Task Name="MachMgr" Source="Tasks.MachMgr.MachMgr.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STCyclic" Source="Tasks.MachMgr.STCyclic.STCyclic.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="STSystem" Source="Tasks.MachMgr.STSystem.STSystem.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2" />
   <TaskClass Name="Cyclic#3" />
@@ -52,7 +53,7 @@
     <LibraryObject Name="AsBrStr" Source="Libraries.AsBrStr.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="standard" Source="Libraries.standard.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsIecCon" Source="Libraries.AsIecCon.lby" Memory="UserROM" Language="binary" Debugging="true" />
-    <LibraryObject Name="aspciext" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="UserLog" Source="Libraries.UserLog.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="aspciext" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

@@ -1,0 +1,3 @@
+VAR
+	gSTSystem : STSystemInterfaceType;
+END_VAR

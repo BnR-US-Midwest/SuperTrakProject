@@ -1,0 +1,3 @@
+VAR_CONFIG
+	::gSTSystem.Par AT %Q.::STSystem:Interface.Par;
+END_VAR
