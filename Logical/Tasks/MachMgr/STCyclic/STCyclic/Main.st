@@ -8,13 +8,6 @@ PROGRAM _INIT
 	PLCInterfaceRevision := 0;
 	SuperTrakServChanWrite(0, stPAR_PLC_IF_REVISION, 0, 1, ADR(PLCInterfaceRevision), SIZEOF(PLCInterfaceRevision));
 	
-	// Initialize StCom parameters
-	StComParameters.NrOfCommands := 48;
-	StComParameters.NrOfSections := 4;
-	StComParameters.NrOfTargets := 4;
-	StComParameters.NrOfPallets := 4;
-	ControlStCom.Enable := TRUE;
-	
 	// Initialize service channel identifier for StCom
 	ServiceChannel.channelId := 1;
 	
@@ -32,23 +25,6 @@ PROGRAM _CYCLIC
 	SuperTrakProcessControl(0, PLCInterfaceParameters);
 	SuperTrakCyclic1();
 	SuperTrakProcessStatus(0, PLCInterfaceParameters);
-	
-	// Call StCom system
-	// This function block receives commands from other StCom function blocks
-	// The commands are processed in the PLC interface
-	ControlStCom.ErrorReset := Interface.Cmd.Reset;
-	
-	ControlStCom.StLink := ADR(StComLink);
-	ControlStCom.Parameters := ADR(StComParameters);
-	ControlStCom.StCtrlData := ADR(ControlData);
-	ControlStCom.StCtrlDataSize := SIZEOF(ControlData);
-	ControlStCom.StStatData := ADR(StatusData);
-	ControlStCom.StStatDataSize := SIZEOF(StatusData);
-	ControlStCom.StServChRequestData := ADR(RequestData);
-	ControlStCom.StServChRequestDataSize := SIZEOF(RequestData);
-	ControlStCom.StServChResponseData := ADR(ResponseData);
-	ControlStCom.StServChResponseDataSize := SIZEOF(ResponseData);
-	ControlStCom();
 	
 	// Call service channel
 	// This is used for a short amount of time to configure the PLC interface for StCom
@@ -75,12 +51,17 @@ PROGRAM _CYCLIC
 		ServiceChannel.state := scSTATE_RECV;
 	END_IF
 	
-	// Share StCom link and active status
-	Interface.Status.LinkAddress := ADR(StComLink);
-	Interface.Status.Active := ControlStCom.Active;
+	// Share data access to StCom's StControl
+	Interface.Status.ControlDataAddress := ADR(ControlData);
+	Interface.Status.ControlDataSize := SIZEOF(ControlData);
+	Interface.Status.StatusDataAddress := ADR(StatusData);
+	Interface.Status.StatusDataSize := SIZEOF(StatusData);
+	Interface.Status.RequestDataAddress := ADR(RequestData);
+	Interface.Status.RequestDataSize := SIZEOF(RequestData);
+	Interface.Status.ResponseDataAddress := ADR(ResponseData);
+	Interface.Status.ResponseDataSize := SIZEOF(ResponseData);
 	
-	// User logging
-	LogStComSystemStatus;
+	// Log service channel requests
 	LogStComServiceChannel;
 	
 END_PROGRAM

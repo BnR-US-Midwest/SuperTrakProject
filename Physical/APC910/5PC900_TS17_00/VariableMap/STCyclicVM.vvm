@@ -1,4 +1,3 @@
 VAR_CONFIG
-	::gSTCyclic.Cmd AT %Q.::STCyclic:Interface.Cmd;
 	::STCyclic:Interface.Status AT %Q.::gSTCyclic.Status;
 END_VAR

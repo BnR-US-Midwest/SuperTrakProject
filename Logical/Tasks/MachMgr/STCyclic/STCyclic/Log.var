@@ -1,6 +1,4 @@
 VAR
-	FirstScan : BOOL := TRUE; (*Log timestamp of first scan*)
-	PreviousStComActive : BOOL; (*Montior for change in StControl active status*)
 	PreviousServiceChannelState : USINT; (*Montior for change in service channel processing states*)
 	Values : UserLogFormatType; (*Runtime values for formatted log messages*)
 END_VAR

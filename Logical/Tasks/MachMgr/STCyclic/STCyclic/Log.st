@@ -1,19 +1,4 @@
 
-ACTION LogStComSystemStatus: 
-	
-	IF FirstScan THEN
-		FirstScan := FALSE;
-		UserLogBasic(USERLOG_SEVERITY_INFORMATION, 200, 'First scan');
-	END_IF
-	
-	IF ControlStCom.Active AND NOT PreviousStComActive THEN
-		UserLogBasic(USERLOG_SEVERITY_INFORMATION, 210, 'StCom StSystem function block active');
-	END_IF
-	
-	PreviousStComActive := ControlStCom.Active;
-	
-END_ACTION
-
 ACTION LogStComServiceChannel:
 	
 	// Read Section Count 1080
