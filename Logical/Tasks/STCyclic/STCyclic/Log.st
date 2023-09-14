@@ -1,15 +1,13 @@
 
 ACTION LogStComSystemStatus: 
 	
-	UserLogSetSeverityLevel(USERLOG_SEVERITY_DEBUG);
-	
 	IF FirstScan THEN
 		FirstScan := FALSE;
-		UserLogBasic(USERLOG_SEVERITY_DEBUG, 200, 'First scan');
+		UserLogBasic(USERLOG_SEVERITY_INFORMATION, 200, 'First scan');
 	END_IF
 	
 	IF ControlSystem.Active AND NOT PreviousStComSystemActive THEN
-		UserLogBasic(USERLOG_SEVERITY_DEBUG, 210, 'StCom StSystem function block active');
+		UserLogBasic(USERLOG_SEVERITY_INFORMATION, 210, 'StCom StSystem function block active');
 	END_IF
 	
 	PreviousStComSystemActive := ControlSystem.Active;
@@ -32,7 +30,7 @@ ACTION LogStComServiceChannel:
 		Values.i[1] := RequestHeader.param;
 		Values.i[2] := RequestHeader.section;
 		Values.i[3] := RequestHeader.count;
-		UserLogAdvanced(USERLOG_SEVERITY_DEBUG, 220, 'Service Channel request execution, task %i, parameter %i, Section %i, Count %i', Values);
+		UserLogAdvanced(USERLOG_SEVERITY_INFORMATION, 220, 'Service Channel request execution, task %i, parameter %i, Section %i, Count %i', Values);
 	END_IF
 	
 	PreviousServiceChannelState := ServiceChannel.state;

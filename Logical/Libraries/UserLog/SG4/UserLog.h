@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* UserLog 2.00.0 */
+/* UserLog 2.00.1 */
 
 #ifndef _USERLOG_
 #define _USERLOG_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _UserLog_VERSION
-#define _UserLog_VERSION 2.00.0
+#define _UserLog_VERSION 2.00.1
 #endif
 
 #include <bur/plctypes.h>
