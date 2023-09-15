@@ -1,3 +1,0 @@
-VAR_CONFIG
-	::STCyclic:Interface.Status AT %Q.::gSTCyclic.Status;
-END_VAR

@@ -2,7 +2,6 @@
 <?AutomationStudio FileVersion="4.9"?>
 <SwConfiguration CpuAddress="SL1" xmlns="http://br-automation.co.at/AS/SwConfiguration">
   <TaskClass Name="Cyclic#1">
-    <Task Name="MachMgr" Source="Tasks.MachMgr.MachMgr.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STCyclic" Source="Tasks.MachMgr.STCyclic.STCyclic.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STSystem" Source="Tasks.MachMgr.STSystem.STSystem.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>

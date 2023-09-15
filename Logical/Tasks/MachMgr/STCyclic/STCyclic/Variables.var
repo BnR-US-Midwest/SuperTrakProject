@@ -1,7 +1,3 @@
-(*Task interface*)
-VAR
-	Interface : STCyclicInterfaceType; (*Task interface*)
-END_VAR
 (*PLC interface*)
 VAR
 	ControlData : ARRAY[0..499] OF USINT; (*Raw input data to PLC interface used for StCom*)

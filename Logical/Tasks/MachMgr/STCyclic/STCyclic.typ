@@ -1,12 +1,6 @@
 
 TYPE
-	STCyclicInterfaceType : 	STRUCT  (*Interface structure*)
-		Status : STCyclicInterfaceStatusType; (*Status structure*)
-	END_STRUCT;
-	STCyclicInterfaceStatusType : 	STRUCT  (*Status structure*)
-		Reference : STCyclicInterfaceReferenceType;
-	END_STRUCT;
-	STCyclicInterfaceReferenceType : 	STRUCT  (*Status structure*)
+	STCyclicReferenceType : 	STRUCT 
 		ControlDataAddress : UDINT;
 		ControlDataSize : UDINT;
 		StatusDataAddress : UDINT;

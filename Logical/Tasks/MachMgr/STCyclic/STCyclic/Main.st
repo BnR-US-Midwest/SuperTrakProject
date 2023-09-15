@@ -52,14 +52,14 @@ PROGRAM _CYCLIC
 	END_IF
 	
 	// Share data access to StCom's StControl
-	Interface.Status.Reference.ControlDataAddress := ADR(ControlData);
-	Interface.Status.Reference.ControlDataSize := SIZEOF(ControlData);
-	Interface.Status.Reference.StatusDataAddress := ADR(StatusData);
-	Interface.Status.Reference.StatusDataSize := SIZEOF(StatusData);
-	Interface.Status.Reference.RequestDataAddress := ADR(RequestData);
-	Interface.Status.Reference.RequestDataSize := SIZEOF(RequestData);
-	Interface.Status.Reference.ResponseDataAddress := ADR(ResponseData);
-	Interface.Status.Reference.ResponseDataSize := SIZEOF(ResponseData);
+	gSTCyclicReference.ControlDataAddress := ADR(ControlData);
+	gSTCyclicReference.ControlDataSize := SIZEOF(ControlData);
+	gSTCyclicReference.StatusDataAddress := ADR(StatusData);
+	gSTCyclicReference.StatusDataSize := SIZEOF(StatusData);
+	gSTCyclicReference.RequestDataAddress := ADR(RequestData);
+	gSTCyclicReference.RequestDataSize := SIZEOF(RequestData);
+	gSTCyclicReference.ResponseDataAddress := ADR(ResponseData);
+	gSTCyclicReference.ResponseDataSize := SIZEOF(ResponseData);
 	
 	// Log service channel requests
 	LogStComServiceChannel;

@@ -1,5 +1,4 @@
 VAR
-	Interface : STSystemInterfaceType;
 	ControlSystem : StControl;
 	SystemParameters : StControlParType;
 END_VAR
