@@ -4,10 +4,12 @@
   <Module Name="5AC901.BX02-01" Type="5AC901.BX02-01" Version="1.1.1.0">
     <Connection Connector="SY" TargetModule="5PC910.SX02-00" TargetConnector="SY3" />
   </Module>
-  <Module Name="5PC900_TS17_00" Type="5PC900.TS17-00" Version="2.1.0.0">
+  <Module Name="5ACPCE.FMIO-K01" Type="5ACPCE.FMIO-K01" Version="1.0.6.0">
+    <Connection Connector="SL" TargetModule="5AC901.BX02-01" TargetConnector="SL1" />
+  </Module>
+  <Module Name="5PC900_TS77_00" Type="5PC900.TS77-00" Version="2.1.1.0">
     <Connection Connector="SY" TargetModule="5PC910.SX02-00" TargetConnector="SY1" />
     <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC910" />
-    <Parameter ID="Simulation" Value="1" />
     <Parameter ID="SystemTick" Value="800" />
     <Parameter ID="TaskClassIdleTime" Value="800" />
     <Parameter ID="Cyclic1Duration" Value="800" />
@@ -18,6 +20,13 @@
     <Group ID="FileDevice1" />
     <Parameter ID="FileDeviceName1" Value="USER" />
     <Parameter ID="FileDevicePath1" Value="USER_PATH" />
+    <Parameter ID="EthernetHostName" Value="chicago-supertrak-demo" />
+    <Group ID="FtpUser1" />
+    <Parameter ID="FtpUsername1" Value="br" />
+    <Parameter ID="FtpUserPassword1" Value="fG4fNnWtTGcUcUwkSer6NmcRbP5WOIWmx7fBWc6SChs=" />
+    <Parameter ID="FtpUserSalt1" Value="Bp4we4eT" />
+    <Parameter ID="FTPAccessRight1" Value="0" />
+    <Parameter ID="FTPdevice1" Value="ALL" />
   </Module>
   <Module Name="5PC910.SX02-00" Type="5PC910.SX02-00" Version="2.1.1.0">
     <Connector Name="IF1">
@@ -26,10 +35,12 @@
     <Connector Name="IF3">
       <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
       <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="chicago-supertrak-demo" />
     </Connector>
     <Connector Name="IF4">
       <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
       <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="chicago-supertrak-demo" />
     </Connector>
     <Connector Name="IF5">
       <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
