@@ -2,6 +2,13 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
+    <Object Type="File">ST_2000.dat</Object>
+    <Object Type="File">ST_3001.dat</Object>
+    <Object Type="File">ST_3002.dat</Object>
+    <Object Type="File">ST_3101.dat</Object>
+    <Object Type="File">ST_3102.dat</Object>
+    <Object Type="File">ST_6001.dat</Object>
+    <Object Type="File">ST_6002.dat</Object>
     <Object Type="File">ST_7001.dat</Object>
     <Object Type="File">ST_7002.dat</Object>
     <Object Type="File">ST_7003.dat</Object>
