@@ -24,6 +24,8 @@ PROGRAM _CYCLIC
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem();
 	
+	LogStControlActive;
+	
 END_PROGRAM
 
 PROGRAM _EXIT

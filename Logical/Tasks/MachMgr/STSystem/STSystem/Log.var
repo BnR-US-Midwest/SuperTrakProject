@@ -1,0 +1,4 @@
+VAR
+	FirstScan : BOOL := TRUE; (*Flag first scan of cyclic*)
+	PreviousActive : BOOL; (*Previous StControl Active status*)
+END_VAR
