@@ -1,4 +1,16 @@
 VAR_CONFIG
 	::gSTSystem.Cmd AT %Q.::STSystem:Interface.Cmd;
 	::STSystem:Interface.Status AT %Q.::gSTSystem.Status;
+	::gSTSection[1].Cmd AT %Q.::STSection:Interface[1].Cmd;
+	::gSTSection[1].Par AT %Q.::STSection:Interface[1].Par;
+	::STSection:Interface[1].Status AT %Q.::gSTSection[1].Status;
+	::gSTSection[2].Cmd AT %Q.::STSection:Interface[2].Cmd;
+	::gSTSection[2].Par AT %Q.::STSection:Interface[2].Par;
+	::STSection:Interface[2].Status AT %Q.::gSTSection[2].Status;
+	::gSTSection[3].Cmd AT %Q.::STSection:Interface[3].Cmd;
+	::gSTSection[3].Par AT %Q.::STSection:Interface[3].Par;
+	::STSection:Interface[3].Status AT %Q.::gSTSection[3].Status;
+	::gSTSection[4].Cmd AT %Q.::STSection:Interface[4].Cmd;
+	::gSTSection[4].Par AT %Q.::STSection:Interface[4].Par;
+	::STSection:Interface[4].Status AT %Q.::gSTSection[4].Status;
 END_VAR
