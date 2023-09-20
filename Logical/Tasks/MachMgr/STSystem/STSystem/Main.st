@@ -12,6 +12,9 @@ END_PROGRAM
 
 PROGRAM _CYCLIC
 	
+	ControlSystem.EnableAllSections := Interface.Cmd.EnableAllSections;
+	ControlSystem.ErrorReset := Interface.Cmd.Reset;
+	
 	ControlSystem.StCtrlData := gSTCyclicReference.ControlDataAddress;
 	ControlSystem.StCtrlDataSize := gSTCyclicReference.ControlDataSize;
 	ControlSystem.StStatData := gSTCyclicReference.StatusDataAddress;
@@ -23,6 +26,9 @@ PROGRAM _CYCLIC
 	ControlSystem.StLink := ADR(gSTSystemLink);
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem();
+	
+	Interface.Status.Active := ControlSystem.Active;
+	Interface.Status.Error := ControlSystem.Error;
 	
 	LogStControlActive;
 	

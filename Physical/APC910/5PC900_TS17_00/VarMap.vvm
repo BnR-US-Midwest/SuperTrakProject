@@ -1,0 +1,4 @@
+VAR_CONFIG
+	::gSTSystem.Cmd AT %Q.::STSystem:Interface.Cmd;
+	::STSystem:Interface.Status AT %Q.::gSTSystem.Status;
+END_VAR
