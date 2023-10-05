@@ -1,5 +1,8 @@
 VAR
+	State : STSystemStateEnum;
 	Interface : STSystemInterfaceType;
 	ControlSystem : StControl;
 	SystemParameters : StControlParType;
+	ResetPosEdge : R_TRIG;
+	ResetPending : BOOL;
 END_VAR
