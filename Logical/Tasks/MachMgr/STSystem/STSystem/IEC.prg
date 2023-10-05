@@ -4,7 +4,5 @@
   <Files>
     <File Description="Init, cyclic, exit code">Main.st</File>
     <File Description="Local variables" Private="true">Variables.var</File>
-    <File Description="Logging variables" Private="true">Log.var</File>
-    <File Description="Diagnostic logging">Log.st</File>
   </Files>
 </Program>

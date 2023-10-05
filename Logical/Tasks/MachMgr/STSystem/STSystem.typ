@@ -12,6 +12,7 @@ TYPE
 	STSystemInterfaceStatusType : 	STRUCT 
 		Active : BOOL;
 		Error : BOOL;
+		ErrorID : DINT;
 		State : STSystemStateEnum;
 	END_STRUCT;
 	STSystemStateEnum : 
@@ -19,6 +20,7 @@ TYPE
 		STSYSTEM_STATE_OFF,
 		STSYSTEM_STATE_ENABLING,
 		STSYSTEM_STATE_RUN,
-		STSYSTEM_STATE_ERROR
+		STSYSTEM_STATE_ERROR,
+		STSYSTEM_STATE_RESETTING
 		);
 END_TYPE

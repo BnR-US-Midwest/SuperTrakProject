@@ -6,6 +6,8 @@ PROGRAM _INIT
 	SystemParameters.NrOfTargets := 4;
 	SystemParameters.NrOfPallets := 4;
 	
+	Timeout.PT := T#5s;
+	
 END_PROGRAM
 
 PROGRAM _CYCLIC
@@ -21,14 +23,25 @@ PROGRAM _CYCLIC
 		STSYSTEM_STATE_ENABLING:
 			// Enable once and never disabled
 			ControlSystem.Enable := TRUE;
+			Timeout.IN := TRUE;
 			
 			IF ControlSystem.Active THEN
+				Timeout.IN := FALSE;
 				Interface.Status.Active := TRUE;
 				State := STSYSTEM_STATE_RUN;
 				
 			ELSIF ControlSystem.Error THEN
+				Timeout.IN := FALSE;
 				Interface.Status.Error := TRUE;
+				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STSYSTEM_STATE_ERROR;
+				
+			ELSIF Timeout.Q THEN
+				Timeout.IN := FALSE;
+				Interface.Status.Error := TRUE;
+				Interface.Status.ErrorID := -1;
+				State := STSYSTEM_STATE_ERROR;
+				
 			END_IF
 		
 		STSYSTEM_STATE_RUN:
@@ -45,6 +58,7 @@ PROGRAM _CYCLIC
 			ELSIF ControlSystem.Error THEN
 				ControlSystem.EnableAllSections := FALSE;
 				Interface.Status.Error := TRUE;
+				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STSYSTEM_STATE_ERROR;
 			END_IF
 			
@@ -53,18 +67,35 @@ PROGRAM _CYCLIC
 			IF Interface.Cmd.Enable = FALSE THEN
 				Interface.Status.Active := FALSE;
 				Interface.Status.Error := FALSE;
+				Interface.Status.ErrorID := 0;
 				State := STSYSTEM_STATE_OFF;
 				
 			// Reset error with positive edge
 			ELSIF ResetPosEdge.Q THEN
-				ResetPending := TRUE;
-				ControlSystem.ErrorReset := TRUE;
-				
-			// Wait for error to reset
-			ELSIF ResetPending AND ControlSystem.Error = FALSE THEN
-				ResetPending := FALSE;
+				State := STSYSTEM_STATE_RESETTING;
+			END_IF
+			
+		STSYSTEM_STATE_RESETTING:
+			ControlSystem.ErrorReset := TRUE;
+			Timeout.IN := TRUE;
+			
+			IF ControlSystem.Error = FALSE THEN
+				ControlSystem.ErrorReset := FALSE;
+				Timeout.IN := FALSE;
 				Interface.Status.Error := FALSE;
-				State := STSYSTEM_STATE_RUN;
+				Interface.Status.ErrorID := 0;
+				State := STSYSTEM_STATE_OFF;
+				
+			ELSIF Timeout.Q THEN
+				ControlSystem.ErrorReset := FALSE;
+				Timeout.IN := FALSE;
+				// Record new error number
+				IF ControlSystem.StatusID <> Interface.Status.ErrorID THEN
+					Interface.Status.ErrorID := ControlSystem.StatusID;
+				ELSE
+					Interface.Status.ErrorID := -1;
+				END_IF
+				State := STSYSTEM_STATE_ERROR;
 			END_IF
 			
 	END_CASE
@@ -85,8 +116,7 @@ PROGRAM _CYCLIC
 	ResetPosEdge.CLK := Interface.Cmd.Reset;
 	ResetPosEdge();
 	
-	// Log diagnostic info
-	LogStControlActive;
+	Timeout();
 	
 	// Share status info
 	Interface.Status.State := State;

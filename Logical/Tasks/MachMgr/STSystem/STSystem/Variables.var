@@ -4,5 +4,5 @@ VAR
 	ControlSystem : StControl;
 	SystemParameters : StControlParType;
 	ResetPosEdge : R_TRIG;
-	ResetPending : BOOL;
+	Timeout : TON;
 END_VAR
