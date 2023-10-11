@@ -15,8 +15,10 @@ PROGRAM _CYCLIC
 	// State control
 	CASE State OF
 		STSYSTEM_STATE_OFF:
-			// Enable interface
-			IF Interface.Cmd.Enable THEN
+			IF Interface.Cmd.Stop THEN 
+				State := STSYSTEM_STATE_STOPPED;
+				
+			ELSIF StartTrigger.Q THEN
 				State := STSYSTEM_STATE_ENABLING;
 			END_IF
 			
@@ -27,8 +29,8 @@ PROGRAM _CYCLIC
 			
 			IF ControlSystem.Active THEN
 				Timeout.IN := FALSE;
-				Interface.Status.Active := TRUE;
-				State := STSYSTEM_STATE_RUN;
+				Interface.Status.Ready := TRUE;
+				State := STSYSTEM_STATE_IDLE;
 				
 			ELSIF ControlSystem.Error THEN
 				Timeout.IN := FALSE;
@@ -43,35 +45,53 @@ PROGRAM _CYCLIC
 				State := STSYSTEM_STATE_ERROR;
 				
 			END_IF
+			
+		STSYSTEM_STATE_IDLE:
+			IF Interface.Cmd.Stop THEN
+				Interface.Status.Ready := FALSE;
+				State := STSYSTEM_STATE_STOPPED;
+				
+			ELSIF RunTrigger.Q THEN
+				Interface.Status.Running := TRUE;
+				State := STSYSTEM_STATE_RUN;
+			END_IF
 		
 		STSYSTEM_STATE_RUN:
 			// SuperTrak commands
-			ControlSystem.EnableAllSections := Interface.Cmd.EnableAllSections;
+			ControlSystem.EnableAllSections := TRUE;
 			
-			// Disabled interface
-			IF Interface.Cmd.Enable = FALSE THEN
+			IF Interface.Cmd.Stop THEN
 				ControlSystem.EnableAllSections := FALSE;
-				Interface.Status.Active := FALSE;
-				State := STSYSTEM_STATE_OFF;
+				Interface.Status.Ready := FALSE;
+				Interface.Status.Running := FALSE;
+				State := STSYSTEM_STATE_STOPPED;
 				
 			// Function block or SuperTrak system error
 			ELSIF ControlSystem.Error THEN
 				ControlSystem.EnableAllSections := FALSE;
+				Interface.Status.Ready := FALSE;
+				Interface.Status.Running := FALSE;
+				Interface.Status.Error := TRUE;
+				Interface.Status.ErrorID := ControlSystem.StatusID;
+				State := STSYSTEM_STATE_ERROR;
+			END_IF
+			
+		STSYSTEM_STATE_STOPPED:
+			Interface.Status.Stopped := TRUE;
+			
+			IF Interface.Cmd.Stop = FALSE THEN
+				Interface.Status.Stopped := FALSE;
+				State := STSYSTEM_STATE_OFF;
+			
+			ELSIF ControlSystem.Error THEN
+				Interface.Status.Stopped := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STSYSTEM_STATE_ERROR;
 			END_IF
 			
 		STSYSTEM_STATE_ERROR:
-			// Disable interface
-			IF Interface.Cmd.Enable = FALSE THEN
-				Interface.Status.Active := FALSE;
-				Interface.Status.Error := FALSE;
-				Interface.Status.ErrorID := 0;
-				State := STSYSTEM_STATE_OFF;
-				
-			// Reset error with positive edge
-			ELSIF ResetPosEdge.Q THEN
+			IF ResetTrigger.Q THEN
 				State := STSYSTEM_STATE_RESETTING;
 			END_IF
 			
@@ -97,7 +117,6 @@ PROGRAM _CYCLIC
 				END_IF
 				State := STSYSTEM_STATE_ERROR;
 			END_IF
-			
 	END_CASE
 	
 	// Call function blocks
@@ -113,13 +132,14 @@ PROGRAM _CYCLIC
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem();
 	
-	ResetPosEdge.CLK := Interface.Cmd.Reset;
-	ResetPosEdge();
+	StartTrigger.CLK := Interface.Cmd.Start;
+	StartTrigger();
+	RunTrigger.CLK := Interface.Cmd.Run;
+	RunTrigger();
+	ResetTrigger.CLK := Interface.Cmd.Reset;
+	ResetTrigger();
 	
 	Timeout();
-	
-	// Share status info
-	Interface.Status.State := State;
 	
 END_PROGRAM
 

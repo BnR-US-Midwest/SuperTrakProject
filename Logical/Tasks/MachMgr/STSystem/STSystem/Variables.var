@@ -1,8 +1,10 @@
 VAR
-	State : STSystemStateEnum;
+	State : StateEnum;
 	Interface : STSystemInterfaceType;
 	ControlSystem : StControl;
 	SystemParameters : StControlParType;
-	ResetPosEdge : R_TRIG;
+	StartTrigger : R_TRIG;
+	RunTrigger : R_TRIG;
+	ResetTrigger : R_TRIG;
 	Timeout : TON;
 END_VAR

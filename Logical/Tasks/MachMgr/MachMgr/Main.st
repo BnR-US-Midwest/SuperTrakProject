@@ -11,7 +11,7 @@ END_PROGRAM
 PROGRAM _CYCLIC
 	
 	// Enable section function blocks when the system function block is active
-	gSTSection.Cmd.Enable := gSTSystem.Status.Active;
+	gSTSection.Cmd.Enable := gSTSystem.Status.Ready;
 	
 END_PROGRAM
 
