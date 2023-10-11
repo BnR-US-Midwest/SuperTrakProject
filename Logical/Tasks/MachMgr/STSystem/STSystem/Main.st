@@ -52,13 +52,14 @@ PROGRAM _CYCLIC
 				State := STSYSTEM_STATE_STOPPED;
 				
 			ELSIF RunTrigger.Q THEN
-				Interface.Status.Running := TRUE;
-				State := STSYSTEM_STATE_RUN;
+				State := STSYSTEM_STATE_RUNNING;
 			END_IF
 		
-		STSYSTEM_STATE_RUN:
+		STSYSTEM_STATE_RUNNING:
 			// SuperTrak commands
 			ControlSystem.EnableAllSections := TRUE;
+			Interface.Status.Running := ControlSystem.SectionsEnabled;
+			Timeout.IN := Interface.Status.Running = FALSE;
 			
 			IF Interface.Cmd.Stop THEN
 				ControlSystem.EnableAllSections := FALSE;
@@ -73,6 +74,14 @@ PROGRAM _CYCLIC
 				Interface.Status.Running := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
+				State := STSYSTEM_STATE_ERROR;
+				
+			ELSIF Timeout.Q THEN
+				ControlSystem.EnableAllSections := FALSE;
+				Interface.Status.Ready := FALSE;
+				Interface.Status.Running := FALSE;
+				Interface.Status.Error := TRUE;
+				Interface.Status.ErrorID := -1;
 				State := STSYSTEM_STATE_ERROR;
 			END_IF
 			
