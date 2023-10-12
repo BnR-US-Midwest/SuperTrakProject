@@ -12,17 +12,23 @@ END_PROGRAM
 
 PROGRAM _CYCLIC
 	
+	// Process inputs
+	Warning := ControlSystem.StatusID <> 0 AND ControlSystem.Error = FALSE;
+	
 	// State control
 	CASE State OF
-		STSYSTEM_STATE_OFF:
+		STATE_OFF:
 			IF Interface.Cmd.Stop THEN 
-				State := STSYSTEM_STATE_STOPPED;
+				State := STATE_STOPPED;
 				
 			ELSIF StartTrigger.Q THEN
-				State := STSYSTEM_STATE_ENABLING;
+				State := STATE_ENABLING;
+				
+			ELSIF Warning THEN
+				ControlSystem.ErrorReset := ResetTrigger.Q;
 			END_IF
 			
-		STSYSTEM_STATE_ENABLING:
+		STATE_ENABLING:
 			// Enable once and never disabled
 			ControlSystem.Enable := TRUE;
 			Timeout.IN := TRUE;
@@ -30,32 +36,34 @@ PROGRAM _CYCLIC
 			IF ControlSystem.Active THEN
 				Timeout.IN := FALSE;
 				Interface.Status.Ready := TRUE;
-				State := STSYSTEM_STATE_IDLE;
+				State := STATE_IDLE;
 				
 			ELSIF ControlSystem.Error THEN
 				Timeout.IN := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				State := STSYSTEM_STATE_ERROR;
+				State := STATE_ERROR;
 				
 			ELSIF Timeout.Q THEN
 				Timeout.IN := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := -1;
-				State := STSYSTEM_STATE_ERROR;
-				
+				State := STATE_ERROR;
 			END_IF
 			
-		STSYSTEM_STATE_IDLE:
+		STATE_IDLE:
 			IF Interface.Cmd.Stop THEN
 				Interface.Status.Ready := FALSE;
-				State := STSYSTEM_STATE_STOPPED;
+				State := STATE_STOPPED;
 				
 			ELSIF RunTrigger.Q THEN
-				State := STSYSTEM_STATE_RUNNING;
+				State := STATE_RUNNING;
+				
+			ELSIF Warning THEN
+				ControlSystem.ErrorReset := ResetTrigger.Q;
 			END_IF
 		
-		STSYSTEM_STATE_RUNNING:
+		STATE_RUNNING:
 			// SuperTrak commands
 			ControlSystem.EnableAllSections := TRUE;
 			Interface.Status.Running := ControlSystem.SectionsEnabled;
@@ -65,7 +73,7 @@ PROGRAM _CYCLIC
 				ControlSystem.EnableAllSections := FALSE;
 				Interface.Status.Ready := FALSE;
 				Interface.Status.Running := FALSE;
-				State := STSYSTEM_STATE_STOPPED;
+				State := STATE_STOPPED;
 				
 			// Function block or SuperTrak system error
 			ELSIF ControlSystem.Error THEN
@@ -74,7 +82,10 @@ PROGRAM _CYCLIC
 				Interface.Status.Running := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				State := STSYSTEM_STATE_ERROR;
+				State := STATE_ERROR;
+				
+			ELSIF Warning THEN
+				ControlSystem.ErrorReset := ResetTrigger.Q;
 				
 			ELSIF Timeout.Q THEN
 				ControlSystem.EnableAllSections := FALSE;
@@ -82,29 +93,32 @@ PROGRAM _CYCLIC
 				Interface.Status.Running := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := -1;
-				State := STSYSTEM_STATE_ERROR;
+				State := STATE_ERROR;
 			END_IF
 			
-		STSYSTEM_STATE_STOPPED:
+		STATE_STOPPED:
 			Interface.Status.Stopped := TRUE;
 			
 			IF Interface.Cmd.Stop = FALSE THEN
 				Interface.Status.Stopped := FALSE;
-				State := STSYSTEM_STATE_OFF;
+				State := STATE_OFF;
 			
 			ELSIF ControlSystem.Error THEN
 				Interface.Status.Stopped := FALSE;
 				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				State := STSYSTEM_STATE_ERROR;
+				State := STATE_ERROR;
+				
+			ELSIF Warning THEN
+				ControlSystem.ErrorReset := ResetTrigger.Q;
 			END_IF
 			
-		STSYSTEM_STATE_ERROR:
+		STATE_ERROR:
 			IF ResetTrigger.Q THEN
-				State := STSYSTEM_STATE_RESETTING;
+				State := STATE_RESETTING;
 			END_IF
 			
-		STSYSTEM_STATE_RESETTING:
+		STATE_RESETTING:
 			ControlSystem.ErrorReset := TRUE;
 			Timeout.IN := TRUE;
 			
@@ -113,7 +127,7 @@ PROGRAM _CYCLIC
 				Timeout.IN := FALSE;
 				Interface.Status.Error := FALSE;
 				Interface.Status.ErrorID := 0;
-				State := STSYSTEM_STATE_OFF;
+				State := STATE_OFF;
 				
 			ELSIF Timeout.Q THEN
 				ControlSystem.ErrorReset := FALSE;
@@ -124,7 +138,7 @@ PROGRAM _CYCLIC
 				ELSE
 					Interface.Status.ErrorID := -1;
 				END_IF
-				State := STSYSTEM_STATE_ERROR;
+				State := STATE_ERROR;
 			END_IF
 	END_CASE
 	
@@ -149,6 +163,12 @@ PROGRAM _CYCLIC
 	ResetTrigger();
 	
 	Timeout();
+	
+	// Process outputs
+	Interface.Status.WarningPresent := ControlSystem.Info.SuperTrak.SystemWarningActive;
+	Interface.Status.Warnings := ControlSystem.Info.SuperTrak.SystemWarningBits;
+	Interface.Status.FaultPresent := ControlSystem.Info.SuperTrak.SystemFaultActive;
+	Interface.Status.Faults := ControlSystem.Info.SuperTrak.SystemFaultBits;
 	
 END_PROGRAM
 

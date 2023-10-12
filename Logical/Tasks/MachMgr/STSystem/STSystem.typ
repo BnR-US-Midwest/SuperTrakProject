@@ -16,5 +16,9 @@ TYPE
 		Stopped : BOOL;
 		Error : BOOL;
 		ErrorID : DINT;
+		WarningPresent : BOOL;
+		Warnings : UDINT;
+		FaultPresent : BOOL;
+		Faults : UDINT;
 	END_STRUCT;
 END_TYPE

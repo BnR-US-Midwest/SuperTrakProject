@@ -7,4 +7,5 @@ VAR
 	RunTrigger : R_TRIG;
 	ResetTrigger : R_TRIG;
 	Timeout : TON;
+	Warning : BOOL;
 END_VAR
