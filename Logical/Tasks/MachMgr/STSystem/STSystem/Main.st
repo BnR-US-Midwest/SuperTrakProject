@@ -12,9 +12,6 @@ END_PROGRAM
 
 PROGRAM _CYCLIC
 	
-	// Process inputs
-	Warning := ControlSystem.StatusID <> 0 AND ControlSystem.Error = FALSE;
-	
 	// State control
 	CASE State OF
 		STATE_OFF:
@@ -23,9 +20,6 @@ PROGRAM _CYCLIC
 				
 			ELSIF StartTrigger.Q THEN
 				State := STATE_ENABLING;
-				
-			ELSIF Warning THEN
-				ControlSystem.ErrorReset := ResetTrigger.Q;
 			END_IF
 			
 		STATE_ENABLING:
@@ -40,15 +34,13 @@ PROGRAM _CYCLIC
 				
 			ELSIF ControlSystem.Error THEN
 				Timeout.IN := FALSE;
-				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				State := STATE_ERROR;
+				ThrowError;
 				
 			ELSIF Timeout.Q THEN
 				Timeout.IN := FALSE;
-				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := -1;
-				State := STATE_ERROR;
+				ThrowError;
 			END_IF
 			
 		STATE_IDLE:
@@ -58,9 +50,6 @@ PROGRAM _CYCLIC
 				
 			ELSIF RunTrigger.Q THEN
 				State := STATE_RUNNING;
-				
-			ELSIF Warning THEN
-				ControlSystem.ErrorReset := ResetTrigger.Q;
 			END_IF
 		
 		STATE_RUNNING:
@@ -71,6 +60,7 @@ PROGRAM _CYCLIC
 			
 			IF Interface.Cmd.Stop THEN
 				ControlSystem.EnableAllSections := FALSE;
+				Timeout.IN := FALSE;
 				Interface.Status.Ready := FALSE;
 				Interface.Status.Running := FALSE;
 				State := STATE_STOPPED;
@@ -78,22 +68,15 @@ PROGRAM _CYCLIC
 			// Function block or SuperTrak system error
 			ELSIF ControlSystem.Error THEN
 				ControlSystem.EnableAllSections := FALSE;
-				Interface.Status.Ready := FALSE;
-				Interface.Status.Running := FALSE;
-				Interface.Status.Error := TRUE;
+				Timeout.IN := FALSE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				State := STATE_ERROR;
-				
-			ELSIF Warning THEN
-				ControlSystem.ErrorReset := ResetTrigger.Q;
+				ThrowError;
 				
 			ELSIF Timeout.Q THEN
 				ControlSystem.EnableAllSections := FALSE;
-				Interface.Status.Ready := FALSE;
-				Interface.Status.Running := FALSE;
-				Interface.Status.Error := TRUE;
+				Timeout.IN := FALSE;
 				Interface.Status.ErrorID := -1;
-				State := STATE_ERROR;
+				ThrowError;
 			END_IF
 			
 		STATE_STOPPED:
@@ -104,13 +87,8 @@ PROGRAM _CYCLIC
 				State := STATE_OFF;
 			
 			ELSIF ControlSystem.Error THEN
-				Interface.Status.Stopped := FALSE;
-				Interface.Status.Error := TRUE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				State := STATE_ERROR;
-				
-			ELSIF Warning THEN
-				ControlSystem.ErrorReset := ResetTrigger.Q;
+				ThrowError;
 			END_IF
 			
 		STATE_ERROR:
@@ -163,6 +141,10 @@ PROGRAM _CYCLIC
 	ResetTrigger();
 	
 	Timeout();
+	
+	PreviousStateName := StateName;
+	SetStateName;
+	LogStateChange;
 	
 	// Process outputs
 	Interface.Status.WarningPresent := ControlSystem.Info.SuperTrak.SystemWarningActive;

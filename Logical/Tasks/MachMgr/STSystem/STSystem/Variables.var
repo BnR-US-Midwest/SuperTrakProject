@@ -7,5 +7,8 @@ VAR
 	RunTrigger : R_TRIG;
 	ResetTrigger : R_TRIG;
 	Timeout : TON;
-	Warning : BOOL;
+	LogValues : UserLogFormatType;
+	StateName : STRING[32];
+	PreviousState : StateEnum;
+	PreviousStateName : STRING[32];
 END_VAR
