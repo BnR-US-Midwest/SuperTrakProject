@@ -1,3 +1,4 @@
 VAR
+	gSTSystem : STSystemInterfaceType;
 	gSTSystemLink : StLinkType;
 END_VAR

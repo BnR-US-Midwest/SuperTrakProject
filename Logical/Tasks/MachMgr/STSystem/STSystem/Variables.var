@@ -1,4 +1,14 @@
 VAR
+	State : StateEnum;
+	Interface : STSystemInterfaceType;
 	ControlSystem : StControl;
 	SystemParameters : StControlParType;
+	StartTrigger : R_TRIG;
+	RunTrigger : R_TRIG;
+	ResetTrigger : R_TRIG;
+	Timeout : TON;
+	LogValues : UserLogFormatType;
+	StateName : STRING[32];
+	PreviousState : StateEnum;
+	PreviousStateName : STRING[32];
 END_VAR

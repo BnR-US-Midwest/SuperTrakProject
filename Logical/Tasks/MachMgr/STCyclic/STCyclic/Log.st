@@ -15,7 +15,7 @@ ACTION LogStComServiceChannel:
 		Values.i[1] := RequestHeader.param;
 		Values.i[2] := RequestHeader.section;
 		Values.i[3] := RequestHeader.count;
-		UserLogAdvanced(USERLOG_SEVERITY_INFORMATION, 220, 'Service Channel request execution, task %i, parameter %i, Section %i, Count %i', Values);
+		UserLogAdvanced(USERLOG_SEVERITY_INFORMATION, 100, 'Service Channel request execution, task %i, parameter %i, Section %i, Count %i', Values);
 	END_IF
 	
 	PreviousServiceChannelState := ServiceChannel.state;
