@@ -1,0 +1,14 @@
+VAR CONSTANT
+	PALLET_MAX : USINT := 2;
+END_VAR
+VAR
+	PalletInfo : ARRAY[0..PALLET_MAX] OF SuperTrakPalletInfo_t;
+	Index : USINT;
+	SelectPalletIndex : USINT;
+	TriggerSection : USINT;
+	TriggerPosition : DINT;
+	CreateFault : BOOL;
+	CreateFaultTrigger : R_TRIG;
+	PreviousPalletPosition : DINT;
+	State : USINT;
+END_VAR

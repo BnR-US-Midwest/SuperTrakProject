@@ -6,6 +6,7 @@
     <Task Name="STCyclic" Source="Tasks.MachMgr.STCyclic.STCyclic.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STSystem" Source="Tasks.MachMgr.STSystem.STSystem.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STSection" Source="Tasks.MachMgr.STSection.STSection.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="STPosError" Source="Tasks.MachMgr.STPosError.STPosError.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2" />
   <TaskClass Name="Cyclic#3" />
