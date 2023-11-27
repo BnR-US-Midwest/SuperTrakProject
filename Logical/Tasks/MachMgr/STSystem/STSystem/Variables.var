@@ -1,14 +1,19 @@
+(*Control*)
 VAR
 	State : StateEnum;
 	Interface : STSystemInterfaceType;
-	ControlSystem : StControl;
-	SystemParameters : StControlParType;
+END_VAR
+(*Function blocks*)
+VAR
 	StartTrigger : R_TRIG;
 	RunTrigger : R_TRIG;
 	ResetTrigger : R_TRIG;
-	Timeout : TON;
-	LogValues : UserLogFormatType;
-	StateName : STRING[32];
-	PreviousState : StateEnum;
-	PreviousStateName : STRING[32];
+	ControlSystem : StControl;
+	SystemParameters : StControlParType;
+END_VAR
+(*Data*)
+VAR
+	SectionStatus : REFERENCE TO USINT;
+	PLCInterfaceConfiguration : SuperTrakControlIfConfig_t;
+	Index : UINT;
 END_VAR
