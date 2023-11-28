@@ -33,7 +33,11 @@ PROGRAM _CYCLIC
 			END_IF
 			
 		STATE_IDLE:
-			IF RunTrigger.Q THEN
+			IF ControlSystem.SectionsEnabled THEN
+				UserLogBasic(USERLOG_SEVERITY_WARNING, 0, 'Sections enabled by alternative source');
+				State := STATE_EXECUTE;
+			
+			ELSIF RunTrigger.Q THEN
 				State := STATE_STARTING;
 				
 			ELSIF ControlSystem.Error THEN
@@ -53,7 +57,12 @@ PROGRAM _CYCLIC
 			END_IF
 			
 		STATE_EXECUTE:
-			IF Interface.Cmd.Stop THEN
+			IF Interface.Info.SectionsDisabled THEN
+				UserLogBasic(USERLOG_SEVERITY_WARNING, 0, 'Sections disabled by alternative source');
+				ControlSystem.EnableAllSections := FALSE;
+				State := STATE_IDLE;
+			
+			ELSIF Interface.Cmd.Stop THEN
 				State := STATE_STOPPING;
 			
 			ELSIF ControlSystem.Error THEN
@@ -73,6 +82,8 @@ PROGRAM _CYCLIC
 			END_IF
 			
 		STATE_ERROR:
+			ControlSystem.EnableAllSections := FALSE;
+			
 			IF ResetTrigger.Q THEN
 				State := STATE_CLEARING;
 			END_IF
@@ -114,6 +125,16 @@ PROGRAM _CYCLIC
 	Interface.Info.Warnings := ControlSystem.Info.SuperTrak.SystemWarningBits;
 	Interface.Info.FaultPresent := ControlSystem.Info.SuperTrak.SystemFaultActive;
 	Interface.Info.Faults := ControlSystem.Info.SuperTrak.SystemFaultBits;
+	
+	// Set status
+	Interface.Status.Busy := State = STATE_INITIALIZE OR
+							State = STATE_STARTING OR
+							State = STATE_STOPPING OR
+							State = STATE_CLEARING;
+	Interface.Status.Ready := Interface.Cmd.Stop = FALSE AND State = STATE_IDLE;
+	Interface.Status.Running := State = STATE_EXECUTE;
+	Interface.Status.Stopped := Interface.Cmd.Stop AND State = STATE_IDLE;
+	Interface.Status.Error := State = STATE_ERROR;
 	
 	// Write global outputs
 	gSTSystem.Status := Interface.Status;

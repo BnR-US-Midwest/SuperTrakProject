@@ -7,8 +7,8 @@ TYPE
 	END_STRUCT;
 	STSystemInterfaceCmdType : 	STRUCT 
 		Start : BOOL;
-		Stop : BOOL;
 		Run : BOOL;
+		Stop : BOOL;
 		Reset : BOOL;
 	END_STRUCT;
 	STSystemInterfaceStatusType : 	STRUCT 
