@@ -2,10 +2,11 @@
 <?AutomationStudio FileVersion="4.9"?>
 <SwConfiguration CpuAddress="SL1" xmlns="http://br-automation.co.at/AS/SwConfiguration">
   <TaskClass Name="Cyclic#1">
-    <Task Name="MachMgr" Source="Tasks.MachMgr.MachMgr.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="MachMgr" Source="Tasks.MachMgr.MachMgr.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
     <Task Name="STCyclic" Source="Tasks.MachMgr.STCyclic.STCyclic.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STSystem" Source="Tasks.MachMgr.STSystem.STSystem.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="STSection" Source="Tasks.MachMgr.STSection.STSection.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="STSection" Source="Tasks.MachMgr.STSection.STSection.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
+    <Task Name="STPosError" Source="Tasks.MachMgr.STPosError.STPosError.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2" />
   <TaskClass Name="Cyclic#3" />

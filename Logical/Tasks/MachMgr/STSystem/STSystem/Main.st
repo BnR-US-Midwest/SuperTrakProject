@@ -6,117 +6,85 @@ PROGRAM _INIT
 	SystemParameters.NrOfTargets := 4;
 	SystemParameters.NrOfPallets := 4;
 	
-	Timeout.PT := T#5s;
-	
 END_PROGRAM
 
 PROGRAM _CYCLIC
 	
+	// Read global inputs
+	Interface.Cmd := gSTSystem.Cmd;
+	
 	// State control
 	CASE State OF
 		STATE_OFF:
-			IF Interface.Cmd.Stop THEN 
-				State := STATE_STOPPED;
-				
-			ELSIF StartTrigger.Q THEN
-				State := STATE_ENABLING;
+			IF StartTrigger.Q THEN
+				State := STATE_INITIALIZE;
 			END_IF
 			
-		STATE_ENABLING:
+		STATE_INITIALIZE:
 			// Enable once and never disabled
 			ControlSystem.Enable := TRUE;
-			Timeout.IN := TRUE;
 			
 			IF ControlSystem.Active THEN
-				Timeout.IN := FALSE;
-				Interface.Status.Ready := TRUE;
 				State := STATE_IDLE;
 				
 			ELSIF ControlSystem.Error THEN
-				Timeout.IN := FALSE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				ThrowError;
-				
-			ELSIF Timeout.Q THEN
-				Timeout.IN := FALSE;
-				Interface.Status.ErrorID := -1;
-				ThrowError;
+				State := STATE_ERROR;
 			END_IF
 			
 		STATE_IDLE:
-			IF Interface.Cmd.Stop THEN
-				Interface.Status.Ready := FALSE;
-				State := STATE_STOPPED;
+			IF RunTrigger.Q THEN
+				State := STATE_STARTING;
 				
-			ELSIF RunTrigger.Q THEN
-				State := STATE_RUNNING;
+			ELSIF ControlSystem.Error THEN
+				Interface.Status.ErrorID := ControlSystem.StatusID;
+				State := STATE_ERROR;
 			END_IF
 		
-		STATE_RUNNING:
-			// SuperTrak commands
+		STATE_STARTING:
 			ControlSystem.EnableAllSections := TRUE;
-			Interface.Status.Running := ControlSystem.SectionsEnabled;
-			Timeout.IN := Interface.Status.Running = FALSE;
 			
-			IF Interface.Cmd.Stop THEN
-				ControlSystem.EnableAllSections := FALSE;
-				Timeout.IN := FALSE;
-				Interface.Status.Ready := FALSE;
-				Interface.Status.Running := FALSE;
-				State := STATE_STOPPED;
+			IF ControlSystem.SectionsEnabled THEN
+				State := STATE_EXECUTE;
 				
-			// Function block or SuperTrak system error
 			ELSIF ControlSystem.Error THEN
-				ControlSystem.EnableAllSections := FALSE;
-				Timeout.IN := FALSE;
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				ThrowError;
-				
-			ELSIF Timeout.Q THEN
-				ControlSystem.EnableAllSections := FALSE;
-				Timeout.IN := FALSE;
-				Interface.Status.ErrorID := -1;
-				ThrowError;
+				State := STATE_ERROR;
 			END_IF
 			
-		STATE_STOPPED:
-			Interface.Status.Stopped := TRUE;
-			
-			IF Interface.Cmd.Stop = FALSE THEN
-				Interface.Status.Stopped := FALSE;
-				State := STATE_OFF;
+		STATE_EXECUTE:
+			IF Interface.Cmd.Stop THEN
+				State := STATE_STOPPING;
 			
 			ELSIF ControlSystem.Error THEN
 				Interface.Status.ErrorID := ControlSystem.StatusID;
-				ThrowError;
+				State := STATE_ERROR;
+			END_IF
+			
+		STATE_STOPPING:
+			ControlSystem.EnableAllSections := FALSE;
+			
+			IF Interface.Info.SectionsDisabled THEN
+				State := STATE_IDLE;
+				
+			ELSIF ControlSystem.Error THEN
+				Interface.Status.ErrorID := ControlSystem.StatusID;
+				State := STATE_ERROR;
 			END_IF
 			
 		STATE_ERROR:
 			IF ResetTrigger.Q THEN
-				State := STATE_RESETTING;
+				State := STATE_CLEARING;
 			END_IF
 			
-		STATE_RESETTING:
+		STATE_CLEARING:
 			ControlSystem.ErrorReset := TRUE;
-			Timeout.IN := TRUE;
 			
 			IF ControlSystem.Error = FALSE THEN
 				ControlSystem.ErrorReset := FALSE;
-				Timeout.IN := FALSE;
 				Interface.Status.Error := FALSE;
 				Interface.Status.ErrorID := 0;
 				State := STATE_OFF;
-				
-			ELSIF Timeout.Q THEN
-				ControlSystem.ErrorReset := FALSE;
-				Timeout.IN := FALSE;
-				// Record new error number
-				IF ControlSystem.StatusID <> Interface.Status.ErrorID THEN
-					Interface.Status.ErrorID := ControlSystem.StatusID;
-				ELSE
-					Interface.Status.ErrorID := -1;
-				END_IF
-				State := STATE_ERROR;
 			END_IF
 	END_CASE
 	
@@ -140,17 +108,16 @@ PROGRAM _CYCLIC
 	ResetTrigger.CLK := Interface.Cmd.Reset;
 	ResetTrigger();
 	
-	Timeout();
-	
-	PreviousStateName := StateName;
-	SetStateName;
-	LogStateChange;
-	
 	// Process outputs
-	Interface.Status.WarningPresent := ControlSystem.Info.SuperTrak.SystemWarningActive;
-	Interface.Status.Warnings := ControlSystem.Info.SuperTrak.SystemWarningBits;
-	Interface.Status.FaultPresent := ControlSystem.Info.SuperTrak.SystemFaultActive;
-	Interface.Status.Faults := ControlSystem.Info.SuperTrak.SystemFaultBits;
+	CollectSectionStatuses;
+	Interface.Info.WarningPresent := ControlSystem.Info.SuperTrak.SystemWarningActive;
+	Interface.Info.Warnings := ControlSystem.Info.SuperTrak.SystemWarningBits;
+	Interface.Info.FaultPresent := ControlSystem.Info.SuperTrak.SystemFaultActive;
+	Interface.Info.Faults := ControlSystem.Info.SuperTrak.SystemFaultBits;
+	
+	// Write global outputs
+	gSTSystem.Status := Interface.Status;
+	gSTSystem.Info := Interface.Info;
 	
 END_PROGRAM
 
