@@ -10,6 +10,7 @@ VAR
 	ResetTrigger : R_TRIG;
 	ControlSystem : StControl;
 	SystemParameters : StControlParType;
+	Timeout : TON;
 END_VAR
 (*Data*)
 VAR

@@ -4,7 +4,7 @@
   <Objects>
     <Object Type="Program" Language="IEC" Description="Machine manager">MachMgr</Object>
     <Object Type="Package" Description="SuperTrak cyclic update">STCyclic</Object>
-    <Object Type="Package" Description="StCom system control">STSystem</Object>
+    <Object Type="Package" Description="1100 StCom system control">STSystem</Object>
     <Object Type="Package" Description="StCom section control">STSection</Object>
     <Object Type="Package" Description="Force pallet position following error">STPosError</Object>
   </Objects>

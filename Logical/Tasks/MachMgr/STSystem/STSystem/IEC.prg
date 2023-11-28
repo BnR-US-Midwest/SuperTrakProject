@@ -6,6 +6,6 @@
     <File Description="Local types" Private="true">Types.typ</File>
     <File Description="Local variables" Private="true">Variables.var</File>
     <File Description="Collect section statuses">Sections.st</File>
-    <File>Diagram.md</File>
+    <File Description="State diagram">Diagram.md</File>
   </Files>
 </Program>

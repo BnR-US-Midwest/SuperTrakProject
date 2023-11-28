@@ -6,6 +6,8 @@ PROGRAM _INIT
 	SystemParameters.NrOfTargets := 4;
 	SystemParameters.NrOfPallets := 4;
 	
+	Timeout.PT := T#500ms;
+	
 END_PROGRAM
 
 PROGRAM _CYCLIC
@@ -30,11 +32,15 @@ PROGRAM _CYCLIC
 			ELSIF ControlSystem.Error THEN
 				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STATE_ERROR;
+				
+			ELSIF Timeout.Q THEN
+				Interface.Status.ErrorID := -1;
+				State := STATE_ERROR;
 			END_IF
 			
 		STATE_IDLE:
 			IF ControlSystem.SectionsEnabled THEN
-				UserLogBasic(USERLOG_SEVERITY_WARNING, 0, 'Sections enabled by alternative source');
+				UserLogBasic(USERLOG_SEVERITY_WARNING, 1102, 'Sections enabled by alternative source');
 				State := STATE_EXECUTE;
 			
 			ELSIF RunTrigger.Q THEN
@@ -54,11 +60,15 @@ PROGRAM _CYCLIC
 			ELSIF ControlSystem.Error THEN
 				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STATE_ERROR;
+			
+			ELSIF Timeout.Q THEN
+				Interface.Status.ErrorID := -1;
+				State := STATE_ERROR;
 			END_IF
 			
 		STATE_EXECUTE:
 			IF Interface.Info.SectionsDisabled THEN
-				UserLogBasic(USERLOG_SEVERITY_WARNING, 0, 'Sections disabled by alternative source');
+				UserLogBasic(USERLOG_SEVERITY_WARNING, 1104, 'Sections disabled by alternative source');
 				ControlSystem.EnableAllSections := FALSE;
 				State := STATE_IDLE;
 			
@@ -79,6 +89,10 @@ PROGRAM _CYCLIC
 			ELSIF ControlSystem.Error THEN
 				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STATE_ERROR;
+				
+			ELSIF Timeout.Q THEN
+				Interface.Status.ErrorID := -1;
+				State := STATE_ERROR;
 			END_IF
 			
 		STATE_ERROR:
@@ -90,12 +104,15 @@ PROGRAM _CYCLIC
 			
 		STATE_CLEARING:
 			ControlSystem.ErrorReset := TRUE;
+			Interface.Status.ErrorID := 0;
 			
 			IF ControlSystem.Error = FALSE THEN
 				ControlSystem.ErrorReset := FALSE;
-				Interface.Status.Error := FALSE;
-				Interface.Status.ErrorID := 0;
 				State := STATE_OFF;
+				
+			ELSIF Timeout.Q THEN
+				Interface.Status.ErrorID := -1;
+				State := STATE_ERROR;
 			END_IF
 	END_CASE
 	
@@ -118,6 +135,9 @@ PROGRAM _CYCLIC
 	RunTrigger();
 	ResetTrigger.CLK := Interface.Cmd.Reset;
 	ResetTrigger();
+	
+	Timeout.IN := Interface.Status.Busy;
+	Timeout();
 	
 	// Process outputs
 	CollectSectionStatuses;

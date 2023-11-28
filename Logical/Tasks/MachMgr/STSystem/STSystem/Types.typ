@@ -11,4 +11,9 @@ TYPE
 		STATE_ERROR, (*An error occurred*)
 		STATE_CLEARING (*Reset error*)
 		);
+	AlarmEnum : 
+		(
+		ALARM_COMMAND_TIMEOUT,
+		ALARM_STCONTROL_ERROR
+		);
 END_TYPE
