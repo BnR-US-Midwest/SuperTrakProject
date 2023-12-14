@@ -1,11 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.11.5.46 FileVersion="4.9"?>
+<?AutomationStudio Version=4.11.6.26 FileVersion="4.9"?>
 <Hardware xmlns="http://br-automation.co.at/AS/Hardware">
   <Module Name="5AC901.BX02-01" Type="5AC901.BX02-01" Version="1.1.1.0">
     <Connection Connector="SY" TargetModule="5PC910.SX02-00" TargetConnector="SY3" />
   </Module>
+  <Module Name="5AC901.IPLK-00" Type="5AC901.IPLK-00" Version="1.8.1.0">
+    <Connection Connector="SS" TargetModule="5PC910.SX02-00" TargetConnector="SS2" />
+    <Connector Name="IF1">
+      <Parameter ID="EplNatSubnet" Value="192.168.102.0" />
+    </Connector>
+  </Module>
   <Module Name="5ACPCE.FMIO-K01" Type="5ACPCE.FMIO-K01" Version="1.0.6.0">
     <Connection Connector="SL" TargetModule="5AC901.BX02-01" TargetConnector="SL1" />
+  </Module>
+  <Module Name="5LS182.6-2" Type="5LS182.6-2" Version="1.9.0.0">
+    <Connection Connector="SL" TargetModule="5AC901.BX02-01" TargetConnector="SL2" />
   </Module>
   <Module Name="5PC900_TS77_00" Type="5PC900.TS77-00" Version="2.1.1.0">
     <Connection Connector="SY" TargetModule="5PC910.SX02-00" TargetConnector="SY1" />
