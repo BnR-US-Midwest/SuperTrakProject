@@ -3,8 +3,8 @@
 <Package Version="1.00.0" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="Package" Description="Global libraries">Libraries</Object>
-    <Object Type="Package">Tasks</Object>
-    <Object Type="Package">User</Object>
+    <Object Type="Package">Source</Object>
+    <Object Type="Package">UserFiles</Object>
     <Object Type="File">Project.language</Object>
   </Objects>
 </Package>
