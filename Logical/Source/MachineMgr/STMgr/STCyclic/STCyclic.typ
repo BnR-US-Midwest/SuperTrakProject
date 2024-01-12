@@ -1,6 +1,6 @@
 
 TYPE
-	STCyclicReferenceType : 	STRUCT 
+	STCyclicRefType : 	STRUCT 
 		ControlDataAddress : UDINT;
 		ControlDataSize : UDINT;
 		StatusDataAddress : UDINT;
