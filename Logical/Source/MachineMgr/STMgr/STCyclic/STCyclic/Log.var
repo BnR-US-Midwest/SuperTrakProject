@@ -1,4 +1,0 @@
-VAR
-	PreviousServiceChannelState : USINT; (*Montior for change in service channel processing states*)
-	Values : UserLogFormatType; (*Runtime values for formatted log messages*)
-END_VAR
