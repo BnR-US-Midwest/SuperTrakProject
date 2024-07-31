@@ -116,15 +116,15 @@ PROGRAM _CYCLIC
 			END_IF
 	END_CASE
 	
-	// Call function blocks
-	ControlSystem.StCtrlData := gSTCyclicReference.ControlDataAddress;
-	ControlSystem.StCtrlDataSize := gSTCyclicReference.ControlDataSize;
-	ControlSystem.StStatData := gSTCyclicReference.StatusDataAddress;
-	ControlSystem.StStatDataSize := gSTCyclicReference.StatusDataSize;
-	ControlSystem.StServChRequestData := gSTCyclicReference.RequestDataAddress;
-	ControlSystem.StServChRequestDataSize := gSTCyclicReference.RequestDataSize;
-	ControlSystem.StServChResponseData := gSTCyclicReference.ResponseDataAddress;
-	ControlSystem.StServChResponseDataSize := gSTCyclicReference.ResponseDataSize;
+    // Call function blocks
+    ControlSystem.StCtrlData := gSTCyclicRef.ControlDataAddress;
+	ControlSystem.StCtrlDataSize := gSTCyclicRef.ControlDataSize;
+	ControlSystem.StStatData := gSTCyclicRef.StatusDataAddress;
+	ControlSystem.StStatDataSize := gSTCyclicRef.StatusDataSize;
+	ControlSystem.StServChRequestData := gSTCyclicRef.RequestDataAddress;
+	ControlSystem.StServChRequestDataSize := gSTCyclicRef.RequestDataSize;
+	ControlSystem.StServChResponseData := gSTCyclicRef.ResponseDataAddress;
+	ControlSystem.StServChResponseDataSize := gSTCyclicRef.ResponseDataSize;
 	ControlSystem.StLink := ADR(gSTSystemLink);
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem();
