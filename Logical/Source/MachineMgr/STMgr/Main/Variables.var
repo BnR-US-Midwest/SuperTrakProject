@@ -1,0 +1,8 @@
+VAR
+	MainState : MainState_enum;
+	Interface : Machine_type;
+	LoopSection : USINT;
+	AllSectionsEnabled : BOOL;
+	EnableTrigger : R_TRIG;
+	RunTrigger : R_TRIG;
+END_VAR

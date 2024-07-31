@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* SuperTrak 0.36.1 */
+/* SuperTrak 0.48.0 */
 
 #ifndef _SUPERTRAK_
 #define _SUPERTRAK_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _SuperTrak_VERSION
-#define _SuperTrak_VERSION 0.36.1
+#define _SuperTrak_VERSION 0.48.0
 #endif
 
 #include <bur/plctypes.h>
@@ -107,8 +107,12 @@ extern "C"
  #define stPAR_POSITION_OFFSET 1660U
  #define stPAR_TARGET_POSITION 1651U
  #define stPAR_TARGET_SECTION 1650U
+ #define stPAR_CPU_TEMPERATURE 1592U
+ #define stPAR_STORAGE_DEVICE_WEAR 1591U
  #define stPAR_SOFTWARE_STARTUP_DONE 1579U
  #define stPAR_HARDWARE_SENSORS 1570U
+ #define stPAR_TARGET_DOCKED_HPALLET 1553U
+ #define stPAR_TARGET_PALLET_OFFSET 1552U
  #define stPAR_CALIBRATED_SECTION_LEN 1506U
  #define stPAR_PARAMETER_CHECKSUMS 1505U
  #define stPAR_SECTION_PALLET_COUNT 1502U
@@ -142,6 +146,7 @@ extern "C"
  #define stPAR_SECTION_PEAK_POWER 1392U
  #define stPAR_SECTION_LOAD_POWER 1391U
  #define stPAR_SECTION_INSTANT_POWER 1390U
+ #define stPAR_PALLET_CONTROL_MODE 1348U
  #define stPAR_PALLET_STATUS 1328U
  #define stPAR_PALLET_ID 1321U
  #define stPAR_LOAD_TARGET 1270U
@@ -251,8 +256,12 @@ extern "C"
  _GLOBAL_CONST unsigned short stPAR_POSITION_OFFSET;
  _GLOBAL_CONST unsigned short stPAR_TARGET_POSITION;
  _GLOBAL_CONST unsigned short stPAR_TARGET_SECTION;
+ _GLOBAL_CONST unsigned short stPAR_CPU_TEMPERATURE;
+ _GLOBAL_CONST unsigned short stPAR_STORAGE_DEVICE_WEAR;
  _GLOBAL_CONST unsigned short stPAR_SOFTWARE_STARTUP_DONE;
  _GLOBAL_CONST unsigned short stPAR_HARDWARE_SENSORS;
+ _GLOBAL_CONST unsigned short stPAR_TARGET_DOCKED_HPALLET;
+ _GLOBAL_CONST unsigned short stPAR_TARGET_PALLET_OFFSET;
  _GLOBAL_CONST unsigned short stPAR_CALIBRATED_SECTION_LEN;
  _GLOBAL_CONST unsigned short stPAR_PARAMETER_CHECKSUMS;
  _GLOBAL_CONST unsigned short stPAR_SECTION_PALLET_COUNT;
@@ -286,6 +295,7 @@ extern "C"
  _GLOBAL_CONST unsigned short stPAR_SECTION_PEAK_POWER;
  _GLOBAL_CONST unsigned short stPAR_SECTION_LOAD_POWER;
  _GLOBAL_CONST unsigned short stPAR_SECTION_INSTANT_POWER;
+ _GLOBAL_CONST unsigned short stPAR_PALLET_CONTROL_MODE;
  _GLOBAL_CONST unsigned short stPAR_PALLET_STATUS;
  _GLOBAL_CONST unsigned short stPAR_PALLET_ID;
  _GLOBAL_CONST unsigned short stPAR_LOAD_TARGET;

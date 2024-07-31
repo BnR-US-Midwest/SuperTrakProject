@@ -18,13 +18,13 @@ PROGRAM _CYCLIC
 	// State control
 	CASE State OF
 		STATE_OFF:
-			IF StartTrigger.Q THEN
+			IF EnableTrigger.Q THEN
 				State := STATE_INITIALIZE;
 			END_IF
 			
-		STATE_INITIALIZE:
+		STATE_INITIALIZE;
 			// Enable once and never disabled
-			ControlSystem.Enable := TRUE;
+            ControlSystem.Enable := TRUE;
 			
 			IF ControlSystem.Active THEN
 				State := STATE_IDLE;
@@ -36,7 +36,7 @@ PROGRAM _CYCLIC
 			ELSIF Timeout.Q THEN
 				Interface.Status.ErrorID := -1;
 				State := STATE_ERROR;
-			END_IF
+            END_IF   
 			
 		STATE_IDLE:
 			IF ControlSystem.SectionsEnabled THEN
@@ -51,11 +51,11 @@ PROGRAM _CYCLIC
 				State := STATE_ERROR;
 			END_IF
 		
-		STATE_STARTING:
-			ControlSystem.EnableAllSections := TRUE;
-			
-			IF ControlSystem.SectionsEnabled THEN
-				State := STATE_EXECUTE;
+        STATE_STARTING:
+            ControlSystem.EnableAllSections := TRUE;
+            
+            IF ControlSystem.SectionsEnabled THEN
+                State := STATE_EXECUTE;
 				
 			ELSIF ControlSystem.Error THEN
 				Interface.Status.ErrorID := ControlSystem.StatusID;
@@ -129,8 +129,8 @@ PROGRAM _CYCLIC
 	ControlSystem.Parameters := ADR(SystemParameters);
 	ControlSystem();
 	
-	StartTrigger.CLK := Interface.Cmd.Start;
-	StartTrigger();
+	EnableTrigger.CLK := Interface.Cmd.Enable;
+	EnableTrigger();
 	RunTrigger.CLK := Interface.Cmd.Run;
 	RunTrigger();
 	ResetTrigger.CLK := Interface.Cmd.Reset;
@@ -146,7 +146,8 @@ PROGRAM _CYCLIC
 	Interface.Info.FaultPresent := ControlSystem.Info.SuperTrak.SystemFaultActive;
 	Interface.Info.Faults := ControlSystem.Info.SuperTrak.SystemFaultBits;
 	
-	// Set status
+    // Set status
+    Interface.Status.Active := ControlSystem.Active;
 	Interface.Status.Busy := State = STATE_INITIALIZE OR
 							State = STATE_STARTING OR
 							State = STATE_STOPPING OR

@@ -6,12 +6,13 @@ TYPE
 		Info : STSystemInterfaceInfoType;
 	END_STRUCT;
 	STSystemInterfaceCmdType : 	STRUCT  (*Interface commands*)
-		Start : BOOL;
+		Enable : BOOL;
 		Run : BOOL;
 		Stop : BOOL;
 		Reset : BOOL;
 	END_STRUCT;
 	STSystemInterfaceStatusType : 	STRUCT  (*Interface command response*)
+		Active : BOOL;
 		Busy : BOOL;
 		Ready : BOOL;
 		Running : BOOL;

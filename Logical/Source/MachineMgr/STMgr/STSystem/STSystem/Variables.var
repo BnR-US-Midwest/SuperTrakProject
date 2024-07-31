@@ -5,7 +5,7 @@ VAR
 END_VAR
 (*Function blocks*)
 VAR
-	StartTrigger : R_TRIG;
+	EnableTrigger : R_TRIG;
 	RunTrigger : R_TRIG;
 	ResetTrigger : R_TRIG;
 	ControlSystem : StControl;

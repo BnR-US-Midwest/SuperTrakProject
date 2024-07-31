@@ -11,13 +11,13 @@ PROGRAM _CYCLIC
 	
 	FOR Index := 1 TO ST_SECTION_MAX DO
 		ControlSection[Index].StLink := ADR(gSTSystemLink);
-		ControlSection[Index].Section := Interface.Par.Section[Index];
+		ControlSection[Index].Section := Index;
 		// There are no function block parameters, use common address
 		ControlSection[Index].Parameters := ADR(SectionParameters);
 		// Enable all function blocks
 		ControlSection[Index].Enable := Interface.Cmd.Enable;
 		// Enable each section
-		ControlSection[Index].EnableSection := Interface.Cmd.EnableSection[Index];
+		ControlSection[Index].EnableSection := Interface.Cmd.EnableSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
 		// Reset all function blocks
 		ControlSection[Index].ErrorReset := Interface.Cmd.Reset;
 		ControlSection[Index]();
@@ -28,7 +28,8 @@ PROGRAM _CYCLIC
 		END_IF
 		// Error if any section has error
 		IF ControlSection[Index].Error THEN
-			Interface.Status.Error := TRUE;
+            Interface.Status.Error := TRUE;
+            Interface.Status.StatusID := ControlSection[Index].StatusID;
 		END_IF
 		Interface.Status.SectionEnabled[Index] := ControlSection[Index].SectionEnabled;
 	END_FOR
