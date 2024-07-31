@@ -4,6 +4,9 @@ PROGRAM _INIT
 END_PROGRAM
 
 PROGRAM _CYCLIC
+    
+    // Read global inputs
+    Interface.Cmd := gSTSection.Cmd;
 	
 	// Initialize common statuses, assume true/false then disqualify
 	Interface.Status.Active := TRUE;
@@ -32,7 +35,10 @@ PROGRAM _CYCLIC
             Interface.Status.StatusID := ControlSection[Index].StatusID;
 		END_IF
 		Interface.Status.SectionEnabled[Index] := ControlSection[Index].SectionEnabled;
-	END_FOR
+    END_FOR
+    
+    // Write global outputs
+    gSTSection.Status := Interface.Status;
 	
 END_PROGRAM
 

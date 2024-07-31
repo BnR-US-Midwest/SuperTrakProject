@@ -1,4 +1,0 @@
-VAR_CONFIG
-	Cyclic#1.::gSTSection.Cmd AT %Q.Cyclic#1.::STSection:Interface.Cmd;
-	Cyclic#1.::STSection:Interface.Status AT %Q.Cyclic#1.::gSTSection.Status;
-END_VAR
