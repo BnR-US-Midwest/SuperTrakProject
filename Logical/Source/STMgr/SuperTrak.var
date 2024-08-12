@@ -1,0 +1,10 @@
+(*SuperTrak Structure*)
+VAR
+	gSuperTrak : SuperTrak_type; (*Main SuperTrak command/parameter/status structure*)
+END_VAR
+(*Array Size Constants*)
+VAR CONSTANT
+	ST_SECTION_MAX : USINT := 4; (*Maximum Section number (change if adding sections)*)
+	ST_TARGET_MAX : USINT := 40; (*Maximum Target number (change if adding targets)*)
+	ST_SHUTTLE_MAX : USINT := 40; (*Maximum Shuttle number (change if adding shuttles)*)
+END_VAR

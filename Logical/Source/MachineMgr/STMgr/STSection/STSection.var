@@ -1,6 +1,0 @@
-VAR CONSTANT
-	ST_SECTION_MAX : USINT := 4;
-END_VAR
-VAR
-	gSTSection : STSectionInterfaceType;
-END_VAR

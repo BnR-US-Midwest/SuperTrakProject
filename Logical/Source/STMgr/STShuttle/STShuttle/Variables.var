@@ -1,0 +1,6 @@
+VAR
+	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType;
+	ControlShuttle : ARRAY[1..ST_TARGET_MAX] OF StPallet;
+	ShuttleParameters : StPalletParType;
+	Index : USINT;
+END_VAR

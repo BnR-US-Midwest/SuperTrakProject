@@ -1,0 +1,19 @@
+(*Control*)
+VAR
+	MainState : MainState_enum;
+	Interface : Machine_type;
+	LoopSection : USINT;
+	LoopTarget : USINT;
+	LoopShuttle : USINT;
+END_VAR
+(*Status*)
+VAR
+	TargetsReleased : BOOL; (*All configured target release commands confirmed*)
+	ShuttlesReleased : BOOL; (*All configured shuttle release commands confirmed*)
+END_VAR
+(*Function Blocks*)
+VAR
+	EnableTrigger : R_TRIG;
+	RunTrigger : R_TRIG;
+	ResetTrigger : R_TRIG;
+END_VAR

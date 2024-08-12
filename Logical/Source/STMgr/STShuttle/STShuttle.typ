@@ -1,0 +1,33 @@
+
+TYPE
+	STShuttleInterfaceType : 	STRUCT  (*Pallet interface structure*)
+		Cmd : STReleaseCommandType; (*Pallet release commands*)
+		Status : STShuttleStatusType; (*Pallet status information*)
+		Par : STReleaseParameterType; (*Pallet release parameters*)
+	END_STRUCT;
+	STShuttleStatusType : 	STRUCT  (*Pallet status structure*)
+		ID : USINT; (*(SuperTrakPalletInfo_t or Par 1321) Assigned pallet ID*)
+		Present : BOOL; (*(StPalletStatusBits_e) Present on system*)
+		Recovering : BOOL; (*(StPalletStatusBits_e) Will recover or recovering to last controlled position*)
+		AtTarget : BOOL; (*(StPalletStatusBits_e) Arrived at target, in position, not yet released*)
+		InPosition : BOOL; (*(StPalletStatusBits_e) Within in-position window*)
+		ServoEnabled : BOOL; (*(StPalletStatusBits_e) Control enabled*)
+		Initializing : BOOL; (*(StPalletStatusBits_e) Moving to load target*)
+		Lost : BOOL; (*(StPalletStatusBits_e) Position feedback lost*)
+		ControlMode : USINT; (*(SuperTrakPalletInfo_t) Pallet control mode, see SuperTrak library*)
+		PalletReleased : BOOL; (*(Derived) Release command successful, pallet has begun movement*)
+		Section : USINT; (*(SuperTrakPalletInfo_t or Par 1307) Current section number*)
+		SetSection : USINT; (*(Par 1306) Section number setpoint*)
+		DestinationTarget : USINT; (*(Par 1339) Destination target*)
+		Position : LREAL; (*(SuperTrakPalletInfo_t or Par 1310) [mm] Current section position*)
+		Velocity : REAL; (*(Par 1314) [mm/s] Current velocity*)
+		SetPosition : LREAL; (*(Par 1311) [mm] Section position setpoint*)
+		SetPositionMicrons : DINT; (*(Par 1311) [um] Integer section position setpoint in microns*)
+		SetVelocity : REAL; (*(Par 1313) [mm/s] Velocity setpoint*)
+		SetAcceleration : REAL; (*(Par 1312) [mm/s^2] Acceleration setpoint*)
+		GlobalPosition : LREAL; (*(Derived) [mm] Global position, see StCoreSystemParameterTyp and StPos library*)
+		GlobalPositionMicrons : DINT; (*(Derived) [um] Integer global position in microns, see StCoreSystemParameterTyp and StPos library*)
+		GlobalSetPosition : LREAL; (*(Derived) [mm] Global position setpoint, see StCoreSystemParameterTyp and StPos library*)
+		GlobalSetPositionMicrons : DINT; (*(Derived) [um] Integer global position setpoint, see StCoreSystemParameterTyp and StPos library*)
+	END_STRUCT;
+END_TYPE

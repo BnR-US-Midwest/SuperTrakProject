@@ -1,0 +1,6 @@
+VAR
+	Interface : ARRAY[1..ST_TARGET_MAX] OF STTargetInterfaceType;
+	ControlTarget : ARRAY[1..ST_TARGET_MAX] OF StTargetExt;
+	TargetParameters : StTargetExtParType;
+	Index : USINT;
+END_VAR
