@@ -35,23 +35,16 @@ PROGRAM _CYCLIC
             END_IF;
             
         MAIN_STATE_DISABLED:
+            // Reset commands and timers
+            ResetTargetRelease;
+            ResetShuttleRelease;
+            ResetProcessTimer;
+            
             IF EnableTrigger.Q AND gSuperTrak.System.Status.Ready THEN
                 MainState := MAIN_STATE_ENABLE_SECTIONS;
             END_IF; 
             
         MAIN_STATE_ENABLE_SECTIONS:      
-           (* AllSectionsEnabled := TRUE; // Set True now, set False later if any section isn't ready
-            FOR LoopSection := 1 TO ST_SECTION_MAX DO
-                gSuperTrak.Sections.Cmd.EnableSection[LoopSection] := TRUE; 
-                IF NOT gSuperTrak.Sections.Status.SectionEnabled[LoopSection] THEN
-                    AllSectionsEnabled := FALSE;
-                END_IF;
-            END_FOR;
-            
-            IF AllSectionsEnabled THEN
-                MainState := MAIN_STATE_RECOVER;
-            END_IF;*)
-            
             gSuperTrak.System.Cmd.Run := TRUE;
             
             IF gSuperTrak.System.Info.SectionsEnabled THEN
@@ -78,6 +71,41 @@ PROGRAM _CYCLIC
             
             // Target control code goes here //
             
+            FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+                ProcessTimer[LoopTarget].IN := gSuperTrak.Target[LoopTarget].Status.PalletPresent;
+                ProcessTimer[LoopTarget].PT := SimulatedProcessTimes[LoopTarget];
+                ProcessTimer[LoopTarget]();
+            END_FOR;
+            
+            // Target 1: Load
+            IF ProcessTimer[ST_TARGET_LOAD].Q THEN
+                IF gSuperTrak.Target[ST_TARGET_LOAD].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.DestinationTarget := ST_TARGET_QUEUE;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Cmd.ReleaseToTarget := TRUE;
+                END_IF
+            END_IF   
+            
+            // Target 2: Queue
+            IF ProcessTimer[ST_TARGET_QUEUE].Q THEN
+                IF gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.DestinationTarget := ST_TARGET_LOAD;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.ReleaseToTarget := TRUE;
+                END_IF
+            END_IF 
+            
+            // Reset commands
+            FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+                IF NOT gSuperTrak.Target[LoopTarget].Status.PalletPresent THEN
+                    brsmemset(ADR(gSuperTrak.Target[LoopTarget].Cmd), 0, SIZEOF(gSuperTrak.Target[LoopTarget].Cmd));
+                END_IF
+            END_FOR
+            
         MAIN_STATE_STOP:
             IF NOT gSuperTrak.System.Status.Stopped THEN
                 MainState := MAIN_STATE_READY;
@@ -94,6 +122,11 @@ PROGRAM _CYCLIC
         
         MAIN_STATE_ERROR:
             gSuperTrak.System.Cmd.Run := FALSE;
+            
+            // Reset commands and timers
+            ResetTargetRelease;
+            ResetShuttleRelease;
+            ResetProcessTimer;
             
             IF ResetTrigger.Q THEN
                 MainState := MAIN_STATE_RESET;

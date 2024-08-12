@@ -2,6 +2,7 @@
 TYPE
 	STSystemInterfaceType : 	STRUCT  (*Program interface*)
 		Cmd : STSystemInterfaceCmdType;
+		Par : STSystemInterfaceParType;
 		Status : STSystemInterfaceStatusType;
 		Info : STSystemInterfaceInfoType;
 	END_STRUCT;
@@ -10,6 +11,9 @@ TYPE
 		Run : BOOL;
 		Stop : BOOL;
 		Reset : BOOL;
+	END_STRUCT;
+	STSystemInterfaceParType : 	STRUCT  (*Interface parameters*)
+		GlobalDirection : UINT := 1; (*Define global direction 0: left (CW) 1: right (CCW)*)
 	END_STRUCT;
 	STSystemInterfaceStatusType : 	STRUCT  (*Interface command response*)
 		Active : BOOL;

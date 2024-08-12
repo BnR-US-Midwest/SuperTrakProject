@@ -15,8 +15,8 @@ PROGRAM _CYCLIC
         ShuttleParameters.AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.IncrementalOffset;
         ShuttleParameters.AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.TargetOffset;
         ShuttleParameters.AdvancedReleaseConfig.Direction := Interface[Index].Par.Direction;
-        ShuttleParameters.PalletConfig.Motion.Acceleration := Interface[Index].Par.Acceleration;
-        ShuttleParameters.PalletConfig.Motion.Velocity := Interface[Index].Par.Velocity;
+        ShuttleParameters.PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Acceleration);
+        ShuttleParameters.PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Velocity);
 	    
         // StShuttleExt function block inputs
         ControlShuttle[Index].StLink := ADR(gSTSystemLink);

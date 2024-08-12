@@ -38,3 +38,30 @@ ACTION GetShuttlesReleased:
     END_FOR
 	
 END_ACTION
+
+(* Reset all target release commands *)
+ACTION ResetTargetRelease: 
+	
+    FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+        brsmemset(ADR(gSuperTrak.Target[LoopTarget].Cmd), 0, SIZEOF(gSuperTrak.Target[LoopTarget].Cmd));
+    END_FOR
+	
+END_ACTION
+
+(* Reset all shuttle release commands *)
+ACTION ResetShuttleRelease: 
+	
+    FOR LoopShuttle := 1 TO ST_SHUTTLE_MAX DO
+        brsmemset(ADR(gSuperTrak.Shuttle[LoopShuttle].Cmd), 0, SIZEOF(gSuperTrak.Shuttle[LoopShuttle].Cmd));
+    END_FOR
+	
+END_ACTION
+
+(* Reset all process timers *)
+ACTION ResetProcessTimer:
+	
+    FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+        ProcessTimer[LoopTarget](IN := FALSE);
+    END_FOR
+	
+END_ACTION

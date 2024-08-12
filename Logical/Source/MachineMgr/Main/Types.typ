@@ -1,7 +1,7 @@
 
 TYPE
 	MainState_enum : 
-		(
+		( (*Program state*)
 		MAIN_STATE_OFF,
 		MAIN_STATE_DISABLED,
 		MAIN_STATE_ENABLE_SECTIONS,

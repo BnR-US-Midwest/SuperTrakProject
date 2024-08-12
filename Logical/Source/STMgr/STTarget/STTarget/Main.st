@@ -15,8 +15,8 @@ PROGRAM _CYCLIC
         TargetParameters.AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.IncrementalOffset;
         TargetParameters.AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.TargetOffset;
         TargetParameters.AdvancedReleaseConfig.Direction := Interface[Index].Par.Direction;
-        TargetParameters.PalletConfig.Motion.Acceleration := Interface[Index].Par.Acceleration;
-        TargetParameters.PalletConfig.Motion.Velocity := Interface[Index].Par.Velocity;
+        TargetParameters.PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Acceleration);
+        TargetParameters.PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Velocity);
 	    
         // StTargetExt function block inputs
         ControlTarget[Index].StLink := ADR(gSTSystemLink);
