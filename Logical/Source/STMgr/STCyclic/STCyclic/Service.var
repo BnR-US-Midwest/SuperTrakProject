@@ -6,8 +6,11 @@ VAR
 	ResponseHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in sercive channel output*)
 	Values : UserLogFormatType; (*Runtime values for formatted log messages*)
 END_VAR
-(*Specific Functions*)
+(*Configure Digital Inputs*)
 VAR
-    DigtalInputFunctions : ARRAY[0..7] OF UINT; (*Each array element corresponds to a Digital Input in Trakmaster*)
-    InputIndex : USINT; (*FOR Loop index*)
+	DigtalInputFunctions : ARRAY[0..7] OF UINT; (*Each array element corresponds to a Digital Input in Trakmaster*)
+	InputParameterDataLength : UDINT; (*Data length for Digital Input parameter*)
+	InputCount : UINT; (*Number of digital inputs available*)
+	InputIndex : USINT; (*FOR Loop index*)
+	InputConfigChanged : BOOL; (*Flag that input configuration needs to be written back*)
 END_VAR

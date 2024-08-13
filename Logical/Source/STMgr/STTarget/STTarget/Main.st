@@ -5,6 +5,12 @@ END_PROGRAM
 
 PROGRAM _CYCLIC
     
+    // Get data for all targets when the system is active
+    IF gSuperTrak.System.Status.Active THEN 
+        SuperTrakServChanRead(0, 1650, 0, 256, ADR(Sections), SIZEOF(Sections));
+        SuperTrakServChanRead(0, 1651, 0, 256, ADR(Positions), SIZEOF(Positions));
+    END_IF;
+    
     FOR Index := 1 TO ST_TARGET_MAX DO
         // Read global inputs
         Interface[Index].Cmd := gSuperTrak.Target[Index].Cmd;
@@ -33,12 +39,15 @@ PROGRAM _CYCLIC
         ControlTarget[Index]();
         
         // Read StTargetExt function block outputs
-        Interface[Index].Status.PalletID := ControlTarget[Index].PalletID;
-        Interface[Index].Status.PalletOffsetIndex := ControlTarget[Index].PalletOffsetIdx;
-        Interface[Index].Status.PalletPresent := ControlTarget[Index].PalletPresent;
-        Interface[Index].Status.PalletInPosition := ControlTarget[Index].PalletInPosition;
-        Interface[Index].Status.PalletPreArrival := ControlTarget[Index].PalletPreArrival;
-        Interface[Index].Status.PalletOverTarget := ControlTarget[Index].PalletOverTarget;
+        Interface[Index].Status.ShuttleID := ControlTarget[Index].PalletID;
+        Interface[Index].Status.ShuttleOffsetIndex := ControlTarget[Index].PalletOffsetIdx;
+        Interface[Index].Status.ShuttlePresent := ControlTarget[Index].PalletPresent;
+        Interface[Index].Status.ShuttleInPosition := ControlTarget[Index].PalletInPosition;
+        Interface[Index].Status.ShuttlePreArrival := ControlTarget[Index].PalletPreArrival;
+        Interface[Index].Status.ShuttleOverTarget := ControlTarget[Index].PalletOverTarget;
+        Interface[Index].Status.Section := UINT_TO_USINT(Sections[Index]);
+        Interface[Index].Status.PositionMicrons := Positions[Index];
+        Interface[Index].Status.Position := DINT_TO_REAL(Interface[Index].Status.PositionMicrons)/1000.0;
     
         // Write global outputs
         gSuperTrak.Target[Index].Status := Interface[Index].Status;

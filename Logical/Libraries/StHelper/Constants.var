@@ -1,3 +1,0 @@
-VAR CONSTANT
-	ST_HELPER_FUNCTION_INPUT_ERROR : UINT := 20; (*Helper Function could not execute due to an invalid input*)
-END_VAR

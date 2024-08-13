@@ -3,7 +3,6 @@
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="File">STShuttle.typ</Object>
-    <Object Type="File">STShuttle.var</Object>
     <Object Type="Program" Language="IEC">STShuttle</Object>
   </Objects>
 </Package>

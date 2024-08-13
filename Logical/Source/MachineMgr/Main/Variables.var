@@ -2,8 +2,7 @@
 VAR
 	MainState : MainState_enum; (*Program state*)
 	Interface : Machine_type; (*Local copy of global machine interface*)
-	LoopSection : USINT; (*FOR loop index*)
-	LoopTarget : USINT; (*FOR loop index*)
+    LoopTarget : USINT; (*FOR loop index*)
 	LoopShuttle : USINT; (*FOR loop index*)
 	SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
 END_VAR

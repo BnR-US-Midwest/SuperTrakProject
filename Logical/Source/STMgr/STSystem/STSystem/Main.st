@@ -140,7 +140,9 @@ PROGRAM _CYCLIC
 	Timeout();
 	
 	// Process outputs
-	CollectSectionStatuses;
+    CollectSectionStatuses;
+    Interface.Info.SectionCount := ControlSystem.Info.SuperTrak.NrOfSections;
+    Interface.Info.ShuttleCount := ControlSystem.Info.SuperTrak.NrOfPallets;
 	Interface.Info.WarningPresent := ControlSystem.Info.SuperTrak.SystemWarningActive;
 	Interface.Info.Warnings := ControlSystem.Info.SuperTrak.SystemWarningBits;
 	Interface.Info.FaultPresent := ControlSystem.Info.SuperTrak.SystemFaultActive;

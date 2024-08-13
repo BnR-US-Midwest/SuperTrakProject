@@ -1,6 +1,13 @@
 VAR
-	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType;
-	ControlShuttle : ARRAY[1..ST_TARGET_MAX] OF StPallet;
-	ShuttleParameters : StPalletParType;
-	Index : USINT;
+	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType; (*Local copy of gSuperTrak.Shuttle*)
+	ShuttleParameters : StPalletParType; (*Shuttle control parameters*)
+	ControlShuttle : ARRAY[1..ST_SHUTTLE_MAX] OF StPallet; (*Shuttle control function block*)
+	ShuttleInfo : ARRAY[1..ST_SHUTTLE_MAX] OF SuperTrakPalletInfo_t; (*Shuttle status information*)
+	ActualVelocity : ARRAY[0..255] OF INT; (*Actual Velocity information for all shuttles*)
+	DestinationTarget : ARRAY[0..255] OF UINT; (*Destination Target information for all shuttles*)
+	SectionSetpoint : ARRAY[0..255] OF UINT; (*Section Setpoint information for all shuttles*)
+	PositionSetpoint : ARRAY[0..255] OF DINT; (*Position Setpoint information for all shuttles*)
+	VelocitySetpoint : ARRAY[0..255] OF REAL; (*Velocity Setpoint information for all shuttles*)
+	AccelerationSetpoint : ARRAY[0..255] OF REAL; (*Acceleration Setpoint information for all shuttles*)
+	Index : USINT; (*FOR Loop index*)
 END_VAR

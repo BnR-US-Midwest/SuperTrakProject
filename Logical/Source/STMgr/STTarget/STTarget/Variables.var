@@ -1,6 +1,8 @@
 VAR
-	Interface : ARRAY[1..ST_TARGET_MAX] OF STTargetInterfaceType;
-	ControlTarget : ARRAY[1..ST_TARGET_MAX] OF StTargetExt;
-	TargetParameters : StTargetExtParType;
-	Index : USINT;
+	Interface : ARRAY[1..ST_TARGET_MAX] OF STTargetInterfaceType; (*Local copy of gSuperTrak.Target*)
+	TargetParameters : StTargetExtParType; (*Target control parameters*)
+	ControlTarget : ARRAY[1..ST_TARGET_MAX] OF StTargetExt; (*Target control function block*)
+	Sections : ARRAY[0..255] OF UINT; (*All target sections*)
+	Positions : ARRAY[0..255] OF DINT; (*All target positions*)
+	Index : USINT; (*FOR loop index*)
 END_VAR

@@ -15,6 +15,8 @@ TYPE
 		Acceleration : REAL := 15000.0; (*[mm/s^2] Set acceleration for target and shuttle release commands*)
 	END_STRUCT;
 	Machine_Status_type : 	STRUCT  (*Machine statuses*)
+		Enabled : BOOL; (*The main state machine is enabled and the trak is powered*)
+		Ready : BOOL; (*The program is ready to run*)
 		Error : BOOL; (*There is an active error present*)
 	END_STRUCT;
 END_TYPE

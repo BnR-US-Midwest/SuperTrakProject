@@ -1,6 +1,11 @@
 
 PROGRAM _INIT
-	(* Insert code here *)
+	
+    // Set simulated station timer values
+    SimulatedProcessTimes[ST_TARGET_LOAD] := T#1s;
+    SimulatedProcessTimes[ST_TARGET_QUEUE] := T#1s;
+    SimulatedProcessTimes[ST_TARGET_PROCESS] := T#1s;
+    SimulatedProcessTimes[ST_TARGET_UNLOAD] := T#1s;
 
 END_PROGRAM
 
@@ -20,7 +25,8 @@ PROGRAM _CYCLIC
     END_IF;
     
     // Disable handling
-    IF (NOT Interface.Cmd.Enable) AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
+    IF (NOT Interface.Cmd.Enable OR NOT gSuperTrak.System.Status.Active) 
+        AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
         MainState := MAIN_STATE_DISABLING;
     END_IF;
     
@@ -72,7 +78,7 @@ PROGRAM _CYCLIC
             // Target control code goes here //
             
             FOR LoopTarget := 1 TO ST_TARGET_MAX DO
-                ProcessTimer[LoopTarget].IN := gSuperTrak.Target[LoopTarget].Status.PalletPresent;
+                ProcessTimer[LoopTarget].IN := gSuperTrak.Target[LoopTarget].Status.ShuttlePresent;
                 ProcessTimer[LoopTarget].PT := SimulatedProcessTimes[LoopTarget];
                 ProcessTimer[LoopTarget]();
             END_FOR;
@@ -101,7 +107,7 @@ PROGRAM _CYCLIC
             
             // Reset commands
             FOR LoopTarget := 1 TO ST_TARGET_MAX DO
-                IF NOT gSuperTrak.Target[LoopTarget].Status.PalletPresent THEN
+                IF NOT gSuperTrak.Target[LoopTarget].Status.ShuttlePresent THEN
                     brsmemset(ADR(gSuperTrak.Target[LoopTarget].Cmd), 0, SIZEOF(gSuperTrak.Target[LoopTarget].Cmd));
                 END_IF
             END_FOR
@@ -139,6 +145,11 @@ PROGRAM _CYCLIC
                 MainState := MAIN_STATE_OFF;
             END_IF;
     END_CASE;
+    
+    // Set statuses
+    Interface.Status.Enabled := ((Interface.Cmd.Enable) AND (MainState > MAIN_STATE_DISABLED));
+    Interface.Status.Ready := (MainState = MAIN_STATE_READY);
+    Interface.Status.Error := (MainState = MAIN_STATE_ERROR) OR gSuperTrak.System.Status.Error;
     
     // Copy statuses
     gMachine.Status := Interface.Status;
