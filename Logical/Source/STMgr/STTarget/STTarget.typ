@@ -12,6 +12,7 @@ TYPE
 		ShuttleOverTarget : BOOL; (*A shuttle's shelf is over the target, only reported if configured*)
 		ShuttleOffsetIndex : USINT; (*Offset-Table index applied to the shuttle at the target*)
 		ShuttleID : USINT; (*ID of shuttle present at target, pallet over target (if configured), or pallet from pre-arrival notification (if configured)*)
+		ShuttleCount : USINT; (*(Derived) Number of shuttles destined for target*)
 		Section : USINT; (*(Par 1650) Target section number*)
 		PositionMicrons : DINT; (*(Par 1651) [um] Target section position in microns*)
 		Position : REAL; (*(Par 1651) [mm] Target section position*)

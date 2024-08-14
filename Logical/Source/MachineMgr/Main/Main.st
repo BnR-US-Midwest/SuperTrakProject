@@ -3,8 +3,8 @@ PROGRAM _INIT
 	
     // Set simulated station timer values
     SimulatedProcessTimes[ST_TARGET_LOAD] := T#1s;
-    SimulatedProcessTimes[ST_TARGET_QUEUE] := T#1s;
-    SimulatedProcessTimes[ST_TARGET_PROCESS] := T#1s;
+    SimulatedProcessTimes[ST_TARGET_QUEUE] := T#100ms;
+    SimulatedProcessTimes[ST_TARGET_PROCESS] := T#500ms;
     SimulatedProcessTimes[ST_TARGET_UNLOAD] := T#1s;
 
 END_PROGRAM
@@ -20,7 +20,8 @@ PROGRAM _CYCLIC
     ResetTrigger(CLK := Interface.Cmd.ErrorReset);
     
     // Error Handling
-    IF gSuperTrak.System.Status.Error OR gSuperTrak.Sections.Status.Error THEN
+    IF gSuperTrak.System.Status.Error OR gSuperTrak.System.Info.FaultPresent 
+        OR gSuperTrak.Sections.Status.Error OR gSuperTrak.Sections.Status.SectionError THEN
         MainState := MAIN_STATE_ERROR;
     END_IF;
     
@@ -75,7 +76,11 @@ PROGRAM _CYCLIC
                 MainState := MAIN_STATE_STOP;
             END_IF;
             
-            // Target control code goes here //
+            (*******************************************************
+             *******************************************************
+                        Target control code goes here 
+            *******************************************************
+            *******************************************************)
             
             FOR LoopTarget := 1 TO ST_TARGET_MAX DO
                 ProcessTimer[LoopTarget].IN := gSuperTrak.Target[LoopTarget].Status.ShuttlePresent;
@@ -95,15 +100,37 @@ PROGRAM _CYCLIC
             END_IF   
             
             // Target 2: Queue
-            IF ProcessTimer[ST_TARGET_QUEUE].Q THEN
+            IF ProcessTimer[ST_TARGET_QUEUE].Q AND gSuperTrak.Target[ST_TARGET_PROCESS].Status.ShuttleCount = 0 THEN
                 IF gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
                     gSuperTrak.Target[ST_TARGET_QUEUE].Par.Velocity := gMachine.Par.Velocity;
                     gSuperTrak.Target[ST_TARGET_QUEUE].Par.Acceleration := gMachine.Par.Acceleration;
                     gSuperTrak.Target[ST_TARGET_QUEUE].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.DestinationTarget := ST_TARGET_LOAD;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.DestinationTarget := ST_TARGET_PROCESS;
                     gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.ReleaseToTarget := TRUE;
                 END_IF
             END_IF 
+            
+            // Target 3: Process
+            IF ProcessTimer[ST_TARGET_PROCESS].Q THEN
+                IF gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.DestinationTarget := ST_TARGET_UNLOAD;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.ReleaseToTarget := TRUE;
+                END_IF
+            END_IF   
+            
+            // Target 4: Unload
+            IF ProcessTimer[ST_TARGET_UNLOAD].Q THEN
+                IF gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.DestinationTarget := ST_TARGET_LOAD;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.ReleaseToTarget := TRUE;
+                END_IF
+            END_IF   
             
             // Reset commands
             FOR LoopTarget := 1 TO ST_TARGET_MAX DO

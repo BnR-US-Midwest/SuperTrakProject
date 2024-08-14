@@ -3,6 +3,7 @@ TYPE
 	STSectionInterfaceType : 	STRUCT  (*Section control interface*)
 		Cmd : STSectionInterfaceCmdType; (*Section commands*)
 		Status : STSectionInterfaceStatusType; (*Section statuses*)
+		Info : ARRAY[1..ST_SECTION_MAX]OF STSectionInterfaceInfoType; (*Information about each individual section*)
 	END_STRUCT;
 	STSectionInterfaceCmdType : 	STRUCT  (*Section commands*)
 		Enable : BOOL; (*Enable all sections*)
@@ -13,9 +14,9 @@ TYPE
 		Active : BOOL; (*All section control function blocks are Active*)
 		Error : BOOL; (*At least one section function block is reporting an Error*)
 		StatusID : DINT; (*StatusID of section function block reporting an error*)
-		SectionStatus : ARRAY[1..ST_SECTION_MAX]OF STSectionSpecificStatusType; (*Status information for each individual section*)
+		SectionError : BOOL; (*At least one section has an active error*)
 	END_STRUCT;
-	STSectionSpecificStatusType : 	STRUCT  (*Status information for each individual section*)
+	STSectionInterfaceInfoType : 	STRUCT  (*Information about each individual section*)
 		SectionEnabled : BOOL; (*Sections that are Enabled have a TRUE value in this array*)
 		UnrecognizedShuttles : BOOL; (*Detected one or more shuttles with undetermined position, jogged to locate when enabled*)
 		MotorPowerOn : BOOL; (*Voltage within usage range*)

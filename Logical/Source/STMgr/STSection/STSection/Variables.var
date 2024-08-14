@@ -1,6 +1,6 @@
 VAR
 	Interface : STSectionInterfaceType; (*Section control interface*)
-	SectionParameters : StSectionParType; (*Placeholder, there are no parameters for StCom's StSection function block*)
+	SectionParameters : ARRAY[1..ST_SECTION_MAX] OF StSectionParType; (*Placeholder, there are no parameters for StCom's StSection function block*)
 	ControlSection : ARRAY[1..ST_SECTION_MAX] OF StSection; (*Section control function block*)
 	Index : USINT; (*FOR loop index*)
 END_VAR

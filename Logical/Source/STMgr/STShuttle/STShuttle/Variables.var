@@ -1,6 +1,6 @@
 VAR
 	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType; (*Local copy of gSuperTrak.Shuttle*)
-	ShuttleParameters : StPalletParType; (*Shuttle control parameters*)
+	ShuttleParameters : ARRAY[1..ST_SHUTTLE_MAX] OF StPalletParType; (*Shuttle control parameters*)
 	ControlShuttle : ARRAY[1..ST_SHUTTLE_MAX] OF StPallet; (*Shuttle control function block*)
 	ShuttleInfo : ARRAY[1..ST_SHUTTLE_MAX] OF SuperTrakPalletInfo_t; (*Shuttle status information*)
 	ActualVelocity : ARRAY[0..255] OF INT; (*Actual Velocity information for all shuttles*)
@@ -10,4 +10,5 @@ VAR
 	VelocitySetpoint : ARRAY[0..255] OF REAL; (*Velocity Setpoint information for all shuttles*)
 	AccelerationSetpoint : ARRAY[0..255] OF REAL; (*Acceleration Setpoint information for all shuttles*)
 	Index : USINT; (*FOR Loop index*)
+	r_trig_ShuttleRelease : ARRAY[1..ST_SHUTTLE_MAX] OF R_TRIG; (*Rising edge trigger of any Release command*)
 END_VAR
