@@ -33,8 +33,19 @@ PROGRAM _CYCLIC
 		IF ControlSection[Index].Error THEN
             Interface.Status.Error := TRUE;
             Interface.Status.StatusID := ControlSection[Index].StatusID;
-		END_IF
-		Interface.Status.SectionEnabled[Index] := ControlSection[Index].SectionEnabled;
+        END_IF
+        
+        // Read other statuses
+        Interface.Status.SectionStatus[Index].SectionEnabled := ControlSection[Index].SectionEnabled;
+        Interface.Status.SectionStatus[Index].UnrecognizedShuttles := ControlSection[Index].UnrecognizedPallets;
+        Interface.Status.SectionStatus[Index].MotorPowerOn := ControlSection[Index].MotorPowerOn;
+        Interface.Status.SectionStatus[Index].ShuttlesRecovering := ControlSection[Index].PalletsRecovering;
+        Interface.Status.SectionStatus[Index].LocatingShuttles := ControlSection[Index].LocatingPallets;
+        Interface.Status.SectionStatus[Index].DisabledExternally := ControlSection[Index].DisabledExternally;
+        Interface.Status.SectionStatus[Index].WarningPresent := ControlSection[Index].Info.SuperTrak.SectionWarningActive;
+        Interface.Status.SectionStatus[Index].Warnings := ControlSection[Index].Info.SuperTrak.SectionWarningBits;
+        Interface.Status.SectionStatus[Index].FaultPresent := ControlSection[Index].Info.SuperTrak.SectionFaultActive;
+        Interface.Status.SectionStatus[Index].Faults := ControlSection[Index].Info.SuperTrak.SectionFaultBits;
     END_FOR
     
     // Write global outputs
