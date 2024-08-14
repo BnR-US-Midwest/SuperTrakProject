@@ -9,7 +9,8 @@ ACTION GetTargetsReleased:
             // Any target command true while released confirmation false
             IF (gSuperTrak.Target[LoopTarget].Cmd.ReleaseToTarget
                 OR gSuperTrak.Target[LoopTarget].Cmd.ReleaseToOffset
-                OR gSuperTrak.Target[LoopTarget].Cmd.IncrementOffset) THEN
+                OR gSuperTrak.Target[LoopTarget].Cmd.IncrementOffset) 
+                AND NOT gSuperTrak.Target[LoopTarget].Status.ShuttleReleased THEN
                 TargetsReleased := FALSE; // Disqualify
                 EXIT;
             END_IF
@@ -28,7 +29,8 @@ ACTION GetShuttlesReleased:
             // Any pallet command true while released confirmation false
             IF (gSuperTrak.Shuttle[LoopShuttle].Cmd.ReleaseToTarget
                 OR gSuperTrak.Shuttle[LoopShuttle].Cmd.ReleaseToOffset
-                OR gSuperTrak.Shuttle[LoopShuttle].Cmd.IncrementOffset) THEN
+                OR gSuperTrak.Shuttle[LoopShuttle].Cmd.IncrementOffset)
+                AND NOT gSuperTrak.Shuttle[LoopShuttle].Status.ShuttleReleased THEN
                 ShuttlesReleased := FALSE; // Disqualify
                 EXIT;
             END_IF

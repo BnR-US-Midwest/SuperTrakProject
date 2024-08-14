@@ -25,5 +25,6 @@ TYPE
 		SetPosition : REAL; (*(Par 1311) [mm] Section position setpoint*)
 		SetVelocity : REAL; (*(Par 1313) [mm/s] Velocity setpoint*)
 		SetAcceleration : REAL; (*(Par 1312) [mm/s^2] Acceleration setpoint*)
+		ShuttleReleased : BOOL; (*(Derived) Release command acknowledged. True until release command is reset*)
 	END_STRUCT;
 END_TYPE

@@ -1,6 +1,6 @@
 VAR
-	RequestData : ARRAY[0..127] OF USINT; (*Raw service channel input data*)
-	ResponseData : ARRAY[0..127] OF USINT; (*Raw service channel output data*)
+	RequestData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel input data*)
+	ResponseData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel output data*)
 	ServiceChannel : ServiceChannel_t; (*Service channel instance interface*)
 	RequestHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in service channel input*)
 	ResponseHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in sercive channel output*)

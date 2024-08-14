@@ -134,7 +134,7 @@ PROGRAM _CYCLIC
             
             // Reset commands
             FOR LoopTarget := 1 TO ST_TARGET_MAX DO
-                IF NOT gSuperTrak.Target[LoopTarget].Status.ShuttlePresent THEN
+                IF gSuperTrak.Target[LoopTarget].Status.ShuttleReleased THEN
                     brsmemset(ADR(gSuperTrak.Target[LoopTarget].Cmd), 0, SIZEOF(gSuperTrak.Target[LoopTarget].Cmd));
                 END_IF
             END_FOR

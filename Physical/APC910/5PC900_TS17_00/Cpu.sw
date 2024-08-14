@@ -7,10 +7,9 @@
     <Task Name="STSection" Source="Source.STMgr.STSection.STSection.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STTarget" Source="Source.STMgr.STTarget.STTarget.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="STShuttle" Source="Source.STMgr.STShuttle.STShuttle.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-  </TaskClass>
-  <TaskClass Name="Cyclic#2">
     <Task Name="Main" Source="Source.MachineMgr.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
+  <TaskClass Name="Cyclic#2" />
   <TaskClass Name="Cyclic#3" />
   <TaskClass Name="Cyclic#4" />
   <TaskClass Name="Cyclic#5" />

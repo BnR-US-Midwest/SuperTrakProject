@@ -39,9 +39,35 @@ PROGRAM _CYCLIC
         ControlShuttle[Index].Parameters := ADR(ShuttleParameters[Index]);
         ControlShuttle[Index].PalletID := Index;
         
-        ControlShuttle[Index].ReleaseToTarget := Interface[Index].Cmd.ReleaseToTarget;
-        ControlShuttle[Index].ReleaseToOffset := Interface[Index].Cmd.ReleaseToOffset;
-        ControlShuttle[Index].IncrementOffset := Interface[Index].Cmd.IncrementOffset;
+        CASE ShuttleControlState[Index] OF
+            SHUTTLE_STATE_WAIT_FOR_COMMAND:
+                IF Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset THEN
+                    ShuttleControlState[Index] := SHUTTLE_STATE_SET_MOTION_PARS;
+                END_IF;
+            
+            SHUTTLE_STATE_SET_MOTION_PARS:
+                ControlShuttle[Index].SetPalletMotionPar := TRUE;
+                IF ControlShuttle[Index].CommandDone THEN
+                    ControlShuttle[Index].SetPalletMotionPar := FALSE;
+                    ShuttleControlState[Index] := SHUTTLE_STATE_RELEASE_SHUTTLE;
+                END_IF;
+            
+            SHUTTLE_STATE_RELEASE_SHUTTLE:
+                ControlShuttle[Index].ReleaseToTarget := Interface[Index].Cmd.ReleaseToTarget;
+                ControlShuttle[Index].ReleaseToOffset := Interface[Index].Cmd.ReleaseToOffset;
+                ControlShuttle[Index].IncrementOffset := Interface[Index].Cmd.IncrementOffset;
+                Interface[Index].Status.ShuttleReleased := TRUE;
+                ShuttleControlState[Index] := SHUTTLE_STATE_WAIT_FOR_CMD_RESET;
+            
+            SHUTTLE_STATE_WAIT_FOR_CMD_RESET:
+                IF NOT(Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset) THEN
+                    Interface[Index].Status.ShuttleReleased := FALSE;
+                    ControlShuttle[Index].ReleaseToTarget := FALSE;
+                    ControlShuttle[Index].ReleaseToOffset := FALSE;
+                    ControlShuttle[Index].IncrementOffset := FALSE;
+                    ShuttleControlState[Index] := SHUTTLE_STATE_WAIT_FOR_COMMAND;
+                END_IF;
+        END_CASE;
         
         // Call StShuttleExt function block
         ControlShuttle[Index]();
@@ -72,6 +98,22 @@ PROGRAM _CYCLIC
         r_trig_ShuttleRelease[Index]();
         
         IF r_trig_ShuttleRelease[Index].Q THEN
+            // Decrement current target's shuttle count (if shuttle is currently at a target)
+            IF Interface[Index].Status.AtTarget THEN
+                ShuttleAtTarget := 0;
+                FOR TargetIndex := 1 TO ST_TARGET_MAX DO
+                    IF gSuperTrak.Target[TargetIndex].Status.ShuttlePresent AND gSuperTrak.Target[TargetIndex].Status.ShuttleID = Index THEN
+                        ShuttleAtTarget := TargetIndex;
+                        EXIT;
+                    END_IF;
+                END_FOR;
+
+                IF ShuttleAtTarget > 0 AND ShuttleAtTarget < ST_TARGET_MAX THEN
+                    IF gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount > 0 THEN
+                        gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount := gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount - 1;
+                    END_IF;
+                END_IF;
+            END_IF;
             // Increment destination target's shuttle count
             IF gSuperTrak.Shuttle[Index].Par.DestinationTarget > 0 AND gSuperTrak.Shuttle[Index].Par.DestinationTarget < ST_TARGET_MAX THEN
                 gSuperTrak.Target[gSuperTrak.Shuttle[Index].Par.DestinationTarget].Status.ShuttleCount := 

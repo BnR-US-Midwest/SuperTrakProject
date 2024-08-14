@@ -31,10 +31,46 @@ PROGRAM _CYCLIC
         ControlTarget[Index].Parameters := ADR(TargetParameters[Index]);
         ControlTarget[Index].Target := Index;
         
-        ControlTarget[Index].ReleaseToTarget := Interface[Index].Cmd.ReleaseToTarget;
-        ControlTarget[Index].ReleaseToOffset := Interface[Index].Cmd.ReleaseToOffset;
-        ControlTarget[Index].IncrementOffset := Interface[Index].Cmd.IncrementOffset;
-        
+        CASE TargetControlState[Index] OF
+            TARGET_STATE_WAIT_FOR_SHUTTLE:
+                IF ControlTarget[Index].PalletPresent THEN
+                    TargetControlState[Index] := TARGET_STATE_SHUTTLE_PRESENT;
+                END_IF;
+            
+            TARGET_STATE_SHUTTLE_PRESENT:
+                IF Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset THEN
+                    TargetControlState[Index] := TARGET_STATE_SET_MOTION_PARS;
+                END_IF;
+            
+            TARGET_STATE_SET_MOTION_PARS:
+                ControlTarget[Index].SetPalletMotionPar := TRUE;
+                IF ControlTarget[Index].CommandDone THEN
+                    ControlTarget[Index].SetPalletMotionPar := FALSE;
+                    TargetControlState[Index] := TARGET_STATE_RELEASE_SHUTTLE;
+                END_IF;
+            
+            TARGET_STATE_RELEASE_SHUTTLE:
+                ControlTarget[Index].ReleaseToTarget := Interface[Index].Cmd.ReleaseToTarget;
+                ControlTarget[Index].ReleaseToOffset := Interface[Index].Cmd.ReleaseToOffset;
+                ControlTarget[Index].IncrementOffset := Interface[Index].Cmd.IncrementOffset;
+                TargetControlState[Index] := TARGET_STATE_WAIT_FOR_RELEASE;
+            
+            TARGET_STATE_WAIT_FOR_RELEASE:
+                IF NOT ControlTarget[Index].PalletPresent THEN
+                    Interface[Index].Status.ShuttleReleased := TRUE;
+                    TargetControlState[Index] := TARGET_STATE_WAIT_FOR_CMD_RESET;
+                END_IF;
+            
+            TARGET_STATE_WAIT_FOR_CMD_RESET:
+                IF NOT (Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset) THEN
+                    Interface[Index].Status.ShuttleReleased := FALSE;
+                    ControlTarget[Index].ReleaseToTarget := FALSE;
+                    ControlTarget[Index].ReleaseToOffset := FALSE;
+                    ControlTarget[Index].IncrementOffset := FALSE;
+                    TargetControlState[Index] := TARGET_STATE_WAIT_FOR_SHUTTLE;
+                END_IF;
+        END_CASE;
+
         // Call StTargetExt function block
         ControlTarget[Index]();
         

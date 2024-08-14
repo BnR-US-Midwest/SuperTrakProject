@@ -4,8 +4,8 @@ ACTION InitializeServiceChannel:
 	
     ServiceChannel.channelId := 1;
 	
-    ServiceChannel.requestBufferSize := SIZEOF(RequestData) - SIZEOF(ServiceChannelHeader_t);
-    ServiceChannel.responseBufferSize := SIZEOF(ResponseData) - SIZEOF(ServiceChannelHeader_t);
+    ServiceChannel.requestBufferSize := SIZEOF(RequestData);// - SIZEOF(ServiceChannelHeader_t);
+    ServiceChannel.responseBufferSize := SIZEOF(ResponseData);// - SIZEOF(ServiceChannelHeader_t);
 	
 END_ACTION
 

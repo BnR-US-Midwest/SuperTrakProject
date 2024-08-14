@@ -4,7 +4,7 @@ VAR
 END_VAR
 (*Array Size Constants*)
 VAR CONSTANT
-	ST_SECTION_MAX : USINT := 20; (*Maximum Section number (change if adding sections)*)
+	ST_SECTION_MAX : USINT := 10; (*Maximum Section number (change if adding sections)*)
 	ST_TARGET_MAX : USINT := 20; (*Maximum Target number (change if adding targets)*)
-	ST_SHUTTLE_MAX : USINT := 20; (*Maximum Shuttle number (change if adding shuttles)*)
+	ST_SHUTTLE_MAX : USINT := 30; (*Maximum Shuttle number (change if adding shuttles)*)
 END_VAR
