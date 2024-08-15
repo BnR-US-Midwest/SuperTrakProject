@@ -1,10 +1,10 @@
 
 PROGRAM _INIT
 	
-	SystemParameters.NrOfCommands := 24;
-	SystemParameters.NrOfSections := 4;
-	SystemParameters.NrOfTargets := 4;
-	SystemParameters.NrOfPallets := 4;
+	SystemParameters.NrOfCommands := ST_COMMAND_MAX;
+	SystemParameters.NrOfSections := ST_SECTION_MAX;
+	SystemParameters.NrOfTargets := ST_TARGET_MAX;
+	SystemParameters.NrOfPallets := ST_SHUTTLE_MAX;
 	
 	Timeout.PT := T#500ms;
 	
