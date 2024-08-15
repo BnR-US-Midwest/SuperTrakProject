@@ -5,9 +5,9 @@
     <Object Type="File">SuperTrak.typ</Object>
     <Object Type="File">SuperTrak.var</Object>
     <Object Type="Package" Description="SuperTrak cyclic update">STCyclic</Object>
-    <Object Type="Package" Description="1100 StCom system control">STSystem</Object>
+    <Object Type="Package" Description="StCom system control">STSystem</Object>
     <Object Type="Package" Description="StCom section control">STSection</Object>
-    <Object Type="Package">STTarget</Object>
-    <Object Type="Package">STShuttle</Object>
+    <Object Type="Package" Description="StCom target control">STTarget</Object>
+    <Object Type="Package" Description="StCom shuttle (pallet) control">STShuttle</Object>
   </Objects>
 </Package>

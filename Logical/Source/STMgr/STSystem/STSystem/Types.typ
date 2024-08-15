@@ -1,7 +1,7 @@
 
 TYPE
 	StateEnum : 
-		(
+		( (*Program state*)
 		STATE_OFF, (*No action, wait for start*)
 		STATE_INITIALIZE, (*Enable StControl function block*)
 		STATE_IDLE, (*No action, wait for run*)
@@ -10,10 +10,5 @@ TYPE
 		STATE_STOPPING, (*Disable all sections*)
 		STATE_ERROR, (*An error occurred*)
 		STATE_CLEARING (*Reset error*)
-		);
-	AlarmEnum : 
-		(
-		ALARM_COMMAND_TIMEOUT,
-		ALARM_STCONTROL_ERROR
 		);
 END_TYPE
