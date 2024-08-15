@@ -1,6 +1,0 @@
-VAR
-	Interface : STSectionInterfaceType;
-	SectionParameters : StSectionParType; (*Placeholder, there are no parameters for StCom's StSection function block*)
-	ControlSection : ARRAY[1..ST_SECTION_MAX] OF StSection;
-	Index : USINT;
-END_VAR

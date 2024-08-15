@@ -1,0 +1,16 @@
+VAR
+	RequestData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel input data*)
+	ResponseData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel output data*)
+	ServiceChannel : ServiceChannel_t; (*Service channel instance interface*)
+	RequestHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in service channel input*)
+	ResponseHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in sercive channel output*)
+	Values : UserLogFormatType; (*Runtime values for formatted log messages*)
+END_VAR
+(*Configure Digital Inputs*)
+VAR
+	DigtalInputFunctions : ARRAY[0..7] OF UINT; (*Each array element corresponds to a Digital Input in Trakmaster*)
+	InputParameterDataLength : UDINT; (*Data length for Digital Input parameter*)
+	InputCount : UINT; (*Number of digital inputs available*)
+	InputIndex : USINT; (*FOR Loop index*)
+	InputConfigChanged : BOOL; (*Flag that input configuration needs to be written back*)
+END_VAR

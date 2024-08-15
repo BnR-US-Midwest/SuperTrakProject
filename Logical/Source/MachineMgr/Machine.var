@@ -1,0 +1,3 @@
+VAR
+	gMachine : Machine_type; (*Machine interface*)
+END_VAR

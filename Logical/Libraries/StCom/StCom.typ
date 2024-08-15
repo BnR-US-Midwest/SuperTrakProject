@@ -188,8 +188,8 @@ TYPE
 		);
 	StControlParType : {REDUND_UNREPLICABLE} 	STRUCT  (*Function block parameters*)
 		NrOfSections : {REDUND_UNREPLICABLE} USINT := 8; (*Number of sections on the system (1...50)*)
-		NrOfTargets : {REDUND_UNREPLICABLE} USINT := 128; (*Number of targets on the system (4...256)*)
-		NrOfPallets : {REDUND_UNREPLICABLE} USINT := 32; (*Max number of shuttles on the system (1...256)*)
+		NrOfTargets : {REDUND_UNREPLICABLE} USINT := 128; (*Number of targets on the system (4...252)*)
+		NrOfPallets : {REDUND_UNREPLICABLE} USINT := 32; (*Max number of shuttles on the system (1...255)*)
 		NrOfCommands : {REDUND_UNREPLICABLE} USINT := 48; (*Number of commands, which should be exectued simultaniously (8...64)*)
 	END_STRUCT;
 	StControlInfoType : {REDUND_UNREPLICABLE} 	STRUCT  (*Function block info*)
@@ -588,6 +588,7 @@ TYPE
 		ErrorTimer : {REDUND_UNREPLICABLE} TON; (*Reset the error read bit to read every 10ms the error information*)
 		ErrorRead : {REDUND_UNREPLICABLE} ARRAY[0..31]OF BOOL; (*Marker that log for this event has been created*)
 		WarningRead : {REDUND_UNREPLICABLE} ARRAY[0..31]OF BOOL; (*Marker that log for this event has been created*)
+		AcknowledgeScope : {REDUND_UNREPLICABLE} UINT;
 	END_STRUCT;
 	StSectionInternalStatusType : {REDUND_UNREPLICABLE} 	STRUCT  (*Internal status*)
 		InitConfigCheckDone : {REDUND_UNREPLICABLE} BOOL; (*Check of function block configuration done*)

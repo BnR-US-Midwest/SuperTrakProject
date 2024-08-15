@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* StCom 5.06.2 */
+/* StCom 5.07.0 */
 
 #ifndef _STCOM_
 #define _STCOM_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _StCom_VERSION
-#define _StCom_VERSION 5.06.2
+#define _StCom_VERSION 5.07.0
 #endif
 
 #include <bur/plctypes.h>
@@ -23,6 +23,7 @@ extern "C"
 		#include "AsBrStr.h"
 		#include "standard.h"
 		#include "ArEventLog.h"
+		#include "SuperTrak.h"
 #endif
 #ifdef _SG4
 		#include "runtime.h"
@@ -30,6 +31,7 @@ extern "C"
 		#include "AsBrStr.h"
 		#include "standard.h"
 		#include "ArEventLog.h"
+		#include "SuperTrak.h"
 #endif
 #ifdef _SGC
 		#include "runtime.h"
@@ -37,12 +39,13 @@ extern "C"
 		#include "AsBrStr.h"
 		#include "standard.h"
 		#include "ArEventLog.h"
+		#include "SuperTrak.h"
 #endif
 
 
 /* Constants */
 #ifdef _REPLACE_CONST
- #define stCOM_CONFIG_VERSION "V5.06.2"
+ #define stCOM_CONFIG_VERSION "V5.07.0"
  #define stCOM_WRN_SUPERTRAK_SYS (-1610547099)
  #define stCOM_WRN_SUPERTRAK_SEC (-1610547098)
  #define stCOM_WRN_ENABLE_SIGNAL_SOURCE (-1610547097)
@@ -222,8 +225,8 @@ extern "C"
  #define stCOM_CONFIG_MIN_SHELF_WIDTH 152.0f
  #define stCOM_CONFIG_MAX_MOVECONFIGIDX 243.0f
  #define stCOM_CONFIG_SIZE_OF_LOG_DATA 250U
- #define stCOM_CONFIG_MAX_NR_OF_PALLETS 256U
- #define stCOM_CONFIG_MAX_NR_OF_TARGETS 256U
+ #define stCOM_CONFIG_MAX_NR_OF_PALLETS 255U
+ #define stCOM_CONFIG_MAX_NR_OF_TARGETS 252U
  #define stCOM_CONFIG_MAX_INCREMENTOFFSET 500.0f
  #define stCOM_CONFIG_MAX_OFFSETCENTER 174.0f
  #define stCOM_CONFIG_MAX_TARGETOFFSET 500.0f
@@ -249,8 +252,8 @@ extern "C"
  #define stCOM_EXT_LOGGING_ENABLE 0
  #define stCOM_CONFIG_COMMANDS_MINUS_ONE 63U
  #define stCOM_CONFIG_FBS_MINUS_ONE 1023U
- #define stCOM_CONFIG_PALLETS_MINUS_ONE 255U
- #define stCOM_CONFIG_TARGETS_MINUS_ONE 255U
+ #define stCOM_CONFIG_PALLETS_MINUS_ONE 254U
+ #define stCOM_CONFIG_TARGETS_MINUS_ONE 251U
  #define stCOM_CONFIG_SECTIONS_MINUS_ONE 63U
  #define stCOM_CONFIG_SERV_CH_MAX_DATA_M1 1023U
  #define stCOM_CONFIG_COMM_TIME_OUT 60000
@@ -648,8 +651,8 @@ typedef struct StLinkCmdCustomType
 } StLinkCmdCustomType;
 
 typedef struct StLinkCommandType
-{	struct StLinkCmdPalletType Pallet[256];
-	struct StLinkCmdTargetType Target[256];
+{	struct StLinkCmdPalletType Pallet[255];
+	struct StLinkCmdTargetType Target[252];
 	struct StLinkCmdSectionType Section[64];
 	struct StLinkCmdServChType ServiceChannel;
 	struct StLinkCmdCustomType Custom[64];
@@ -712,8 +715,8 @@ typedef struct StLinkStatusCustomType
 typedef struct StLinkStatusType
 {	plcbit StatusValid;
 	struct StLinkStatusSystemType System;
-	struct StLinkStatusTargetType Target[256];
-	struct StLinkStatusPalletType Pallet[256];
+	struct StLinkStatusTargetType Target[252];
+	struct StLinkStatusPalletType Pallet[255];
 	struct StLinkStatusSectionType Section[64];
 	struct StLinkStatusServChType ServiceChannel;
 	struct StLinkStatusCustomType Custom[64];
@@ -721,7 +724,7 @@ typedef struct StLinkStatusType
 
 typedef struct StLinkLibStatSimType
 {	plcbit PalletsCreated;
-	unsigned short SimPalletReference[256];
+	unsigned short SimPalletReference[255];
 } StLinkLibStatSimType;
 
 typedef struct StLinkLibStatusType
@@ -1146,6 +1149,7 @@ typedef struct StSectionInternalType
 	struct TON ErrorTimer;
 	plcbit ErrorRead[32];
 	plcbit WarningRead[32];
+	unsigned short AcknowledgeScope;
 } StSectionInternalType;
 
 typedef struct StReadPnuInternalStatusType

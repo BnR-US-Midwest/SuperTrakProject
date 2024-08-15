@@ -1,0 +1,3 @@
+VAR
+	gSTSystemLink : StLinkType;
+END_VAR

@@ -1,0 +1,6 @@
+VAR
+	ControlInterfaceRevision : UINT; (*Revision number 0 required for StCom*)
+	ControlData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw input data to control interface*)
+	StatusData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw output data from control interface*)
+	InterfaceParameters : SuperTrakControlInterface_t; (*Control interface parameters*)
+END_VAR

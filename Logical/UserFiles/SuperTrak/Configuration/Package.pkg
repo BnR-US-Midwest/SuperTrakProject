@@ -2,6 +2,24 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
+    <Object Type="File">Gateway FPGA 3.0.92.281 (code 1).dat</Object>
+    <Object Type="File">Gateway FPGA 3.0.92.281 (code 2).dat</Object>
+    <Object Type="File">ST_700a.dat</Object>
+    <Object Type="File">ST_700b.dat</Object>
+    <Object Type="File">ST_700c.dat</Object>
+    <Object Type="File">ST_700d.dat</Object>
+    <Object Type="File">ST_700e.dat</Object>
+    <Object Type="File">ST_700f.dat</Object>
+    <Object Type="File">ST_900e.dat</Object>
+    <Object Type="File">ST_900f.dat</Object>
+    <Object Type="File">ST_2000.dat</Object>
+    <Object Type="File">ST_3001.dat</Object>
+    <Object Type="File">ST_3002.dat</Object>
+    <Object Type="File">ST_3101.dat</Object>
+    <Object Type="File">ST_3102.dat</Object>
+    <Object Type="File">ST_6001.dat</Object>
+    <Object Type="File">ST_6002.dat</Object>
+    <Object Type="File">ST_7000.dat</Object>
     <Object Type="File">ST_7001.dat</Object>
     <Object Type="File">ST_7002.dat</Object>
     <Object Type="File">ST_7003.dat</Object>
@@ -16,12 +34,5 @@
     <Object Type="File">ST_7012.dat</Object>
     <Object Type="File">ST_7013.dat</Object>
     <Object Type="File">ST_7014.dat</Object>
-    <Object Type="File">ST_700a.dat</Object>
-    <Object Type="File">ST_700b.dat</Object>
-    <Object Type="File">ST_700c.dat</Object>
-    <Object Type="File">ST_700d.dat</Object>
-    <Object Type="File">ST_700e.dat</Object>
-    <Object Type="File">ST_700f.dat</Object>
-    <Object Type="File">ST_900f.dat</Object>
   </Objects>
 </Package>

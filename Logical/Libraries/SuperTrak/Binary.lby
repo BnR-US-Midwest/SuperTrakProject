@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="0.36.1" SubType="Binary" Description="ATS SuperTrak G3 Conveyor Controller" xmlns="http://br-automation.co.at/AS/Library">
+<Library Version="0.48.0" Description="ATS SuperTrak G3 Conveyor Controller" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
     <File Description="Functions and function blocks">SuperTrak.fun</File>
     <File Description="Data types">SuperTrak.typ</File>

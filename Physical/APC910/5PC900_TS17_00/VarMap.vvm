@@ -1,5 +1,0 @@
-VAR_CONFIG
-	::gSTSection.Cmd AT %Q.::STSection:Interface.Cmd;
-	::gSTSection.Par AT %Q.::STSection:Interface.Par;
-	::STSection:Interface.Status AT %Q.::gSTSection.Status;
-END_VAR

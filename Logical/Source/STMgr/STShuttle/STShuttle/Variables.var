@@ -1,0 +1,17 @@
+VAR
+	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType; (*Local copy of gSuperTrak.Shuttle*)
+	ShuttleControlState : ARRAY[1..ST_SHUTTLE_MAX] OF ShuttleControlState_enum; (*Shuttle release state machine*)
+	ShuttleParameters : ARRAY[1..ST_SHUTTLE_MAX] OF StPalletParType; (*Shuttle control parameters*)
+	ControlShuttle : ARRAY[1..ST_SHUTTLE_MAX] OF StPallet; (*Shuttle control function block*)
+	ShuttleInfo : ARRAY[1..ST_SHUTTLE_MAX] OF SuperTrakPalletInfo_t; (*Shuttle status information*)
+	ActualVelocity : ARRAY[0..255] OF INT; (*Actual Velocity information for all shuttles*)
+	DestinationTarget : ARRAY[0..255] OF UINT; (*Destination Target information for all shuttles*)
+	SectionSetpoint : ARRAY[0..255] OF UINT; (*Section Setpoint information for all shuttles*)
+	PositionSetpoint : ARRAY[0..255] OF DINT; (*Position Setpoint information for all shuttles*)
+	VelocitySetpoint : ARRAY[0..255] OF REAL; (*Velocity Setpoint information for all shuttles*)
+	AccelerationSetpoint : ARRAY[0..255] OF REAL; (*Acceleration Setpoint information for all shuttles*)
+	Index : USINT; (*FOR Loop index*)
+	r_trig_ShuttleRelease : ARRAY[1..ST_SHUTTLE_MAX] OF R_TRIG; (*Rising edge trigger of any Release command*)
+	ShuttleAtTarget : USINT; (*Used during release to check the Target a Shuttle is currently at*)
+	TargetIndex : USINT; (*FOR loop index*)
+END_VAR
