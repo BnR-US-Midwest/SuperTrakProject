@@ -1,20 +1,23 @@
 (*Control*)
 VAR
-	State : StateEnum;
-	Interface : STSystemInterfaceType;
+	State : StateEnum; (*Program state*)
+	Interface : STSystemInterfaceType; (*Local copy of global interface*)
+END_VAR
+VAR CONSTANT
+	ST_COMMAND_MAX : USINT := 48; (*Maximum number of commands executed simultaniously. MUST BE DIVISIBLE BY 8*)
 END_VAR
 (*Function blocks*)
 VAR
-	EnableTrigger : R_TRIG;
-	RunTrigger : R_TRIG;
-	ResetTrigger : R_TRIG;
-	ControlSystem : StControl;
-	SystemParameters : StControlParType;
-	Timeout : TON;
+	EnableTrigger : R_TRIG; (*Rising edge trigger for Enable command*)
+	RunTrigger : R_TRIG; (*Rising edge trigger for Run command*)
+	ResetTrigger : R_TRIG; (*Rising edge trigger for Error Reset command*)
+	ControlSystem : StControl; (*StCom system control function block*)
+	SystemParameters : StControlParType; (*System control parameters*)
+	Timeout : TON; (*Timer to check for command timeouts*)
 END_VAR
 (*Data*)
 VAR
-	SectionStatus : REFERENCE TO USINT;
-	PLCInterfaceConfiguration : SuperTrakControlIfConfig_t;
-	Index : UINT;
+	SectionStatus : REFERENCE TO USINT; (*Status of an individual section*)
+	PLCInterfaceConfiguration : SuperTrakControlIfConfig_t; (*PLC Interface Configuration, used to access configured section count*)
+	Index : UINT; (*FOR loop index*)
 END_VAR

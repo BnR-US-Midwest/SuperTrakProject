@@ -17,12 +17,13 @@ PROGRAM _CYCLIC
         Interface[Index].Par := gSuperTrak.Target[Index].Par;
         
         // Link parameters
-        TargetParameters[Index].AdvancedReleaseConfig.DestinationTarget := Interface[Index].Par.DestinationTarget;
-        TargetParameters[Index].AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.IncrementalOffset;
-        TargetParameters[Index].AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.TargetOffset;
-        TargetParameters[Index].AdvancedReleaseConfig.Direction := Interface[Index].Par.Direction;
-        TargetParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Acceleration);
-        TargetParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Velocity);
+        TargetParameters[Index].AdvancedReleaseConfig.DestinationTarget := Interface[Index].Par.Release.DestinationTarget;
+        TargetParameters[Index].AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.Release.IncrementalOffset;
+        TargetParameters[Index].AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.Release.TargetOffset;
+        TargetParameters[Index].AdvancedReleaseConfig.Direction := Interface[Index].Par.Release.Direction;
+        TargetParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Release.Acceleration);
+        TargetParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Release.Velocity);
+        TargetParameters[Index].PalletConfig.ID := Interface[Index].Par.SetShuttleID;
 	    
         // StTargetExt function block inputs
         ControlTarget[Index].StLink := ADR(gSTSystemLink);
@@ -38,8 +39,18 @@ PROGRAM _CYCLIC
                 END_IF;
             
             TARGET_STATE_SHUTTLE_PRESENT:
-                IF Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset THEN
+                IF Interface[Index].Cmd.SetShuttleID THEN
+                    TargetControlState[Index] := TARGET_STATE_SET_SHUTTLE_ID;
+                ELSIF Interface[Index].Cmd.Release.ReleaseToTarget OR Interface[Index].Cmd.Release.ReleaseToOffset OR Interface[Index].Cmd.Release.IncrementOffset THEN
                     TargetControlState[Index] := TARGET_STATE_SET_MOTION_PARS;
+                END_IF;
+                
+            TARGET_STATE_SET_SHUTTLE_ID:
+                ControlTarget[Index].SetPalletID := TRUE;
+                IF ControlTarget[Index].CommandDone THEN
+                    ControlTarget[Index].SetPalletID := FALSE;
+                    Interface[Index].Status.ShuttleIDSet := TRUE;
+                    TargetControlState[Index] := TARGET_STATE_WAIT_FOR_CMD_RESET;
                 END_IF;
             
             TARGET_STATE_SET_MOTION_PARS:
@@ -50,23 +61,25 @@ PROGRAM _CYCLIC
                 END_IF;
             
             TARGET_STATE_RELEASE_SHUTTLE:
-                ControlTarget[Index].ReleaseToTarget := Interface[Index].Cmd.ReleaseToTarget;
-                ControlTarget[Index].ReleaseToOffset := Interface[Index].Cmd.ReleaseToOffset;
-                ControlTarget[Index].IncrementOffset := Interface[Index].Cmd.IncrementOffset;
+                ControlTarget[Index].ReleaseToTarget := Interface[Index].Cmd.Release.ReleaseToTarget; // Trust that the user won't set more than 
+                ControlTarget[Index].ReleaseToOffset := Interface[Index].Cmd.Release.ReleaseToOffset; // one of these at the same time
+                ControlTarget[Index].IncrementOffset := Interface[Index].Cmd.Release.IncrementOffset; // Not sure what would happen in that case
                 TargetControlState[Index] := TARGET_STATE_WAIT_FOR_RELEASE;
             
             TARGET_STATE_WAIT_FOR_RELEASE:
                 IF NOT ControlTarget[Index].PalletPresent THEN
+                    ControlTarget[Index].ReleaseToTarget := FALSE;
+                    ControlTarget[Index].ReleaseToOffset := FALSE;
+                    ControlTarget[Index].IncrementOffset := FALSE;
                     Interface[Index].Status.ShuttleReleased := TRUE;
                     TargetControlState[Index] := TARGET_STATE_WAIT_FOR_CMD_RESET;
                 END_IF;
             
             TARGET_STATE_WAIT_FOR_CMD_RESET:
-                IF NOT (Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset) THEN
+                IF NOT (Interface[Index].Cmd.SetShuttleID OR Interface[Index].Cmd.Release.ReleaseToTarget 
+                    OR Interface[Index].Cmd.Release.ReleaseToOffset OR Interface[Index].Cmd.Release.IncrementOffset) THEN
                     Interface[Index].Status.ShuttleReleased := FALSE;
-                    ControlTarget[Index].ReleaseToTarget := FALSE;
-                    ControlTarget[Index].ReleaseToOffset := FALSE;
-                    ControlTarget[Index].IncrementOffset := FALSE;
+                    Interface[Index].Status.ShuttleIDSet := FALSE; // Reset all "Command Done" Statuses
                     TargetControlState[Index] := TARGET_STATE_WAIT_FOR_SHUTTLE;
                 END_IF;
         END_CASE;
@@ -86,7 +99,8 @@ PROGRAM _CYCLIC
         Interface[Index].Status.Position := DINT_TO_REAL(Interface[Index].Status.PositionMicrons)/1000.0;
         
         // Check for release commands and update ShuttleCount status
-        r_trig_ShuttleRelease[Index].CLK := (Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset);
+        r_trig_ShuttleRelease[Index].CLK := (Interface[Index].Cmd.Release.ReleaseToTarget 
+        OR Interface[Index].Cmd.Release.ReleaseToOffset OR Interface[Index].Cmd.Release.IncrementOffset);
         r_trig_ShuttleRelease[Index]();
         
         IF r_trig_ShuttleRelease[Index].Q THEN
@@ -95,8 +109,9 @@ PROGRAM _CYCLIC
                 Interface[Index].Status.ShuttleCount := Interface[Index].Status.ShuttleCount - 1;
             END_IF;
             // Increment destination target's shuttle count
-            IF Interface[Index].Par.DestinationTarget > 0 AND Interface[Index].Par.DestinationTarget < ST_TARGET_MAX THEN
-                Interface[Interface[Index].Par.DestinationTarget].Status.ShuttleCount := Interface[Interface[Index].Par.DestinationTarget].Status.ShuttleCount + 1;
+            IF Interface[Index].Par.Release.DestinationTarget > 0 AND Interface[Index].Par.Release.DestinationTarget < ST_TARGET_MAX THEN
+                Interface[Interface[Index].Par.Release.DestinationTarget].Status.ShuttleCount := 
+                Interface[Interface[Index].Par.Release.DestinationTarget].Status.ShuttleCount + 1;
             END_IF;
         END_IF;
             

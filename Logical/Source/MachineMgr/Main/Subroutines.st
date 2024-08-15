@@ -7,9 +7,9 @@ ACTION GetTargetsReleased:
         // Configured targets
         IF gSuperTrak.Target[LoopTarget].Status.Section <> 0 THEN
             // Any target command true while released confirmation false
-            IF (gSuperTrak.Target[LoopTarget].Cmd.ReleaseToTarget
-                OR gSuperTrak.Target[LoopTarget].Cmd.ReleaseToOffset
-                OR gSuperTrak.Target[LoopTarget].Cmd.IncrementOffset) 
+            IF (gSuperTrak.Target[LoopTarget].Cmd.Release.ReleaseToTarget
+                OR gSuperTrak.Target[LoopTarget].Cmd.Release.ReleaseToOffset
+                OR gSuperTrak.Target[LoopTarget].Cmd.Release.IncrementOffset) 
                 AND NOT gSuperTrak.Target[LoopTarget].Status.ShuttleReleased THEN
                 TargetsReleased := FALSE; // Disqualify
                 EXIT;

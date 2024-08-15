@@ -90,45 +90,45 @@ PROGRAM _CYCLIC
             
             // Target 1: Load
             IF ProcessTimer[ST_TARGET_LOAD].Q THEN
-                IF gSuperTrak.Target[ST_TARGET_LOAD].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Acceleration := gMachine.Par.Acceleration;
-                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
-                    gSuperTrak.Target[ST_TARGET_LOAD].Par.DestinationTarget := ST_TARGET_QUEUE;
-                    gSuperTrak.Target[ST_TARGET_LOAD].Cmd.ReleaseToTarget := TRUE;
+                IF gSuperTrak.Target[ST_TARGET_LOAD].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.DestinationTarget := ST_TARGET_QUEUE;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Cmd.Release.ReleaseToTarget := TRUE;
                 END_IF
             END_IF   
             
             // Target 2: Queue
             IF ProcessTimer[ST_TARGET_QUEUE].Q AND gSuperTrak.Target[ST_TARGET_PROCESS].Status.ShuttleCount = 0 THEN
-                IF gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Acceleration := gMachine.Par.Acceleration;
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.DestinationTarget := ST_TARGET_PROCESS;
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.ReleaseToTarget := TRUE;
+                IF gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.DestinationTarget := ST_TARGET_PROCESS;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.Release.ReleaseToTarget := TRUE;
                 END_IF
             END_IF 
             
             // Target 3: Process
             IF ProcessTimer[ST_TARGET_PROCESS].Q THEN
-                IF gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Acceleration := gMachine.Par.Acceleration;
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.DestinationTarget := ST_TARGET_UNLOAD;
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.ReleaseToTarget := TRUE;
+                IF gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.DestinationTarget := ST_TARGET_UNLOAD;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.Release.ReleaseToTarget := TRUE;
                 END_IF
             END_IF   
             
             // Target 4: Unload
             IF ProcessTimer[ST_TARGET_UNLOAD].Q THEN
-                IF gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Acceleration := gMachine.Par.Acceleration;
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Direction := gSuperTrak.System.Par.GlobalDirection;
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.DestinationTarget := ST_TARGET_LOAD;
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.ReleaseToTarget := TRUE;
+                IF gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Velocity := gMachine.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.DestinationTarget := ST_TARGET_LOAD;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.Release.ReleaseToTarget := TRUE;
                 END_IF
             END_IF   
             
