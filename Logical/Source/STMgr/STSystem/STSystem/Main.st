@@ -34,7 +34,8 @@ PROGRAM _CYCLIC
 				State := STATE_ERROR;
 				
 			ELSIF Timeout.Q THEN
-				Interface.Status.ErrorID := -1;
+                Interface.Status.ErrorID := -1;
+                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout while enabling StControl function block');
 				State := STATE_ERROR;
             END_IF   
 			
@@ -62,7 +63,8 @@ PROGRAM _CYCLIC
 				State := STATE_ERROR;
 			
 			ELSIF Timeout.Q THEN
-				Interface.Status.ErrorID := -1;
+                Interface.Status.ErrorID := -1;
+                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Enable All Sections (StControl function block)');
 				State := STATE_ERROR;
 			END_IF
 			
@@ -90,7 +92,8 @@ PROGRAM _CYCLIC
 				Interface.Status.ErrorID := ControlSystem.StatusID;
 				State := STATE_ERROR;
 				
-			ELSIF Timeout.Q THEN
+            ELSIF Timeout.Q THEN
+                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Disable All Sections (StControl function block)');
 				Interface.Status.ErrorID := -1;
 				State := STATE_ERROR;
 			END_IF
@@ -110,8 +113,9 @@ PROGRAM _CYCLIC
 				ControlSystem.ErrorReset := FALSE;
 				State := STATE_OFF;
 				
-			ELSIF Timeout.Q THEN
-				Interface.Status.ErrorID := -1;
+            ELSIF Timeout.Q THEN
+                Interface.Status.ErrorID := -1;
+                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Error Reset of StControl function block');
 				State := STATE_ERROR;
 			END_IF
 	END_CASE
