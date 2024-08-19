@@ -38,3 +38,27 @@ The STMgr package contains the programs used to interface with the SuperTrak via
 3. STSection - individual Section control using StSection. Can be interfaced with by other programs using the variable gSuperTrak.Sections
 4. STTarget - individual Target control using StTargetExt. Can be interfaced with by other programs using the variable gSuperTrak.Target[TARGET_NUMBER] where TARGET_NUMBER is in the range of 1..ST_TARGET_MAX
 5. STShuttle - individual Shuttle control using StPallet. Can be interfaced with by other programs using the variable gSuperTrak.Shuttle[SHUTTLE_NUMBER] where SHUTTLE_NUMBER is in the range of 1..ST_SHUTTLE_MAX
+
+# Modifying the Starter Project for Your Application
+There are a few things that must be considered when making modifications to this project.
+
+## Number of Sections, Targets, and Shuttles
+There are constants declared in the SuperTrak.var file within the Source -> STMgr package:
+ - ST_SECTION_MAX
+ - ST_TARGET_MAX
+ - ST_SHUTTLE_MAX
+
+These constants must be checked and updated if sections, targets, or shuttles are added to the system. Keep in mind that there are restrictions noted in the Description of some of the constants.
+
+## Recovery
+Any additional recovery code should be added to the MAIN_STATE_RECOVER state of the Main task. The basic recovery sequence just checks that all shuttles are on their way to the Load Target. You may want to add additional recovery sequence(s) here.
+
+## Process Sequence
+Sample code for controlling SuperTrak targets is in the MAIN_STATE_RUN state of the Main task. This is where the main process control code should be written. Each target is checked with the following flow:
+
+Shuttle At Target -> Proocessing Complete -> Release Command is False -> Set Shuttle Parameters and Release Shuttle
+
+This flow can be duplicated for additional targets.
+
+## SuperTrak Configuration Files
+The SuperTrak Configuration (.dat) files will be transferred to USER_PATH\SuperTrak\Configuration on an intial installation. After making changes in Trakmaster, make sure to back these files up or copy them back into the Logical View directory!
