@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * STTarget task local data types
+ *
+ * These structures and enumerations are local to the STTarget task
+ *
+ * File: STTarget/Types.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)
 TYPE
 	TargetControlState_enum : 
 		( (*Shuttle release state machine*)

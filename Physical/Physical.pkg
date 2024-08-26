@@ -2,6 +2,6 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Physical xmlns="http://br-automation.co.at/AS/Physical">
   <Objects>
-    <Object Type="Configuration">APC910</Object>
+    <Object Type="Configuration" Description="SuperTrak PC">APC910</Object>
   </Objects>
 </Physical>

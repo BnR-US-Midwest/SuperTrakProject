@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * Global STShuttle data types
+ *
+ * These structures allow any program (task) to interface with the STShuttle task
+ *
+ * File: STShuttle.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+****************************************************************************************)
 TYPE
 	STShuttleInterfaceType : 	STRUCT  (*Shuttle interface structure*)
 		Cmd : STReleaseCommandType; (*Shuttle release commands*)

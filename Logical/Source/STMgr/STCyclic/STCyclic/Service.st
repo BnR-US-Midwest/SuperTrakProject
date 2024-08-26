@@ -1,3 +1,16 @@
+(***************************************************************************************
+ * STCyclic task Service actions
+ *
+ * These Actions can be run only by the STCyclic task and relate to the 
+ * SuperTrak Service Channel
+ *
+ * File: STCyclic/Service.st
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 (* Assign channel ID and size of service channel data *)
 ACTION InitializeServiceChannel:

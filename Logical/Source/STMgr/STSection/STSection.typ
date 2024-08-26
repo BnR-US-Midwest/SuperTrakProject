@@ -1,4 +1,16 @@
-
+(***************************************************************************************
+ * Global STSection data types
+ *
+ * These structures allow any program (task) to interface with the STSection task
+ *
+ * File: STSection.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+****************************************************************************************)
 TYPE
 	STSectionInterfaceType : 	STRUCT  (*Section control interface*)
 		Cmd : STSectionInterfaceCmdType; (*Section commands*)

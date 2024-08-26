@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * Global Machine data types
+ *
+ * These structures allow any program (task) to interface with the Main Machine task
+ *
+ * File: Machine.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+****************************************************************************************)
 TYPE
 	Machine_type : 	STRUCT  (*Machine interface*)
 		Cmd : Machine_Cmd_type; (*Machine commands*)

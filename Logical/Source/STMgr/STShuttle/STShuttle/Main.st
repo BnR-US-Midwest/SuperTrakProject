@@ -1,7 +1,17 @@
-
-PROGRAM _INIT
-	 
-END_PROGRAM
+(*******************************************************************************************
+ * STShuttle task
+ *
+ * This task provides a state machine for controlling and monitoring 
+ * SuperTrak Shuttles. This task can be interfaced with via gSuperTrak.Shuttle[Shuttle #]
+ * where "Shuttle #" is an array value indexed starting at 1 (see: Trakmaster shuttles)
+ *
+ * File: STShuttle.st
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+*******************************************************************************************)
 
 PROGRAM _CYCLIC
             
@@ -126,8 +136,3 @@ PROGRAM _CYCLIC
     END_FOR
 	 
 END_PROGRAM
-
-PROGRAM _EXIT
-	 
-END_PROGRAM
-

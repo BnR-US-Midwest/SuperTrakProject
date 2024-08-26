@@ -2,8 +2,8 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File">SuperTrak.typ</Object>
-    <Object Type="File">SuperTrak.var</Object>
+    <Object Type="File" Description="Global SuperTrak types">SuperTrak.typ</Object>
+    <Object Type="File" Description="Global SuperTrak variables">SuperTrak.var</Object>
     <Object Type="Package" Description="SuperTrak cyclic update">STCyclic</Object>
     <Object Type="Package" Description="StCom system control">STSystem</Object>
     <Object Type="Package" Description="StCom section control">STSection</Object>

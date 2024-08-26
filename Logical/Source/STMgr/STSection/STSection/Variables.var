@@ -1,4 +1,16 @@
-VAR
+(***************************************************************************************
+ * STSection task local variables
+ *
+ * These variables are local to the STSection task
+ *
+ * File: STSection/Variables.var
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)VAR
 	Interface : STSectionInterfaceType; (*Section control interface*)
 	SectionParameters : ARRAY[1..ST_SECTION_MAX] OF StSectionParType; (*Placeholder, there are no parameters for StCom's StSection function block*)
 	ControlSection : ARRAY[1..ST_SECTION_MAX] OF StSection; (*Section control function block*)

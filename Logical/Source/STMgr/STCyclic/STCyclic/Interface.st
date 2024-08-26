@@ -1,3 +1,16 @@
+(***************************************************************************************
+ * STCyclic task Interface actions
+ *
+ * These Actions can be run only by the STCyclic task and relate to the 
+ * SuperTrak Control and Status interfaces
+ *
+ * File: STCyclic/Interface.st
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 (* Assign revision, connection type, and size of control interface data *)
 ACTION InitializeControlInterface:

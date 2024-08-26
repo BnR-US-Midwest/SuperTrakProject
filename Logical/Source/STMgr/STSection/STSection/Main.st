@@ -1,42 +1,52 @@
-
-PROGRAM _INIT
-	
-END_PROGRAM
+(***************************************************************************************
+ * STSection task
+ *
+ * This task provides a state machine for controlling and monitoring 
+ * SuperTrak Sections. This task can be interfaced with via gSuperTrak.Sections
+ *
+ * File: STSection.st
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 PROGRAM _CYCLIC
     
     // Read global inputs
     Interface.Cmd := gSuperTrak.Sections.Cmd;
     
-	// Initialize common statuses, assume true/false then disqualify
-	Interface.Status.Active := TRUE;
+    // Initialize common statuses, assume true/false then disqualify
+    Interface.Status.Active := TRUE;
     Interface.Status.Error := FALSE;
     Interface.Status.SectionError := FALSE;
 	
-	FOR Index := 1 TO ST_SECTION_MAX DO
-		ControlSection[Index].StLink := ADR(gSTSystemLink);
-		ControlSection[Index].Section := Index;
-		// There are no function block parameters, use common address
-		ControlSection[Index].Parameters := ADR(SectionParameters[Index]);
-		// Enable all function blocks
-		ControlSection[Index].Enable := Interface.Cmd.Enable;
-		// Enable each section
-		ControlSection[Index].EnableSection := Interface.Cmd.EnableSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
-		// Reset all function blocks
-		ControlSection[Index].ErrorReset := Interface.Cmd.Reset;
-		ControlSection[Index]();
+    FOR Index := 1 TO ST_SECTION_MAX DO
+        ControlSection[Index].StLink := ADR(gSTSystemLink);
+        ControlSection[Index].Section := Index;
+        // There are no function block parameters, use common address
+        ControlSection[Index].Parameters := ADR(SectionParameters[Index]);
+        // Enable all function blocks
+        ControlSection[Index].Enable := Interface.Cmd.Enable;
+        // Enable each section
+        ControlSection[Index].EnableSection := Interface.Cmd.EnableSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
+        // Reset all function blocks
+        ControlSection[Index].ErrorReset := Interface.Cmd.Reset;
+        ControlSection[Index]();
 		
-		// All sections must be active
-		IF ControlSection[Index].Active = FALSE THEN
-			Interface.Status.Active := FALSE;
-		END_IF
-		// Error if any section has error
-		IF ControlSection[Index].Error THEN
+        // All sections must be active
+        IF ControlSection[Index].Active = FALSE THEN
+            Interface.Status.Active := FALSE;
+        END_IF
+        // Error if any section has error
+        IF ControlSection[Index].Error THEN
             Interface.Status.Error := TRUE;
             Interface.Status.StatusID := ControlSection[Index].StatusID;
         END_IF
         IF ControlSection[Index].Info.SuperTrak.SectionFaultActive THEN
-	        Interface.Status.SectionError := TRUE;
+            Interface.Status.SectionError := TRUE;
         END_IF;
         
         // Read other statuses
@@ -54,9 +64,5 @@ PROGRAM _CYCLIC
     
     // Write global outputs
     gSuperTrak.Sections.Status := Interface.Status;
-	
-END_PROGRAM
-
-PROGRAM _EXIT
 	
 END_PROGRAM

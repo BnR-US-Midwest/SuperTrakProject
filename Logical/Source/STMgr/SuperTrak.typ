@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * Global SuperTrak data types
+ *
+ * These structures allow any program (task) to interface with the SuperTrak (ST) tasks
+ *
+ * File: SuperTrak.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+****************************************************************************************)
 TYPE
 	SuperTrak_type : 	STRUCT  (*Main SuperTrak command/parameter/status structure*)
 		System : STSystemInterfaceType; (*SuperTrak System interface*)

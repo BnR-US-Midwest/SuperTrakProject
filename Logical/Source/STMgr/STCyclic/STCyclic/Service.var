@@ -1,3 +1,16 @@
+(***************************************************************************************
+ * STCyclic task local Service variables
+ *
+ * These variables are local to the STCyclic task and are used for
+ * SuperTrak Service Channel requests/responses
+ *
+ * File: STCyclic/Service.var
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 VAR
 	RequestData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel input data*)
 	ResponseData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel output data*)

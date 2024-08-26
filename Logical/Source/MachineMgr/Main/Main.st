@@ -1,3 +1,19 @@
+(***************************************************************************************
+ * Main task
+ *
+ * This task (program) provides a state machine for controlling any and all hardware 
+ * connected to the B&R PC. SuperTrak (Target) release code is demonstrated in the
+ * MAIN_STATE_RUN (Running) state of this state machine. 
+ *
+ * Other tasks can interface with this one via the global variable "gMachine".
+ *
+ * File: Main.st
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 PROGRAM _INIT
 	
@@ -180,11 +196,6 @@ PROGRAM _CYCLIC
     
     // Copy statuses
     gMachine.Status := Interface.Status;
-	 
-END_PROGRAM
-
-PROGRAM _EXIT
-	(* Insert code here *)
 	 
 END_PROGRAM
 

@@ -1,3 +1,16 @@
+(***************************************************************************************
+ * STCyclic task local Interface variables
+ *
+ * These variables are local to the STCyclic task and are used for
+ * the SuperTrak Control and Status interfaces
+ *
+ * File: STCyclic/Interface.var
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 VAR
 	ControlInterfaceRevision : UINT; (*Revision number 0 required for StCom*)
 	ControlData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw input data to control interface*)

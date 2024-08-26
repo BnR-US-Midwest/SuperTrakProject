@@ -1,3 +1,15 @@
+(***************************************************************************************
+ * Global STCyclic variables
+ *
+ * These SuperTrak Cyclic program variables must be accessed by other tasks
+ *
+ * File: STCyclic.var
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 VAR
 	gSTCyclicRef : STCyclicRefType; (*SuperTrak cyclically referenced data*)
 END_VAR

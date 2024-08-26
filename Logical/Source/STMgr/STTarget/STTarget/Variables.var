@@ -1,4 +1,15 @@
-VAR
+(***************************************************************************************
+ * STTarget task local variables
+ *
+ * These variables are local to the STTarget task
+ *
+ * File: STTarget/Variables.var
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)VAR
 	Interface : ARRAY[1..ST_TARGET_MAX] OF STTargetInterfaceType; (*Local copy of gSuperTrak.Target*)
 	TargetControlState : ARRAY[1..ST_TARGET_MAX] OF TargetControlState_enum; (*Shuttle release state machine*)
 	TargetParameters : ARRAY[1..ST_TARGET_MAX] OF StTargetExtParType; (*Target control parameters*)

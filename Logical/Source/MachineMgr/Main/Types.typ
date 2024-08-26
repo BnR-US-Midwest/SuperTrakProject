@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * Main task local data types
+ *
+ * These structures and enumerations are local to the Main task
+ *
+ * File: Main/Types.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)
 TYPE
 	MainState_enum : 
 		( (*Program state*)

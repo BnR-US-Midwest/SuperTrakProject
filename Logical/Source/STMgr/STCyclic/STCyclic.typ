@@ -1,3 +1,15 @@
+(***************************************************************************************
+ * Global STCyclic data types
+ *
+ * These SuperTrak Cyclic program structures must be accessed by other tasks
+ *
+ * File: STCyclic.typ
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+****************************************************************************************)
 
 TYPE
 	STCyclicRefType : 	STRUCT  (*SuperTrak cyclically referenced data*)

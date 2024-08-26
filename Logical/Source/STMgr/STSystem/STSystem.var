@@ -1,3 +1,15 @@
+(***************************************************************************************
+ * Global STSystem variables
+ *
+ * These SuperTrak System variables must be accessed by other tasks
+ *
+ * File: STCyclic.var
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 VAR
-	gSTSystemLink : StLinkType;
+	gSTSystemLink : StLinkType; (*StCom SuperTrak cyclic reference*)
 END_VAR

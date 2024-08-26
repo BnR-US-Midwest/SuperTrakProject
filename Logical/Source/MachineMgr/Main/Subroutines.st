@@ -1,3 +1,15 @@
+(***************************************************************************************
+ * Main task subroutines (Actions)
+ *
+ * These Actions can be run only by the Main task
+ *
+ * File: Main/Subroutines.st
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 (* Determine cummulative target released status *)
 ACTION GetTargetsReleased:

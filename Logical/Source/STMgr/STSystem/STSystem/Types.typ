@@ -1,4 +1,16 @@
-
+(***************************************************************************************
+ * STSystem task local data types
+ *
+ * These structures and enumerations are local to the STSystem task
+ *
+ * File: STSystem/Types.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 TYPE
 	StateEnum : 
 		( (*Program state*)

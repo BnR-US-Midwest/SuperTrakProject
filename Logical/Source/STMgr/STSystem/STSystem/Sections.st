@@ -1,3 +1,16 @@
+(***************************************************************************************
+ * STSystem task Section actions
+ *
+ * These Actions can be run only by the STSystem task and relate to 
+ * individual Section control and feedback.
+ *
+ * File: STSystem/Sections.st
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 (* Collect section enable statuses *)
 ACTION CollectSectionStatuses:

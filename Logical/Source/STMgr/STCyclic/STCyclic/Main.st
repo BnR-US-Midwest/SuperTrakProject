@@ -1,3 +1,20 @@
+(***************************************************************************************
+ * STCyclic task
+ *
+ * This task calls all of the functions cyclically necessary to run a SuperTrak
+ * IMPORTANT: This task must be called in Cyclic #1. Cycle time: 800us, Tolerance: 0us.
+ * THIS IS A REQUIREMENT TO USE SUPERTRAK.
+ *
+ * To change the location of the SuperTrak configuration (.dat) files, modify
+ * the path used by the SuperTrakInit function in the INIT program.
+ *
+ * File: STCyclic.st
+ * Created: 2024-01-12
+ *
+ * Authors:
+ *  Tyler Matijevich, B&R Industrial Automation
+ *
+***************************************************************************************)
 
 PROGRAM _INIT
 	

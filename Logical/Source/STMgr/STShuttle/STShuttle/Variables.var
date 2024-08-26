@@ -1,4 +1,15 @@
-VAR
+(***************************************************************************************
+ * STShuttle task local variables
+ *
+ * These variables are local to the STShuttle task
+ *
+ * File: STShuttle/Variables.var
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)VAR
 	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType; (*Local copy of gSuperTrak.Shuttle*)
 	ShuttleControlState : ARRAY[1..ST_SHUTTLE_MAX] OF ShuttleControlState_enum; (*Shuttle release state machine*)
 	ShuttleParameters : ARRAY[1..ST_SHUTTLE_MAX] OF StPalletParType; (*Shuttle control parameters*)

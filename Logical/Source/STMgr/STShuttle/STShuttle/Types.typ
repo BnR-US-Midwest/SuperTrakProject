@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * STShuttle task local data types
+ *
+ * These structures and enumerations are local to the STShuttle task
+ *
+ * File: STShuttle/Types.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)
 TYPE
 	ShuttleControlState_enum : 
 		( (*State machine for Shuttle control*)

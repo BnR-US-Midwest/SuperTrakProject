@@ -1,4 +1,15 @@
-
+(***************************************************************************************
+ * Global STTarget data types
+ *
+ * These structures allow any program (task) to interface with the STTarget task
+ *
+ * File: STTarget.typ
+ * Created: 2024-08-15
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+****************************************************************************************)
 TYPE
 	STTargetInterfaceType : 	STRUCT  (*Target control interface*)
 		Cmd : STTargetCommandType; (*Target release and set shuttle parameter commands*)
