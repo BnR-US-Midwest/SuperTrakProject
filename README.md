@@ -1,3 +1,8 @@
+[![Made for B&R](https://raw.githubusercontent.com/hilch/BandR-badges/dfd5e264d7d2dd369fd37449605673f779db437d/Made-For-BrAutomation.svg)](https://www.br-automation.com)
+![GitHub License](https://img.shields.io/github/license/BnR-US-Midwest/SuperTrakProject)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/BnR-US-Midwest/SuperTrakProject/total)
+[![GitHub issues](https://img.shields.io/github/issues-raw/BnR-US-Midwest/SuperTrakProject)](https://github.com/BnR-US-Midwest/SuperTrakProject/issues)
+
 This is a simple starter Automation Studio project for SuperTraks.
 
 # Quick Start
