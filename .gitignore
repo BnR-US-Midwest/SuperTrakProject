@@ -12,8 +12,13 @@
 !/Diagnosis/**/
 # Ignore temporary safety files
 /Physical/*/*/*/DLFiles
+
 # Ignore Temp directory
-/Temp
+/Temp/**
+!/Temp/**/
+# Track ArSim configuration files
+!/Temp/Simulation/**/USER/**/*.dat
+
 # Ignore upgrade files
 /Upgrades
 
