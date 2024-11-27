@@ -25,13 +25,27 @@ TYPE
 	Machine_Par_type : 	STRUCT  (*Machine parameters*)
 		Velocity : REAL := 1500.0; (*[mm/s] Set velocity for target and shuttle release commands*)
 		Acceleration : REAL := 15000.0; (*[mm/s^2] Set acceleration for target and shuttle release commands*)
+		SuperTrakDiagIndex : USINT; (*Index 0 is the System, others are for a specific section. Set to a relevant index when Errors occur*)
 	END_STRUCT;
 	Machine_Status_type : 	STRUCT  (*Machine statuses*)
 		PowerOn : BOOL; (*The main state machine is enabled and the trak is powered*)
 		Ready : BOOL; (*The program is ready to run*)
 		Error : BOOL; (*There is an active error present*)
-		ErrorInfo : USINT;
+		ErrorType : Error_Type_enum;
+		SuperTrakDiag : SuperTrak_Diag_type; (*Populated from gSuperTrak with Par.SuperTrakDiagIndex*)
 	END_STRUCT;
-	Machine_Error_Info_type : 	STRUCT 
+	SuperTrak_Diag_type : 	STRUCT 
+		Warnings : ARRAY[0..31]OF BOOL; (*See TrakMaster Help for descriptions*)
+		Errors : ARRAY[0..31]OF BOOL; (*See TrakMaster Help for descriptions*)
 	END_STRUCT;
+	Error_Type_enum : 
+		(
+		errNONE := 0,
+		errUSER := 1, (*See Automation Studio code*)
+		errST_COM := 2, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
+		errST_SYSTEM := 10, (*See "Faults" section in TrakMaster Help *)
+		warnST_SYSTEM := 11, (*See "Warnings" section in TrakMaster Help *)
+		errST_SECTION := 20, (*See "Faults" section in TrakMaster Help *)
+		warnST_SECTION := 21 (*See "Warnings" section in TrakMaster Help *)
+		);
 END_TYPE

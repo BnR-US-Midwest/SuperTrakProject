@@ -25,12 +25,33 @@ PROGRAM _INIT
 
 END_PROGRAM
 
-PROGRAM _CYCLIC
-    
-    // Catch Errors
-    IF gSuperTrak.System.Status.Error OR gSuperTrak.System.Info.FaultPresent 
-        OR gSuperTrak.Sections.Status.Error OR gSuperTrak.Sections.Status.SectionError THEN
-        MainState := MAIN_STATE_ERROR;
+PROGRAM _CYCLIC	
+	
+			
+	// Translate Errors
+	GetErrorType;
+	GetTrakMasterWarningsAndErrors;
+	// Catch SuperTrak Errors
+	IF gSuperTrak.System.Status.Error OR gSuperTrak.System.Info.FaultPresent 
+		OR gSuperTrak.Sections.Status.Error OR gSuperTrak.Sections.Status.SectionError THEN
+		
+		// Set Diag Index once
+		IF MainState <> MAIN_STATE_ERROR THEN
+			IF gSuperTrak.System.Info.FaultPresent THEN
+				gMachine.Par.SuperTrakDiagIndex:= 0;
+			ELSE
+				FOR i:= 1 TO SIZEOF(gSuperTrak.Sections.Info)/SIZEOF(gSuperTrak.Sections.Info[1]) DO
+					IF gSuperTrak.Sections.Info[i].FaultPresent THEN
+						gMachine.Par.SuperTrakDiagIndex:= i;
+						EXIT;
+					END_IF
+				END_FOR
+			END_IF
+		END_IF
+		
+		// Then go to Error State
+		MainState := MAIN_STATE_ERROR;
+		
 	END_IF;
 	// Reset Errors
 	gSuperTrak.System.Cmd.Reset := gMachine.Cmd.ErrorReset;
@@ -166,19 +187,16 @@ PROGRAM _CYCLIC
             ResetShuttleRelease;
             ResetProcessTimer;
 			
-            IF NOT gSuperTrak.System.Status.Error AND NOT gSuperTrak.Sections.Status.SectionError THEN
-                MainState := MAIN_STATE_OFF;
+			IF NOT gSuperTrak.System.Status.Error AND NOT gSuperTrak.Sections.Status.SectionError AND gMachine.Cmd.ErrorReset THEN
+				MainState := MAIN_STATE_OFF;
 			END_IF;
 		
-    END_CASE;
+	END_CASE;
     
-    // Set statuses
-    gMachine.Status.PowerOn := ((gMachine.Cmd.Power) AND (MainState > MAIN_STATE_DISABLED));
-    gMachine.Status.Ready := (MainState = MAIN_STATE_READY);
-    gMachine.Status.Error := (MainState = MAIN_STATE_ERROR) OR gSuperTrak.System.Status.Error;
-    
-    // Copy statuses
-    gMachine.Status := gMachine.Status;
+	// Set statuses
+	gMachine.Status.PowerOn := ((gMachine.Cmd.Power) AND (MainState > MAIN_STATE_DISABLED));
+	gMachine.Status.Ready := (MainState = MAIN_STATE_READY);
+	gMachine.Status.Error := (MainState = MAIN_STATE_ERROR);
 	 
 END_PROGRAM
 

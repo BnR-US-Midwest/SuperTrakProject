@@ -21,7 +21,8 @@ PROGRAM _CYCLIC
     // Initialize common statuses, assume true/false then disqualify
     Interface.Status.Active := TRUE;
     Interface.Status.Error := FALSE;
-    Interface.Status.SectionError := FALSE;
+	Interface.Status.SectionError := FALSE;
+	Interface.Status.SectionWarning := FALSE;
 	
     FOR Index := 1 TO ST_SECTION_MAX DO
         ControlSection[Index].StLink := ADR(gSTSystemLink);
@@ -47,7 +48,10 @@ PROGRAM _CYCLIC
         END_IF
         IF ControlSection[Index].Info.SuperTrak.SectionFaultActive THEN
             Interface.Status.SectionError := TRUE;
-        END_IF;
+		END_IF;
+		IF ControlSection[Index].Info.SuperTrak.SectionWarningActive THEN
+			Interface.Status.SectionWarning:= TRUE;
+		END_IF;			
         
         // Read other statuses
         Interface.Info[Index].SectionEnabled := ControlSection[Index].SectionEnabled;
