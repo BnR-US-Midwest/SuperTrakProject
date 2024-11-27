@@ -10,6 +10,7 @@
  *  Marcus Mangel, B&R Industrial Automation
  *
 ***************************************************************************************)
+
 TYPE
 	MainState_enum : 
 		( (*Program state*)
@@ -21,7 +22,6 @@ TYPE
 		MAIN_STATE_RUN, (*Trak is running the main process*)
 		MAIN_STATE_STOP, (*Trak is stopping*)
 		MAIN_STATE_DISABLING, (*Trak is disabling all sections*)
-		MAIN_STATE_ERROR, (*There is an active error*)
-		MAIN_STATE_RESET (*Resetting the active error*)
+		MAIN_STATE_ERROR (*There is an active error*)
 		);
 END_TYPE

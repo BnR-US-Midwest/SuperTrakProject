@@ -26,23 +26,18 @@ PROGRAM _INIT
 END_PROGRAM
 
 PROGRAM _CYCLIC
-	
-    // Copy commands
-    Interface.Cmd := gMachine.Cmd;
     
-    // Edge triggers
-    EnableTrigger(CLK := Interface.Cmd.Enable);
-    RunTrigger(CLK := Interface.Cmd.Run);
-    ResetTrigger(CLK := Interface.Cmd.ErrorReset);
-    
-    // Error Handling
+    // Catch Errors
     IF gSuperTrak.System.Status.Error OR gSuperTrak.System.Info.FaultPresent 
         OR gSuperTrak.Sections.Status.Error OR gSuperTrak.Sections.Status.SectionError THEN
         MainState := MAIN_STATE_ERROR;
-    END_IF;
+	END_IF;
+	// Reset Errors
+	gSuperTrak.System.Cmd.Reset := gMachine.Cmd.ErrorReset;
+	gSuperTrak.Sections.Cmd.Reset := gMachine.Cmd.ErrorReset;
     
     // Disable handling
-    IF (NOT Interface.Cmd.Enable OR NOT gSuperTrak.System.Status.Active) 
+    IF (NOT gMachine.Cmd.Enable OR NOT gSuperTrak.System.Status.Active) 
         AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
         MainState := MAIN_STATE_DISABLING;
     END_IF;
@@ -63,7 +58,7 @@ PROGRAM _CYCLIC
             ResetShuttleRelease;
             ResetProcessTimer;
             
-            IF EnableTrigger.Q AND gSuperTrak.System.Status.Ready THEN
+            IF gMachine.Cmd.Enable AND gSuperTrak.System.Status.Ready THEN
                 MainState := MAIN_STATE_ENABLE_SECTIONS;
             END_IF; 
             
@@ -83,12 +78,12 @@ PROGRAM _CYCLIC
             END_IF
             
         MAIN_STATE_READY:
-            IF RunTrigger.Q THEN
+            IF gMachine.Cmd.Run THEN
                 MainState := MAIN_STATE_RUN;
             END_IF;
             
         MAIN_STATE_RUN:
-            IF NOT Interface.Cmd.Run THEN
+            IF NOT gMachine.Cmd.Run THEN
                 MainState := MAIN_STATE_STOP;
             END_IF;
             
@@ -176,26 +171,20 @@ PROGRAM _CYCLIC
             ResetTargetRelease;
             ResetShuttleRelease;
             ResetProcessTimer;
-            
-            IF ResetTrigger.Q THEN
-                MainState := MAIN_STATE_RESET;
-            END_IF;
-        
-        MAIN_STATE_RESET:
-            gSuperTrak.System.Cmd.Reset := TRUE;
+			
             IF NOT gSuperTrak.System.Status.Error THEN
-                gSuperTrak.System.Cmd.Reset := FALSE;
                 MainState := MAIN_STATE_OFF;
-            END_IF;
+			END_IF;
+		
     END_CASE;
     
     // Set statuses
-    Interface.Status.Enabled := ((Interface.Cmd.Enable) AND (MainState > MAIN_STATE_DISABLED));
-    Interface.Status.Ready := (MainState = MAIN_STATE_READY);
-    Interface.Status.Error := (MainState = MAIN_STATE_ERROR) OR gSuperTrak.System.Status.Error;
+    gMachine.Status.Enabled := ((gMachine.Cmd.Enable) AND (MainState > MAIN_STATE_DISABLED));
+    gMachine.Status.Ready := (MainState = MAIN_STATE_READY);
+    gMachine.Status.Error := (MainState = MAIN_STATE_ERROR) OR gSuperTrak.System.Status.Error;
     
     // Copy statuses
-    gMachine.Status := Interface.Status;
+    gMachine.Status := gMachine.Status;
 	 
 END_PROGRAM
 
