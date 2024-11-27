@@ -28,10 +28,10 @@ PROGRAM _CYCLIC
         ControlSection[Index].Section := Index;
         // There are no function block parameters, use common address
         ControlSection[Index].Parameters := ADR(SectionParameters[Index]);
-        // Enable all function blocks
-        ControlSection[Index].Enable := Interface.Cmd.Enable;
+        // Enable all function blocks one the System is Active
+        ControlSection[Index].Enable := gSuperTrak.System.Status.Active;
         // Enable each section
-        ControlSection[Index].EnableSection := Interface.Cmd.EnableSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
+        ControlSection[Index].EnableSection := Interface.Cmd.PowerSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
         // Reset all function blocks
         ControlSection[Index].ErrorReset := Interface.Cmd.Reset;
         ControlSection[Index]();

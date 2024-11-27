@@ -37,17 +37,16 @@ PROGRAM _CYCLIC
 	gSuperTrak.Sections.Cmd.Reset := gMachine.Cmd.ErrorReset;
     
     // Disable handling
-    IF (NOT gMachine.Cmd.Enable OR NOT gSuperTrak.System.Status.Active) 
+    IF (NOT gMachine.Cmd.Power OR NOT gSuperTrak.System.Status.Active) 
         AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
         MainState := MAIN_STATE_DISABLING;
     END_IF;
     
     // Main state machine
     CASE MainState OF
-        MAIN_STATE_OFF:
-            gSuperTrak.System.Cmd.Enable := TRUE;
-            gSuperTrak.Sections.Cmd.Enable := gSuperTrak.System.Status.Active;
-
+		MAIN_STATE_OFF:
+			
+			// Wait for System and Sections to be Active
             IF gSuperTrak.System.Status.Active AND gSuperTrak.Sections.Status.Active THEN
                 MainState := MAIN_STATE_DISABLED;
             END_IF;
@@ -58,12 +57,12 @@ PROGRAM _CYCLIC
             ResetShuttleRelease;
             ResetProcessTimer;
             
-            IF gMachine.Cmd.Enable AND gSuperTrak.System.Status.Ready THEN
-                MainState := MAIN_STATE_ENABLE_SECTIONS;
+            IF gMachine.Cmd.Power AND gSuperTrak.System.Status.Ready THEN
+                MainState := MAIN_STATE_POWER_SECTIONS;
             END_IF; 
             
-        MAIN_STATE_ENABLE_SECTIONS:      
-            gSuperTrak.System.Cmd.Run := TRUE;
+        MAIN_STATE_POWER_SECTIONS:      
+            gSuperTrak.System.Cmd.PowerAllSections := TRUE;
             
             IF gSuperTrak.System.Info.SectionsEnabled THEN
                 MainState := MAIN_STATE_RECOVER;
@@ -156,7 +155,7 @@ PROGRAM _CYCLIC
             END_IF;
             
         MAIN_STATE_DISABLING:
-            gSuperTrak.System.Cmd.Run := FALSE;
+            gSuperTrak.System.Cmd.PowerAllSections := FALSE;
             gSuperTrak.System.Cmd.Stop := TRUE;
             
             IF gSuperTrak.System.Info.SectionsDisabled THEN
@@ -165,7 +164,7 @@ PROGRAM _CYCLIC
             END_IF;
         
         MAIN_STATE_ERROR:
-            gSuperTrak.System.Cmd.Run := FALSE;
+            gSuperTrak.System.Cmd.PowerAllSections := FALSE;
             
             // Reset commands and timers
             ResetTargetRelease;
@@ -179,7 +178,7 @@ PROGRAM _CYCLIC
     END_CASE;
     
     // Set statuses
-    gMachine.Status.Enabled := ((gMachine.Cmd.Enable) AND (MainState > MAIN_STATE_DISABLED));
+    gMachine.Status.PowerOn := ((gMachine.Cmd.Power) AND (MainState > MAIN_STATE_DISABLED));
     gMachine.Status.Ready := (MainState = MAIN_STATE_READY);
     gMachine.Status.Error := (MainState = MAIN_STATE_ERROR) OR gSuperTrak.System.Status.Error;
     

@@ -21,7 +21,6 @@ VAR CONSTANT
 END_VAR
 (*Function blocks*)
 VAR
-	EnableTrigger : R_TRIG; (*Rising edge trigger for Enable command*)
 	RunTrigger : R_TRIG; (*Rising edge trigger for Run command*)
 	ResetTrigger : R_TRIG; (*Rising edge trigger for Error Reset command*)
 	ControlSystem : StControl; (*StCom system control function block*)

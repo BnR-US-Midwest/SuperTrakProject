@@ -10,6 +10,7 @@
  *  Marcus Mangel, B&R Industrial Automation
  *
 ****************************************************************************************)
+
 TYPE
 	Machine_type : 	STRUCT  (*Machine interface*)
 		Cmd : Machine_Cmd_type; (*Machine commands*)
@@ -17,7 +18,7 @@ TYPE
 		Status : Machine_Status_type; (*Machine statuses*)
 	END_STRUCT;
 	Machine_Cmd_type : 	STRUCT  (*Machine commands*)
-		Enable : BOOL; (*Enable all SuperTrak sections*)
+		Power : BOOL; (*Power all SuperTrak sections*)
 		Run : BOOL; (*Run process sequence*)
 		ErrorReset : BOOL; (*Error reset*)
 	END_STRUCT;
@@ -26,7 +27,7 @@ TYPE
 		Acceleration : REAL := 15000.0; (*[mm/s^2] Set acceleration for target and shuttle release commands*)
 	END_STRUCT;
 	Machine_Status_type : 	STRUCT  (*Machine statuses*)
-		Enabled : BOOL; (*The main state machine is enabled and the trak is powered*)
+		PowerOn : BOOL; (*The main state machine is enabled and the trak is powered*)
 		Ready : BOOL; (*The program is ready to run*)
 		Error : BOOL; (*There is an active error present*)
 	END_STRUCT;

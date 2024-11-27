@@ -16,7 +16,7 @@ TYPE
 		( (*Program state*)
 		MAIN_STATE_OFF, (*SuperTrak control is disabled*)
 		MAIN_STATE_DISABLED, (*SuperTrak control is enabled, but the trak itself is disabled*)
-		MAIN_STATE_ENABLE_SECTIONS, (*SuperTrak sections are enabling and powering up*)
+		MAIN_STATE_POWER_SECTIONS, (*SuperTrak sections are enabling and powering up*)
 		MAIN_STATE_RECOVER, (*Shuttles are recovering*)
 		MAIN_STATE_READY, (*Trak is ready to run the main process*)
 		MAIN_STATE_RUN, (*Trak is running the main process*)

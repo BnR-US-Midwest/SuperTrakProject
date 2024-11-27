@@ -11,6 +11,7 @@
  *  Tyler Matijevich, B&R Industrial Automation
  *
 ****************************************************************************************)
+
 TYPE
 	STSectionInterfaceType : 	STRUCT  (*Section control interface*)
 		Cmd : STSectionInterfaceCmdType; (*Section commands*)
@@ -18,8 +19,7 @@ TYPE
 		Info : ARRAY[1..ST_SECTION_MAX]OF STSectionInterfaceInfoType; (*Information about each individual section*)
 	END_STRUCT;
 	STSectionInterfaceCmdType : 	STRUCT  (*Section commands*)
-		Enable : BOOL; (*Enable all sections*)
-		EnableSection : ARRAY[1..ST_SECTION_MAX]OF BOOL; (*Enable individual sections*)
+		PowerSection : ARRAY[1..ST_SECTION_MAX]OF BOOL; (*Enable individual sections*)
 		Reset : BOOL; (*Error Reset for all sections*)
 	END_STRUCT;
 	STSectionInterfaceStatusType : 	STRUCT  (*Section statuses*)

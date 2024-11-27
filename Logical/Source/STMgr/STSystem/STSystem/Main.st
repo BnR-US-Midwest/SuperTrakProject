@@ -34,11 +34,6 @@ PROGRAM _CYCLIC
 	
     // State control
     CASE State OF
-        STATE_OFF:
-            IF EnableTrigger.Q THEN
-                State := STATE_INITIALIZE;
-            END_IF
-			
         STATE_INITIALIZE:
             // Enable once and never disabled
             ControlSystem.Enable := TRUE;
@@ -56,7 +51,7 @@ PROGRAM _CYCLIC
                 State := STATE_ERROR;
             END_IF   
 			
-        STATE_IDLE:
+		STATE_IDLE:
             IF ControlSystem.SectionsEnabled THEN
                 UserLogBasic(USERLOG_SEVERITY_WARNING, 1102, 'Sections enabled by alternative source');
                 State := STATE_EXECUTE;
@@ -128,7 +123,7 @@ PROGRAM _CYCLIC
 			
             IF ControlSystem.Error = FALSE THEN
                 ControlSystem.ErrorReset := FALSE;
-                State := STATE_OFF;
+                State := STATE_IDLE;
 				
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
@@ -150,9 +145,7 @@ PROGRAM _CYCLIC
     ControlSystem.Parameters := ADR(SystemParameters);
     ControlSystem();
 	
-    EnableTrigger.CLK := Interface.Cmd.Enable;
-    EnableTrigger();
-    RunTrigger.CLK := Interface.Cmd.Run;
+    RunTrigger.CLK := Interface.Cmd.PowerAllSections;
     RunTrigger();
     ResetTrigger.CLK := Interface.Cmd.Reset;
     ResetTrigger();
