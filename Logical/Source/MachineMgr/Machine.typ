@@ -30,5 +30,8 @@ TYPE
 		PowerOn : BOOL; (*The main state machine is enabled and the trak is powered*)
 		Ready : BOOL; (*The program is ready to run*)
 		Error : BOOL; (*There is an active error present*)
+		ErrorInfo : USINT;
+	END_STRUCT;
+	Machine_Error_Info_type : 	STRUCT 
 	END_STRUCT;
 END_TYPE

@@ -71,7 +71,7 @@ PROGRAM _CYCLIC
         MAIN_STATE_RECOVER:
             GetTargetsReleased; 
             GetShuttlesReleased;
-            IF TargetsReleased AND ShuttlesReleased AND gSuperTrak.System.Status.Running THEN // Recovered and at standstill
+            IF TargetsReleased AND ShuttlesReleased AND gSuperTrak.System.Status.PowerOn THEN // Recovered and at standstill
                 // Add conditions to satisfy process recovery
                 MainState := MAIN_STATE_READY;
             END_IF
@@ -83,7 +83,7 @@ PROGRAM _CYCLIC
             
         MAIN_STATE_RUN:
             IF NOT gMachine.Cmd.Run THEN
-                MainState := MAIN_STATE_STOP;
+                MainState := MAIN_STATE_READY;
             END_IF;
             
             (*******************************************************
@@ -149,23 +149,15 @@ PROGRAM _CYCLIC
                 END_IF
             END_FOR
             
-        MAIN_STATE_STOP:
-            IF NOT gSuperTrak.System.Status.Stopped THEN
-                MainState := MAIN_STATE_READY;
-            END_IF;
-            
         MAIN_STATE_DISABLING:
             gSuperTrak.System.Cmd.PowerAllSections := FALSE;
-            gSuperTrak.System.Cmd.Stop := TRUE;
             
             IF gSuperTrak.System.Info.SectionsDisabled THEN
-                gSuperTrak.System.Cmd.Stop := FALSE;
                 MainState := MAIN_STATE_DISABLED;
             END_IF;
         
         MAIN_STATE_ERROR:
 			gSuperTrak.System.Cmd.PowerAllSections := FALSE;
-			gSuperTrak.System.Cmd.Stop := TRUE;
 			gMachine.Cmd.Power:= FALSE;
 			gMachine.Cmd.Run:= FALSE;
 			

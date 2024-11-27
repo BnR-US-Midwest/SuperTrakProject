@@ -86,7 +86,7 @@ PROGRAM _CYCLIC
                 ControlSystem.EnableAllSections := FALSE;
                 State := STATE_IDLE;
 			
-            ELSIF Interface.Cmd.Stop THEN
+            ELSIF NOT Interface.Cmd.PowerAllSections THEN
                 State := STATE_STOPPING;
 			
             ELSIF ControlSystem.Error THEN
@@ -168,9 +168,8 @@ PROGRAM _CYCLIC
     State = STATE_STARTING OR
     State = STATE_STOPPING OR
     State = STATE_CLEARING;
-    Interface.Status.Ready := Interface.Cmd.Stop = FALSE AND State = STATE_IDLE;
-    Interface.Status.Running := State = STATE_EXECUTE;
-    Interface.Status.Stopped := Interface.Cmd.Stop AND State = STATE_IDLE;
+    Interface.Status.Ready := State = STATE_IDLE;
+    Interface.Status.PowerOn := State = STATE_EXECUTE;
     Interface.Status.Error := State = STATE_ERROR;
 	
     // Write global outputs

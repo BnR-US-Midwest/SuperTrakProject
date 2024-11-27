@@ -20,7 +20,6 @@ TYPE
 		MAIN_STATE_RECOVER, (*Shuttles are recovering*)
 		MAIN_STATE_READY, (*Trak is ready to run the main process*)
 		MAIN_STATE_RUN, (*Trak is running the main process*)
-		MAIN_STATE_STOP, (*Trak is stopping*)
 		MAIN_STATE_DISABLING, (*Trak is disabling all sections*)
 		MAIN_STATE_ERROR (*There is an active error*)
 		);
