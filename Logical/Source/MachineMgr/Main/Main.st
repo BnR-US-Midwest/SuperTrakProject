@@ -164,14 +164,17 @@ PROGRAM _CYCLIC
             END_IF;
         
         MAIN_STATE_ERROR:
-            gSuperTrak.System.Cmd.PowerAllSections := FALSE;
-            
+			gSuperTrak.System.Cmd.PowerAllSections := FALSE;
+			gSuperTrak.System.Cmd.Stop := TRUE;
+			gMachine.Cmd.Power:= FALSE;
+			gMachine.Cmd.Run:= FALSE;
+			
             // Reset commands and timers
             ResetTargetRelease;
             ResetShuttleRelease;
             ResetProcessTimer;
 			
-            IF NOT gSuperTrak.System.Status.Error THEN
+            IF NOT gSuperTrak.System.Status.Error AND NOT gSuperTrak.Sections.Status.SectionError THEN
                 MainState := MAIN_STATE_OFF;
 			END_IF;
 		
