@@ -63,6 +63,7 @@ PROGRAM _CYCLIC
     END_FOR
     
     // Write global outputs
-    gSuperTrak.Sections.Status := Interface.Status;
+	gSuperTrak.Sections.Status := Interface.Status;
+	gSuperTrak.Sections.Info := Interface.Info;
 	
 END_PROGRAM
