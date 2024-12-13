@@ -12,6 +12,7 @@
     <Group ID="TargetFiles">
       <Property ID="TargetFile[1]" Value="Libraries.SuperTrak.SuperTrakLog.tmx" />
       <Property ID="TargetFile[2]" Value="Libraries.UserLog.UserLog.tmx" />
+      <Property ID="TargetFile[3]" Value="Text.SuperTrakErrors.tmx" />
     </Group>
   </Element>
 </Configuration>

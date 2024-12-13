@@ -17,6 +17,8 @@
 ***************************************************************************************)
 
 PROGRAM _INIT
+    
+    CheckTaskClass; // Check that task is running in 800us task class
 	
 	// Initialize SuperTrak, set configuration path
 	SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\Configuration', '127.0.0.1', 'IF3,IF4');

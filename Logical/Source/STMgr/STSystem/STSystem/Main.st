@@ -47,13 +47,15 @@ PROGRAM _CYCLIC
 				
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout while enabling StControl function block');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868912, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF   
 			
 		STATE_IDLE:
             IF ControlSystem.SectionsEnabled THEN
-                UserLogBasic(USERLOG_SEVERITY_WARNING, 1102, 'Sections enabled by alternative source');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -1610609736, 0, '', '', UserLogArguments);
                 State := STATE_EXECUTE;
 			
             ELSIF RunTrigger.Q THEN
@@ -76,13 +78,15 @@ PROGRAM _CYCLIC
 			
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Enable All Sections (StControl function block)');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868911, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 			
         STATE_EXECUTE:
             IF Interface.Info.SectionsDisabled THEN
-                UserLogBasic(USERLOG_SEVERITY_WARNING, 1104, 'Sections disabled by alternative source');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -1610609735, 0, '', '', UserLogArguments);
                 ControlSystem.EnableAllSections := FALSE;
                 State := STATE_IDLE;
 			
@@ -105,7 +109,8 @@ PROGRAM _CYCLIC
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Disable All Sections (StControl function block)');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868910, 0, '', '', UserLogArguments);
                 Interface.Status.ErrorID := -1;
                 State := STATE_ERROR;
             END_IF
@@ -127,7 +132,8 @@ PROGRAM _CYCLIC
 				
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Error Reset of StControl function block');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868909, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
     END_CASE

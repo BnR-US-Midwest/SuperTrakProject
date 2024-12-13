@@ -29,6 +29,7 @@ VAR
 END_VAR
 (*Data*)
 VAR
+	UserLogArguments : UserLogFormatType;
 	SectionStatus : REFERENCE TO USINT; (*Status of an individual section*)
 	PLCInterfaceConfiguration : SuperTrakControlIfConfig_t; (*PLC Interface Configuration, used to access configured section count*)
 	Index : UINT; (*FOR loop index*)

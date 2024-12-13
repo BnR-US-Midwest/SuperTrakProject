@@ -12,6 +12,17 @@
  *
 ***************************************************************************************)
 
+(* Check that task is running in 800us task class and log if not *)
+ACTION CheckTaskClass:
+    
+    fb_RTInfo(enable := TRUE);
+    IF fb_RTInfo.cycle_time <> 800 OR fb_RTInfo.task_class <> 1 THEN
+        brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+        UserLogEventText('$$arlogusr', -536869912, 0, '', '', UserLogArguments);
+    END_IF;
+
+END_ACTION
+
 (* Assign revision, connection type, and size of control interface data *)
 ACTION InitializeControlInterface:
 	
