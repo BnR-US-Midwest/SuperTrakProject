@@ -12,11 +12,16 @@
     <Task Name="Main" Source="Source.MachineMgr.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#3" />
-  <TaskClass Name="Cyclic#4" />
+  <TaskClass Name="Cyclic#4">
+    <Task Name="EipComm" Source="Source.EthIP.EipComm.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+  </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
   <TaskClass Name="Cyclic#7" />
   <TaskClass Name="Cyclic#8" />
+  <DataObjects>
+    <DataObject Name="ethIPcon" Source="Source.EthIP.ethIPcon.dob" Memory="UserROM" Language="Simple" />
+  </DataObjects>
   <Binaries>
     <BinaryObject Name="STComTexts" Source="Libraries.StCom.STComTexts.br" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="udbdef" Source="" Memory="UserROM" Language="Binary" />
@@ -59,6 +64,7 @@
     <LibraryObject Name="standard" Source="Libraries.standard.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsIecCon" Source="Libraries.AsIecCon.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="UserLog" Source="Libraries.UserLog.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="AsEthIP" Source="Libraries.AsEthIP.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="aspciext" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

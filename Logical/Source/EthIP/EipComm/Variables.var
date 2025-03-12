@@ -1,0 +1,33 @@
+(***************************************************************************************
+ * EipComm task local variables
+ *
+ * These variables are local to the EipComm task and are used for
+ * EtherNet/IP communication
+ *
+ * File: EipComm/Variables.var
+ * Created: 2025-03-11
+ *
+ * Authors:
+ *  Marcus Mangel, B&R Industrial Automation
+ *
+***************************************************************************************)
+VAR
+	CommState : CommState_enum; (*State of the communication program*)
+	Interface : EipComm_type; (*Ethernet IP Communication program interface*)
+	StationStatus : UDINT; (*Communication status data. See .dat file*)
+	i : USINT;
+END_VAR
+(*Packed Data*)
+VAR
+	Target_ShuttleAtTarget : DINT;
+	Target_ShuttleNumber : ARRAY[0..31] OF USINT;
+	Target_ShuttleCount : ARRAY[0..31] OF USINT;
+	Target_Release : DINT;
+	Target_NextDestination : ARRAY[0..31] OF USINT;
+END_VAR
+(*Function Blocks*)
+VAR
+	fb_EIPInit : EIPInit; (*Initializes communication. Call in INIT*)
+	fb_EIPCyclic : EIPCyclic; (*Cyclically performs communication. Call in CYCLIC*)
+	fb_EIPExit : EIPExit; (*Shuts down communication. Call in EXIT*)
+END_VAR
