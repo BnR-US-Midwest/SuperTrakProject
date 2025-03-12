@@ -10,14 +10,14 @@
  *  Marcus Mangel, B&R Industrial Automation
  *
 ***************************************************************************************)
-
 (*Control*)
 VAR
 	MainState : MainState_enum; (*Program state*)
-	Interface : Machine_type; (*Local copy of global machine interface*)
+	Interface : Machine_type; (*Local copy of gMachine*)
+	SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
 	LoopTarget : USINT; (*FOR loop index*)
 	LoopShuttle : USINT; (*FOR loop index*)
-	SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
+	i : USINT;
 END_VAR
 (*Status*)
 VAR
@@ -26,10 +26,8 @@ VAR
 END_VAR
 (*Function Blocks*)
 VAR
-	EnableTrigger : R_TRIG; (*Rising edge of Enable command*)
-	RunTrigger : R_TRIG; (*Rising edge of Run command*)
-	ResetTrigger : R_TRIG; (*Rising edge of Reset command*)
 	ProcessTimer : ARRAY[1..ST_TARGET_MAX] OF TON; (*Timers used to simulate machine processes*)
+	r_trig_Power : R_TRIG; (*Rising edge checker for Power command*)
 END_VAR
 (*Constants*)
 VAR CONSTANT

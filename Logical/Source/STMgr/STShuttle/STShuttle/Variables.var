@@ -9,7 +9,8 @@
  * Authors:
  *  Marcus Mangel, B&R Industrial Automation
  *
-***************************************************************************************)VAR
+***************************************************************************************)
+VAR
 	Interface : ARRAY[1..ST_SHUTTLE_MAX] OF STShuttleInterfaceType; (*Local copy of gSuperTrak.Shuttle*)
 	ShuttleControlState : ARRAY[1..ST_SHUTTLE_MAX] OF ShuttleControlState_enum; (*Shuttle release state machine*)
 	ShuttleParameters : ARRAY[1..ST_SHUTTLE_MAX] OF StPalletParType; (*Shuttle control parameters*)
@@ -25,4 +26,6 @@
 	r_trig_ShuttleRelease : ARRAY[1..ST_SHUTTLE_MAX] OF R_TRIG; (*Rising edge trigger of any Release command*)
 	ShuttleAtTarget : USINT; (*Used during release to check the Target a Shuttle is currently at*)
 	TargetIndex : USINT; (*FOR loop index*)
+	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
+	r_trig_ShuttleFBError : ARRAY[1..ST_SHUTTLE_MAX] OF R_TRIG; (*Rising edge trigger for ControlShuttle.Error*)
 END_VAR

@@ -72,8 +72,69 @@ END_ACTION
 (* Reset all process timers *)
 ACTION ResetProcessTimer:
 	
-    FOR LoopTarget := 1 TO ST_TARGET_MAX DO
-        ProcessTimer[LoopTarget](IN := FALSE);
-    END_FOR
+	FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+		ProcessTimer[LoopTarget](IN := FALSE);
+	END_FOR
 	
 END_ACTION
+
+(* Set ErrorType depending on what caused the error *)
+ACTION GetErrorType:
+	
+	// Clear ErrorType
+	Interface.Status.ErrorType:= errNONE;
+	
+	// Default to User Error
+	IF MainState = MAIN_STATE_ERROR THEN
+		Interface.Status.ErrorType:= errUSER;
+	END_IF
+	// System FUB Errors
+	IF gSuperTrak.System.Status.Error THEN
+		MainState:= MAIN_STATE_ERROR;
+		Interface.Status.ErrorType:= errST_COM;
+	END_IF
+	// Section FUB Errors
+	IF gSuperTrak.Sections.Status.Error THEN
+		MainState:= MAIN_STATE_ERROR;
+		Interface.Status.ErrorType:= errST_COM;
+	END_IF
+	// System Warnings
+	IF gSuperTrak.System.Info.WarningPresent THEN
+		Interface.Status.ErrorType:= warnST_SYSTEM;
+	END_IF
+	// System Errors
+	IF gSuperTrak.System.Info.FaultPresent THEN
+		MainState:= MAIN_STATE_ERROR;
+		Interface.Status.ErrorType:= errST_SYSTEM;
+	END_IF
+	// Section Warnings
+	IF gSuperTrak.Sections.Status.SectionWarning THEN
+		Interface.Status.ErrorType:= warnST_SECTION;
+	END_IF
+	// Section Errors
+	IF gSuperTrak.Sections.Status.SectionError THEN
+		MainState:= MAIN_STATE_ERROR;
+		Interface.Status.ErrorType:= errST_SECTION;
+	END_IF
+	
+END_ACTION
+
+(* Translate bit-packed Errors and Warnings into Booleans *)
+ACTION GetTrakMasterWarningsAndErrors:
+
+	IF Interface.Status.SuperTrakDiag.SuperTrakDiagIndex = 0 THEN
+		// System
+		FOR i := 0 TO 31 DO
+			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.System.Info.Warnings, i);
+			Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.System.Info.Faults, i);
+		END_FOR
+	ELSE
+		// Sections
+		FOR i := 0 TO 31 DO
+			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Warnings, i);
+			Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Faults, i);
+		END_FOR
+	END_IF
+	
+END_ACTION
+

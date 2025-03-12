@@ -25,34 +25,54 @@ PROGRAM _INIT
 
 END_PROGRAM
 
-PROGRAM _CYCLIC
-	
-    // Copy commands
+PROGRAM _CYCLIC	
+    
+    // Copy inputs
     Interface.Cmd := gMachine.Cmd;
+    Interface.Par := gMachine.Par;
     
-    // Edge triggers
-    EnableTrigger(CLK := Interface.Cmd.Enable);
-    RunTrigger(CLK := Interface.Cmd.Run);
-    ResetTrigger(CLK := Interface.Cmd.ErrorReset);
-    
-    // Error Handling
-    IF gSuperTrak.System.Status.Error OR gSuperTrak.System.Info.FaultPresent 
-        OR gSuperTrak.Sections.Status.Error OR gSuperTrak.Sections.Status.SectionError THEN
-        MainState := MAIN_STATE_ERROR;
-    END_IF;
+    // Check for command edges
+    r_trig_Power(CLK := Interface.Cmd.Power);
+		
+	// Translate Errors
+	GetErrorType;
+	GetTrakMasterWarningsAndErrors;
+	// Catch SuperTrak Errors
+	IF gSuperTrak.System.Status.Error OR gSuperTrak.System.Info.FaultPresent 
+		OR gSuperTrak.Sections.Status.Error OR gSuperTrak.Sections.Status.SectionError THEN
+		
+		// Set Diag Index once
+		IF MainState <> MAIN_STATE_ERROR THEN
+			IF gSuperTrak.System.Info.FaultPresent THEN
+				Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= 0;
+			ELSE
+				FOR i:= 1 TO SIZEOF(gSuperTrak.Sections.Info)/SIZEOF(gSuperTrak.Sections.Info[1]) DO
+					IF gSuperTrak.Sections.Info[i].FaultPresent THEN
+						Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= i;
+						EXIT;
+					END_IF
+				END_FOR
+			END_IF
+		END_IF
+		
+		// Then go to Error State
+		MainState := MAIN_STATE_ERROR;
+		
+	END_IF;
+	// Reset Errors
+	gSuperTrak.System.Cmd.Reset := Interface.Cmd.ErrorReset;
+	gSuperTrak.Sections.Cmd.Reset := Interface.Cmd.ErrorReset;
     
     // Disable handling
-    IF (NOT Interface.Cmd.Enable OR NOT gSuperTrak.System.Status.Active) 
+    IF (NOT Interface.Cmd.Power OR NOT gSuperTrak.System.Status.Active) 
         AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
         MainState := MAIN_STATE_DISABLING;
     END_IF;
     
     // Main state machine
     CASE MainState OF
-        MAIN_STATE_OFF:
-            gSuperTrak.System.Cmd.Enable := TRUE;
-            gSuperTrak.Sections.Cmd.Enable := gSuperTrak.System.Status.Active;
-
+		MAIN_STATE_OFF:
+            // Wait for System and Sections to be Active
             IF gSuperTrak.System.Status.Active AND gSuperTrak.Sections.Status.Active THEN
                 MainState := MAIN_STATE_DISABLED;
             END_IF;
@@ -63,12 +83,12 @@ PROGRAM _CYCLIC
             ResetShuttleRelease;
             ResetProcessTimer;
             
-            IF EnableTrigger.Q AND gSuperTrak.System.Status.Ready THEN
-                MainState := MAIN_STATE_ENABLE_SECTIONS;
+            IF r_trig_Power.Q AND gSuperTrak.System.Status.Ready THEN
+                MainState := MAIN_STATE_POWER_SECTIONS;
             END_IF; 
             
-        MAIN_STATE_ENABLE_SECTIONS:      
-            gSuperTrak.System.Cmd.Run := TRUE;
+        MAIN_STATE_POWER_SECTIONS:      
+            gSuperTrak.System.Cmd.PowerAllSections := TRUE;
             
             IF gSuperTrak.System.Info.SectionsEnabled THEN
                 MainState := MAIN_STATE_RECOVER;
@@ -77,19 +97,19 @@ PROGRAM _CYCLIC
         MAIN_STATE_RECOVER:
             GetTargetsReleased; 
             GetShuttlesReleased;
-            IF TargetsReleased AND ShuttlesReleased AND gSuperTrak.System.Status.Running THEN // Recovered and at standstill
+            IF TargetsReleased AND ShuttlesReleased AND gSuperTrak.System.Status.PowerOn THEN // Recovered and at standstill
                 // Add conditions to satisfy process recovery
                 MainState := MAIN_STATE_READY;
             END_IF
             
         MAIN_STATE_READY:
-            IF RunTrigger.Q THEN
+            IF Interface.Cmd.Run THEN
                 MainState := MAIN_STATE_RUN;
             END_IF;
             
         MAIN_STATE_RUN:
             IF NOT Interface.Cmd.Run THEN
-                MainState := MAIN_STATE_STOP;
+                MainState := MAIN_STATE_READY;
             END_IF;
             
             (*******************************************************
@@ -107,8 +127,8 @@ PROGRAM _CYCLIC
             // Target 1: Load
             IF ProcessTimer[ST_TARGET_LOAD].Q THEN
                 IF gSuperTrak.Target[ST_TARGET_LOAD].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Velocity := Interface.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Acceleration := Interface.Par.Acceleration;
                     gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
                     gSuperTrak.Target[ST_TARGET_LOAD].Par.Release.DestinationTarget := ST_TARGET_QUEUE;
                     gSuperTrak.Target[ST_TARGET_LOAD].Cmd.Release.ReleaseToTarget := TRUE;
@@ -118,8 +138,8 @@ PROGRAM _CYCLIC
             // Target 2: Queue
             IF ProcessTimer[ST_TARGET_QUEUE].Q AND gSuperTrak.Target[ST_TARGET_PROCESS].Status.ShuttleCount = 0 THEN
                 IF gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Velocity := Interface.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Acceleration := Interface.Par.Acceleration;
                     gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
                     gSuperTrak.Target[ST_TARGET_QUEUE].Par.Release.DestinationTarget := ST_TARGET_PROCESS;
                     gSuperTrak.Target[ST_TARGET_QUEUE].Cmd.Release.ReleaseToTarget := TRUE;
@@ -129,8 +149,8 @@ PROGRAM _CYCLIC
             // Target 3: Process
             IF ProcessTimer[ST_TARGET_PROCESS].Q THEN
                 IF gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Velocity := Interface.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Acceleration := Interface.Par.Acceleration;
                     gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
                     gSuperTrak.Target[ST_TARGET_PROCESS].Par.Release.DestinationTarget := ST_TARGET_UNLOAD;
                     gSuperTrak.Target[ST_TARGET_PROCESS].Cmd.Release.ReleaseToTarget := TRUE;
@@ -140,8 +160,8 @@ PROGRAM _CYCLIC
             // Target 4: Unload
             IF ProcessTimer[ST_TARGET_UNLOAD].Q THEN
                 IF gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.Release.ReleaseToTarget = FALSE THEN // Rising edge (one-shot)
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Velocity := gMachine.Par.Velocity;
-                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Acceleration := gMachine.Par.Acceleration;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Velocity := Interface.Par.Velocity;
+                    gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Acceleration := Interface.Par.Acceleration;
                     gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.Direction := gSuperTrak.System.Par.GlobalDirection;
                     gSuperTrak.Target[ST_TARGET_UNLOAD].Par.Release.DestinationTarget := ST_TARGET_LOAD;
                     gSuperTrak.Target[ST_TARGET_UNLOAD].Cmd.Release.ReleaseToTarget := TRUE;
@@ -155,47 +175,33 @@ PROGRAM _CYCLIC
                 END_IF
             END_FOR
             
-        MAIN_STATE_STOP:
-            IF NOT gSuperTrak.System.Status.Stopped THEN
-                MainState := MAIN_STATE_READY;
-            END_IF;
-            
         MAIN_STATE_DISABLING:
-            gSuperTrak.System.Cmd.Run := FALSE;
-            gSuperTrak.System.Cmd.Stop := TRUE;
+            gSuperTrak.System.Cmd.PowerAllSections := FALSE;
             
             IF gSuperTrak.System.Info.SectionsDisabled THEN
-                gSuperTrak.System.Cmd.Stop := FALSE;
                 MainState := MAIN_STATE_DISABLED;
             END_IF;
         
         MAIN_STATE_ERROR:
-            gSuperTrak.System.Cmd.Run := FALSE;
-            
+			gSuperTrak.System.Cmd.PowerAllSections := FALSE;
+			
             // Reset commands and timers
             ResetTargetRelease;
             ResetShuttleRelease;
             ResetProcessTimer;
-            
-            IF ResetTrigger.Q THEN
-                MainState := MAIN_STATE_RESET;
-            END_IF;
-        
-        MAIN_STATE_RESET:
-            gSuperTrak.System.Cmd.Reset := TRUE;
-            IF NOT gSuperTrak.System.Status.Error THEN
-                gSuperTrak.System.Cmd.Reset := FALSE;
-                MainState := MAIN_STATE_OFF;
-            END_IF;
-    END_CASE;
+			
+			IF NOT gSuperTrak.System.Status.Error AND NOT gSuperTrak.Sections.Status.SectionError AND Interface.Cmd.ErrorReset THEN
+				MainState := MAIN_STATE_OFF;
+			END_IF;
+		
+	END_CASE;
     
-    // Set statuses
-    Interface.Status.Enabled := ((Interface.Cmd.Enable) AND (MainState > MAIN_STATE_DISABLED));
-    Interface.Status.Ready := (MainState = MAIN_STATE_READY);
-    Interface.Status.Error := (MainState = MAIN_STATE_ERROR) OR gSuperTrak.System.Status.Error;
+	// Set statuses
+	Interface.Status.PowerOn := ((Interface.Cmd.Power) AND (MainState > MAIN_STATE_DISABLED));
+	Interface.Status.Ready := (MainState = MAIN_STATE_READY);
+    Interface.Status.Error := (MainState = MAIN_STATE_ERROR);
     
-    // Copy statuses
+    // Copy outputs
     gMachine.Status := Interface.Status;
 	 
 END_PROGRAM
-

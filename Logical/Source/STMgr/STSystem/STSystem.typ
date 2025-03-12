@@ -10,6 +10,7 @@
  *  Marcus Mangel, B&R Industrial Automation
  *
 ****************************************************************************************)
+
 TYPE
 	STSystemInterfaceType : 	STRUCT  (*Program interface*)
 		Cmd : STSystemInterfaceCmdType; (*System commands*)
@@ -18,9 +19,7 @@ TYPE
 		Info : STSystemInterfaceInfoType; (*System information*)
 	END_STRUCT;
 	STSystemInterfaceCmdType : 	STRUCT  (*Interface commands*)
-		Enable : BOOL; (*Enable the SuperTrak system interface*)
-		Run : BOOL; (*Run the SuperTrak via System Control (enable all sections)*)
-		Stop : BOOL; (*Disable all sections*)
+		PowerAllSections : BOOL; (*Run the SuperTrak via System Control (enable all sections)*)
 		Reset : BOOL; (*Error Reset*)
 	END_STRUCT;
 	STSystemInterfaceParType : 	STRUCT  (*Interface parameters*)
@@ -30,8 +29,7 @@ TYPE
 		Active : BOOL; (*Control function block is Active*)
 		Busy : BOOL; (*Interface is processing a command*)
 		Ready : BOOL; (*Interface is ready for commands*)
-		Running : BOOL; (*SuperTrak is running; sections are enabled*)
-		Stopped : BOOL; (*SuperTrak has stopped and task is in Idle state*)
+		PowerOn : BOOL; (*Sections are enabled*)
 		Error : BOOL; (*There is an active error in the task*)
 		ErrorID : DINT; (*ID of the active error*)
 	END_STRUCT;

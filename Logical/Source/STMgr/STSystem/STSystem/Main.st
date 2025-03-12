@@ -18,6 +18,9 @@
 
 PROGRAM _INIT
 	
+    // Set "number of" parameters to be size of their respective arrays
+    // If more Sections, Pallets, or Targets are added these constants must be
+    // updated! But follow the instructions in the constant's description!
 	SystemParameters.NrOfCommands := ST_COMMAND_MAX;
 	SystemParameters.NrOfSections := ST_SECTION_MAX;
 	SystemParameters.NrOfTargets := ST_TARGET_MAX;
@@ -34,11 +37,6 @@ PROGRAM _CYCLIC
 	
     // State control
     CASE State OF
-        STATE_OFF:
-            IF EnableTrigger.Q THEN
-                State := STATE_INITIALIZE;
-            END_IF
-			
         STATE_INITIALIZE:
             // Enable once and never disabled
             ControlSystem.Enable := TRUE;
@@ -48,17 +46,22 @@ PROGRAM _CYCLIC
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := ControlSystem.StatusID;
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout while enabling StControl function block');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868912, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF   
 			
-        STATE_IDLE:
+		STATE_IDLE:
             IF ControlSystem.SectionsEnabled THEN
-                UserLogBasic(USERLOG_SEVERITY_WARNING, 1102, 'Sections enabled by alternative source');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -1610609736, 0, '', '', UserLogArguments);
                 State := STATE_EXECUTE;
 			
             ELSIF RunTrigger.Q THEN
@@ -66,6 +69,9 @@ PROGRAM _CYCLIC
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := ControlSystem.StatusID;
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 		
@@ -77,25 +83,33 @@ PROGRAM _CYCLIC
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := ControlSystem.StatusID;
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
 			
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Enable All Sections (StControl function block)');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868911, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 			
         STATE_EXECUTE:
             IF Interface.Info.SectionsDisabled THEN
-                UserLogBasic(USERLOG_SEVERITY_WARNING, 1104, 'Sections disabled by alternative source');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -1610609735, 0, '', '', UserLogArguments);
                 ControlSystem.EnableAllSections := FALSE;
                 State := STATE_IDLE;
 			
-            ELSIF Interface.Cmd.Stop THEN
+            ELSIF NOT Interface.Cmd.PowerAllSections THEN
                 State := STATE_STOPPING;
 			
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := ControlSystem.StatusID;
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 			
@@ -107,10 +121,14 @@ PROGRAM _CYCLIC
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := ControlSystem.StatusID;
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Disable All Sections (StControl function block)');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868910, 0, '', '', UserLogArguments);
                 Interface.Status.ErrorID := -1;
                 State := STATE_ERROR;
             END_IF
@@ -128,11 +146,12 @@ PROGRAM _CYCLIC
 			
             IF ControlSystem.Error = FALSE THEN
                 ControlSystem.ErrorReset := FALSE;
-                State := STATE_OFF;
+                State := STATE_IDLE;
 				
             ELSIF Timeout.Q THEN
                 Interface.Status.ErrorID := -1;
-                UserLogBasic(USERLOG_SEVERITY_ERROR, 0, 'Timeout during Error Reset of StControl function block');
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogEventText('$$arlogusr', -536868909, 0, '', '', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
     END_CASE
@@ -150,9 +169,7 @@ PROGRAM _CYCLIC
     ControlSystem.Parameters := ADR(SystemParameters);
     ControlSystem();
 	
-    EnableTrigger.CLK := Interface.Cmd.Enable;
-    EnableTrigger();
-    RunTrigger.CLK := Interface.Cmd.Run;
+    RunTrigger.CLK := Interface.Cmd.PowerAllSections;
     RunTrigger();
     ResetTrigger.CLK := Interface.Cmd.Reset;
     ResetTrigger();
@@ -175,9 +192,8 @@ PROGRAM _CYCLIC
     State = STATE_STARTING OR
     State = STATE_STOPPING OR
     State = STATE_CLEARING;
-    Interface.Status.Ready := Interface.Cmd.Stop = FALSE AND State = STATE_IDLE;
-    Interface.Status.Running := State = STATE_EXECUTE;
-    Interface.Status.Stopped := Interface.Cmd.Stop AND State = STATE_IDLE;
+    Interface.Status.Ready := State = STATE_IDLE;
+    Interface.Status.PowerOn := State = STATE_EXECUTE;
     Interface.Status.Error := State = STATE_ERROR;
 	
     // Write global outputs

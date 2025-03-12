@@ -16,4 +16,6 @@ VAR
 	ControlData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw input data to control interface*)
 	StatusData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw output data from control interface*)
 	InterfaceParameters : SuperTrakControlInterface_t; (*Control interface parameters*)
+	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
+	fb_RTInfo : RTInfo; (*Gets information about the current runtime task*)
 END_VAR

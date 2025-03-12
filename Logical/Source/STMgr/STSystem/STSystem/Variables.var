@@ -21,7 +21,6 @@ VAR CONSTANT
 END_VAR
 (*Function blocks*)
 VAR
-	EnableTrigger : R_TRIG; (*Rising edge trigger for Enable command*)
 	RunTrigger : R_TRIG; (*Rising edge trigger for Run command*)
 	ResetTrigger : R_TRIG; (*Rising edge trigger for Error Reset command*)
 	ControlSystem : StControl; (*StCom system control function block*)
@@ -30,6 +29,7 @@ VAR
 END_VAR
 (*Data*)
 VAR
+	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
 	SectionStatus : REFERENCE TO USINT; (*Status of an individual section*)
 	PLCInterfaceConfiguration : SuperTrakControlIfConfig_t; (*PLC Interface Configuration, used to access configured section count*)
 	Index : UINT; (*FOR loop index*)

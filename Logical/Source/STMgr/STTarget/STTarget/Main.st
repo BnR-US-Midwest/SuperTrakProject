@@ -108,6 +108,16 @@ PROGRAM _CYCLIC
         Interface[Index].Status.PositionMicrons := Positions[Index];
         Interface[Index].Status.Position := DINT_TO_REAL(Interface[Index].Status.PositionMicrons)/1000.0;
         
+        // Log errors only when that error first occurs
+        r_trig_TargetFBError[Index](CLK := ControlTarget[Index].Error);
+        
+        IF r_trig_TargetFBError[Index].Q THEN
+            brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+            UserLogArguments.i[0] := Index; 
+            UserLogArguments.i[1] := ControlTarget[Index].StatusID;
+            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1200, 'SuperTrak Target Control error. Target: %i. Status ID: %i', UserLogArguments);
+        END_IF;
+        
         // Check for release commands and update ShuttleCount status
         r_trig_ShuttleRelease[Index].CLK := (Interface[Index].Cmd.Release.ReleaseToTarget 
         OR Interface[Index].Cmd.Release.ReleaseToOffset OR Interface[Index].Cmd.Release.IncrementOffset);

@@ -11,6 +11,15 @@
  *  Tyler Matijevich, B&R Industrial Automation
  *
 ***************************************************************************************)
+	
+	// Read Section Count 1080
+	// Read System Name 1053
+	// Read Enable Signal Source 1057
+	// Write PLC Interface Options 1430
+	// Write PLC Interface Section Count 1432
+	// Write PLC Interface Target Count 1434
+	// Write PLC Interface Command Count 1436
+	// Write Parameter Save Function 971
 
 (* Assign channel ID and size of service channel data *)
 ACTION InitializeServiceChannel:
@@ -53,15 +62,6 @@ END_ACTION
 
 (* Log request data when service channel request is sent *)
 ACTION LogServiceChannelRequest:
-	
-	// Read Section Count 1080
-	// Read System Name 1053
-	// Read Enable Signal Source 1057
-	// Write PLC Interface Options 1430
-	// Write PLC Interface Section Count 1432
-	// Write PLC Interface Target Count 1434
-	// Write PLC Interface Command Count 1436
-	// Write Parameter Save Function 971
 	
     Values.i[0] := RequestHeader.task;
     Values.i[1] := RequestHeader.param;
