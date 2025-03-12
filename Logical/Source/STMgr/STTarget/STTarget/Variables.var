@@ -9,7 +9,8 @@
  * Authors:
  *  Marcus Mangel, B&R Industrial Automation
  *
-***************************************************************************************)VAR
+***************************************************************************************)
+VAR
 	Interface : ARRAY[1..ST_TARGET_MAX] OF STTargetInterfaceType; (*Local copy of gSuperTrak.Target*)
 	TargetControlState : ARRAY[1..ST_TARGET_MAX] OF TargetControlState_enum; (*Shuttle release state machine*)
 	TargetParameters : ARRAY[1..ST_TARGET_MAX] OF StTargetExtParType; (*Target control parameters*)
@@ -18,4 +19,6 @@
 	Positions : ARRAY[0..255] OF DINT; (*All target positions*)
 	Index : USINT; (*FOR loop index*)
 	r_trig_ShuttleRelease : ARRAY[1..ST_TARGET_MAX] OF R_TRIG; (*Rising edge trigger of any Release command*)
+	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
+	r_trig_TargetFBError : ARRAY[1..ST_TARGET_MAX] OF R_TRIG; (*Rising edge trigger for ControlTarget.Error*)
 END_VAR

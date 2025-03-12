@@ -51,7 +51,31 @@ PROGRAM _CYCLIC
 		END_IF;
 		IF ControlSection[Index].Info.SuperTrak.SectionWarningActive THEN
 			Interface.Status.SectionWarning:= TRUE;
-		END_IF;			
+        END_IF;			
+        
+        // Log errors only when that error first occurs
+        r_trig_SectionFBError[Index](CLK := ControlSection[Index].Error);
+        r_trig_SectionWarning[Index](CLK := ControlSection[Index].Info.SuperTrak.SectionWarningActive);
+        r_trig_SectionFault[Index](CLK := ControlSection[Index].Info.SuperTrak.SectionFaultActive);
+        
+        IF r_trig_SectionFBError[Index].Q THEN
+            brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+            UserLogArguments.i[0] := Index; 
+            UserLogArguments.i[1] := ControlSection[Index].StatusID;
+            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1100, 'SuperTrak Section Control error. Section: %i. Status ID: %i', UserLogArguments);
+        END_IF;
+        IF r_trig_SectionWarning[Index].Q THEN
+            brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+            UserLogArguments.i[0] := Index; 
+            UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionWarningBits;
+            UserLogAdvanced(USERLOG_SEVERITY_WARNING, 3100, 'SuperTrak Section warning. Section: %i. Warning DINT: %i', UserLogArguments);
+        END_IF;
+        IF r_trig_SectionFault[Index].Q THEN
+            brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+            UserLogArguments.i[0] := Index; 
+            UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionFaultBits;
+            UserLogAdvanced(USERLOG_SEVERITY_ERROR,1102, 'SuperTrak Section fault. Section: %i. Fault DINT: %i', UserLogArguments);
+        END_IF;
         
         // Read other statuses
         Interface.Info[Index].SectionEnabled := ControlSection[Index].SectionEnabled;

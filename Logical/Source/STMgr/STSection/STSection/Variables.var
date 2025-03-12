@@ -10,9 +10,14 @@
  *  Marcus Mangel, B&R Industrial Automation
  *  Tyler Matijevich, B&R Industrial Automation
  *
-***************************************************************************************)VAR
+***************************************************************************************)
+VAR
 	Interface : STSectionInterfaceType; (*Section control interface*)
 	SectionParameters : ARRAY[1..ST_SECTION_MAX] OF StSectionParType; (*Placeholder, there are no parameters for StCom's StSection function block*)
 	ControlSection : ARRAY[1..ST_SECTION_MAX] OF StSection; (*Section control function block*)
 	Index : USINT; (*FOR loop index*)
+	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
+	r_trig_SectionFBError : ARRAY[1..ST_SECTION_MAX] OF R_TRIG; (*Rising edge trigger for ControlSection.Error*)
+	r_trig_SectionWarning : ARRAY[1..ST_SECTION_MAX] OF R_TRIG; (*Rising edge trigger for section warnings*)
+	r_trig_SectionFault : ARRAY[1..ST_SECTION_MAX] OF R_TRIG; (*Rising edge trigger for section faults*)
 END_VAR

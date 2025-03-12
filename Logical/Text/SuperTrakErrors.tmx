@@ -11,6 +11,36 @@
         <seg>SuperTrak control code must be run in Task Class #1 with 800us cycle time</seg>
       </tuv>
     </tu>
+    <tu tuid="-536869902">
+      <note>SuperTrak Error Code: 1010</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak System Control error: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869812">
+      <note>SuperTrak Error Code 1100</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Section Control error. Section: %i. Status ID: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869810">
+      <note>SuperTrak Error Code 1102</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Section fault. Section: %i. Fault DINT: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869712">
+      <note>SuperTrak Error Code 1200</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Target Control error. Target: %i. Status ID: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869612">
+      <note>SuperTrak Error Code 1300</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Shuttle Control error. Shuttle: %i. Status ID: %i</seg>
+      </tuv>
+    </tu>
     <tu tuid="-536868912">
       <note>SuperTrak Error Code: 2000</note>
       <tuv xml:lang="en">
@@ -45,6 +75,12 @@
       <note>SuperTrak Warning Code: 3001</note>
       <tuv xml:lang="en">
         <seg>Sections disabled by alternative source</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610609636">
+      <note>SuperTrak Warning Code: 3100</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Section warning. Section: %i. Warning DINT: %i</seg>
       </tuv>
     </tu>
   </body>

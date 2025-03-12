@@ -199,4 +199,3 @@ PROGRAM _CYCLIC
 	gMachine.Status.Error := (MainState = MAIN_STATE_ERROR);
 	 
 END_PROGRAM
-
