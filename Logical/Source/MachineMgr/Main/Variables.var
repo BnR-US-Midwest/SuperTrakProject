@@ -13,9 +13,11 @@
 (*Control*)
 VAR
 	MainState : MainState_enum; (*Program state*)
+	Interface : Machine_type; (*Local copy of gMachine*)
+	SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
 	LoopTarget : USINT; (*FOR loop index*)
 	LoopShuttle : USINT; (*FOR loop index*)
-	SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
+	i : USINT;
 END_VAR
 (*Status*)
 VAR
@@ -32,7 +34,4 @@ VAR CONSTANT
 	ST_TARGET_QUEUE : USINT := 2;
 	ST_TARGET_PROCESS : USINT := 3;
 	ST_TARGET_UNLOAD : USINT := 4;
-END_VAR
-VAR
-	i : USINT;
 END_VAR
