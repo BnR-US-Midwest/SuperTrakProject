@@ -19,11 +19,11 @@ VAR
 END_VAR
 (*Packed Data*)
 VAR
-	Target_ShuttleAtTarget : DINT;
-	Target_ShuttleNumber : ARRAY[0..31] OF USINT;
-	Target_ShuttleCount : ARRAY[0..31] OF USINT;
-	Target_Release : DINT;
-	Target_NextDestination : ARRAY[0..31] OF USINT;
+	Target_ShuttleAtTarget : DINT; (*Each bit represents "ShuttleInPosition" status for that Target number*)
+	Target_ShuttleNumber : ARRAY[0..31] OF USINT; (*Each array position is the associated target number*)
+	Target_ShuttleCount : ARRAY[0..31] OF USINT; (*Each array position is the associated target number*)
+	Target_Release : DINT; (*Each bit represents "ReleaseToTarget" command for that Target number*)
+	Target_NextDestination : ARRAY[0..31] OF USINT; (*Each array position is the associated target number*)
 END_VAR
 (*Function Blocks*)
 VAR
