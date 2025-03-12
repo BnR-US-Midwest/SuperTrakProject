@@ -26,8 +26,7 @@ PROGRAM _INIT
 END_PROGRAM
 
 PROGRAM _CYCLIC	
-	
-			
+		
 	// Translate Errors
 	GetErrorType;
 	GetTrakMasterWarningsAndErrors;
@@ -66,8 +65,7 @@ PROGRAM _CYCLIC
     // Main state machine
     CASE MainState OF
 		MAIN_STATE_OFF:
-			
-			// Wait for System and Sections to be Active
+            // Wait for System and Sections to be Active
             IF gSuperTrak.System.Status.Active AND gSuperTrak.Sections.Status.Active THEN
                 MainState := MAIN_STATE_DISABLED;
             END_IF;
