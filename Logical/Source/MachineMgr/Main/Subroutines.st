@@ -122,7 +122,7 @@ END_ACTION
 (* Translate bit-packed Errors and Warnings into Booleans *)
 ACTION GetTrakMasterWarningsAndErrors:
 
-	IF Interface.Par.SuperTrakDiagIndex = 0 THEN
+	IF Interface.Status.SuperTrakDiag.SuperTrakDiagIndex = 0 THEN
 		// System
 		FOR i := 0 TO 31 DO
 			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.System.Info.Warnings, i);
@@ -131,8 +131,8 @@ ACTION GetTrakMasterWarningsAndErrors:
 	ELSE
 		// Sections
 		FOR i := 0 TO 31 DO
-			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Par.SuperTrakDiagIndex].Warnings, i);
-			Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Par.SuperTrakDiagIndex].Faults, i);
+			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Warnings, i);
+			Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Faults, i);
 		END_FOR
 	END_IF
 	

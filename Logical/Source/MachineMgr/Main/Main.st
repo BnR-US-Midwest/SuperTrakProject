@@ -30,6 +30,9 @@ PROGRAM _CYCLIC
     // Copy inputs
     Interface.Cmd := gMachine.Cmd;
     Interface.Par := gMachine.Par;
+    
+    // Check for command edges
+    r_trig_Power(CLK := Interface.Cmd.Power);
 		
 	// Translate Errors
 	GetErrorType;
@@ -41,11 +44,11 @@ PROGRAM _CYCLIC
 		// Set Diag Index once
 		IF MainState <> MAIN_STATE_ERROR THEN
 			IF gSuperTrak.System.Info.FaultPresent THEN
-				Interface.Par.SuperTrakDiagIndex:= 0;
+				Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= 0;
 			ELSE
 				FOR i:= 1 TO SIZEOF(gSuperTrak.Sections.Info)/SIZEOF(gSuperTrak.Sections.Info[1]) DO
 					IF gSuperTrak.Sections.Info[i].FaultPresent THEN
-						Interface.Par.SuperTrakDiagIndex:= i;
+						Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= i;
 						EXIT;
 					END_IF
 				END_FOR
@@ -80,7 +83,7 @@ PROGRAM _CYCLIC
             ResetShuttleRelease;
             ResetProcessTimer;
             
-            IF Interface.Cmd.Power AND gSuperTrak.System.Status.Ready THEN
+            IF r_trig_Power.Q AND gSuperTrak.System.Status.Ready THEN
                 MainState := MAIN_STATE_POWER_SECTIONS;
             END_IF; 
             
@@ -181,8 +184,6 @@ PROGRAM _CYCLIC
         
         MAIN_STATE_ERROR:
 			gSuperTrak.System.Cmd.PowerAllSections := FALSE;
-			Interface.Cmd.Power:= FALSE;
-			Interface.Cmd.Run:= FALSE;
 			
             // Reset commands and timers
             ResetTargetRelease;

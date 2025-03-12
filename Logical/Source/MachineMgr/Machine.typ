@@ -25,7 +25,6 @@ TYPE
 	Machine_Par_type : 	STRUCT  (*Machine parameters*)
 		Velocity : REAL := 1500.0; (*[mm/s] Set velocity for target and shuttle release commands*)
 		Acceleration : REAL := 15000.0; (*[mm/s^2] Set acceleration for target and shuttle release commands*)
-		SuperTrakDiagIndex : USINT; (*Index 0 is the System, others are for a specific section. Set to a relevant index when Errors occur*)
 	END_STRUCT;
 	Machine_Status_type : 	STRUCT  (*Machine statuses*)
 		PowerOn : BOOL; (*The main state machine is enabled and the trak is powered*)
@@ -35,6 +34,7 @@ TYPE
 		SuperTrakDiag : SuperTrak_Diag_type; (*Populated from gSuperTrak with Par.SuperTrakDiagIndex*)
 	END_STRUCT;
 	SuperTrak_Diag_type : 	STRUCT 
+		SuperTrakDiagIndex : USINT; (*Index 0 is the System, others are for a specific section. Set to a relevant index when Errors occur*)
 		Warnings : ARRAY[0..31]OF BOOL; (*See TrakMaster Help for descriptions*)
 		Errors : ARRAY[0..31]OF BOOL; (*See TrakMaster Help for descriptions*)
 	END_STRUCT;

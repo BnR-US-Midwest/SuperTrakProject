@@ -27,6 +27,7 @@ END_VAR
 (*Function Blocks*)
 VAR
 	ProcessTimer : ARRAY[1..ST_TARGET_MAX] OF TON; (*Timers used to simulate machine processes*)
+	r_trig_Power : R_TRIG; (*Rising edge checker for Power command*)
 END_VAR
 (*Constants*)
 VAR CONSTANT
