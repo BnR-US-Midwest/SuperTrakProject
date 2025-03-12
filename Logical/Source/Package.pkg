@@ -4,5 +4,6 @@
   <Objects>
     <Object Type="Package" Description="Machine manager">MachineMgr</Object>
     <Object Type="Package" Description="SuperTrak manager">STMgr</Object>
+    <Object Type="Package">EthIP</Object>
   </Objects>
 </Package>
