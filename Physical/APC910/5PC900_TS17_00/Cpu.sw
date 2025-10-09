@@ -3,17 +3,17 @@
 <SwConfiguration CpuAddress="SL1" xmlns="http://br-automation.co.at/AS/SwConfiguration">
   <TaskClass Name="Cyclic#1">
     <Task Name="STCyclic" Source="Source.STMgr.STCyclic.STCyclic.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="STSystem" Source="Source.STMgr.STSystem.STSystem.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="STSection" Source="Source.STMgr.STSection.STSection.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="STTarget" Source="Source.STMgr.STTarget.STTarget.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="STShuttle" Source="Source.STMgr.STShuttle.STShuttle.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="STSystem" Source="Source.STMgr.STSystem.STSystem.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
+    <Task Name="STSection" Source="Source.STMgr.STSection.STSection.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
+    <Task Name="STTarget" Source="Source.STMgr.STTarget.STTarget.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
+    <Task Name="STShuttle" Source="Source.STMgr.STShuttle.STShuttle.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2">
-    <Task Name="Main" Source="Source.MachineMgr.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="Main" Source="Source.MachineMgr.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#3" />
   <TaskClass Name="Cyclic#4">
-    <Task Name="EipComm" Source="Source.EthIP.EipComm.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="EipComm" Source="Source.EthIP.EipComm.prg" Memory="UserROM" Language="IEC" Debugging="true" Disabled="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
