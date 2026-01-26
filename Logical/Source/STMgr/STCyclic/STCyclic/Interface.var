@@ -18,4 +18,8 @@ VAR
 	InterfaceParameters : SuperTrakControlInterface_t; (*Control interface parameters*)
 	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
 	fb_RTInfo : RTInfo; (*Gets information about the current runtime task*)
+	ConfigPath : STRING[80];
+END_VAR
+VAR CONSTANT
+	ConfigTrakMasterControl : BOOL := FALSE; (*Choose between two configuration files*)
 END_VAR

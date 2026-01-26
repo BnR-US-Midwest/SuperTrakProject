@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Package" Description="Use gMachine Cmd.Power and Cmd.Run to operate, auto-releases">SystemControl</Object>
+    <Object Type="Package" Description="Enable in TrakMaster to operate, auto-releases">TrakMasterControl</Object>
+  </Objects>
+</Package>
