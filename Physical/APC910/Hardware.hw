@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.12.7.113 FileVersion="4.9"?>
+<?AutomationStudio WorkingVersion="6.5" FileVersion="4.9"?>
 <Hardware xmlns="http://br-automation.co.at/AS/Hardware">
   <Module Name="5AC901.BX02-01" Type="5AC901.BX02-01" Version="1.1.1.0">
     <Connection Connector="SY" TargetModule="5PC910.SX02-00" TargetConnector="SY3" />
@@ -7,7 +7,7 @@
   <Module Name="5ACPCE.FMIO-K01" Type="5ACPCE.FMIO-K01" Version="1.0.6.0">
     <Connection Connector="SL" TargetModule="5AC901.BX02-01" TargetConnector="SL1" />
   </Module>
-  <Module Name="5PC900_TS17_00" Type="5PC900.TS17-00" Version="2.1.0.0">
+  <Module Name="5PC900_TS17_00" Type="5PC900.TS17-00" Version="2.2.0.0">
     <Connection Connector="SY" TargetModule="5PC910.SX02-00" TargetConnector="SY1" />
     <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC910" />
     <Parameter ID="ConfigVersion" Value="1.1.0" />
@@ -31,6 +31,9 @@
     <Parameter ID="FtpUserPassword1" Value="ss9kzLCmIlqrwmUb/fXl5DaWp4kAdzlsqUsPLdKHEtE=" Description="SuperTrak" />
     <Parameter ID="FtpUserSalt1" Value="yN37R9W0" />
     <Parameter ID="FTPAccessRight1" Value="0" />
+    <Parameter ID="ActivateFtpServer" Value="1" />
+    <Parameter ID="ActivateWebServer" Value="1" />
+    <Parameter ID="ActivateSdm" Value="1" />
   </Module>
   <Module Name="5PC910.SX02-00" Type="5PC910.SX02-00" Version="2.1.2.0">
     <Connector Name="IF1">

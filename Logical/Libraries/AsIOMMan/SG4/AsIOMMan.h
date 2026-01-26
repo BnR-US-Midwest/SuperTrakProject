@@ -15,37 +15,6 @@ extern "C"
 #ifndef _BUR_PUBLIC
 #define _BUR_PUBLIC
 #endif
-/* Constants */
-#ifdef _REPLACE_CONST
- #define iommCONFIG 2U
- #define iommMAPPING 1U
- #define iommERR_DUPOBJECT 30177U
- #define iommERR_WRONG_NAME 30176U
- #define iommERR_MODULE_TYPE 30175U
- #define iommERR_NOSUCH_MODULE 30174U
- #define iommERR_COPY 30173U
- #define iommERR_DEINSTALL 30172U
- #define iommERR_INSTALL 30171U
- #define iommERR_INTERNAL 30170U
-#else
- #ifndef _GLOBAL_CONST
-   #define _GLOBAL_CONST _WEAK const
- #endif
- _GLOBAL_CONST unsigned char iommCONFIG;
- _GLOBAL_CONST unsigned char iommMAPPING;
- _GLOBAL_CONST unsigned short iommERR_DUPOBJECT;
- _GLOBAL_CONST unsigned short iommERR_WRONG_NAME;
- _GLOBAL_CONST unsigned short iommERR_MODULE_TYPE;
- _GLOBAL_CONST unsigned short iommERR_NOSUCH_MODULE;
- _GLOBAL_CONST unsigned short iommERR_COPY;
- _GLOBAL_CONST unsigned short iommERR_DEINSTALL;
- _GLOBAL_CONST unsigned short iommERR_INSTALL;
- _GLOBAL_CONST unsigned short iommERR_INTERNAL;
-#endif
-
-
-
-
 /* Datatypes and datatypes of function blocks */
 typedef struct AsIOMMCreate
 {
@@ -124,6 +93,34 @@ _BUR_PUBLIC void AsIOMMCreate(struct AsIOMMCreate* inst);
 _BUR_PUBLIC void AsIOMMRemove(struct AsIOMMRemove* inst);
 _BUR_PUBLIC void AsIOMMCopy(struct AsIOMMCopy* inst);
 _BUR_PUBLIC void AsIOMMCompare(struct AsIOMMCompare* inst);
+
+
+/* Constants */
+#ifdef _REPLACE_CONST
+ #define iommCONFIG 2U
+ #define iommMAPPING 1U
+ #define iommERR_DUPOBJECT 30177U
+ #define iommERR_WRONG_NAME 30176U
+ #define iommERR_MODULE_TYPE 30175U
+ #define iommERR_NOSUCH_MODULE 30174U
+ #define iommERR_COPY 30173U
+ #define iommERR_DEINSTALL 30172U
+ #define iommERR_INSTALL 30171U
+ #define iommERR_INTERNAL 30170U
+#else
+ _GLOBAL_CONST unsigned char iommCONFIG;
+ _GLOBAL_CONST unsigned char iommMAPPING;
+ _GLOBAL_CONST unsigned short iommERR_DUPOBJECT;
+ _GLOBAL_CONST unsigned short iommERR_WRONG_NAME;
+ _GLOBAL_CONST unsigned short iommERR_MODULE_TYPE;
+ _GLOBAL_CONST unsigned short iommERR_NOSUCH_MODULE;
+ _GLOBAL_CONST unsigned short iommERR_COPY;
+ _GLOBAL_CONST unsigned short iommERR_DEINSTALL;
+ _GLOBAL_CONST unsigned short iommERR_INSTALL;
+ _GLOBAL_CONST unsigned short iommERR_INTERNAL;
+#endif
+
+
 
 
 #ifdef __cplusplus
