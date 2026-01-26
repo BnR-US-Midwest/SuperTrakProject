@@ -14,9 +14,6 @@
 VAR
 	RequestData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel input data*)
 	ResponseData : ARRAY[0..127] OF USINT := [128(0)]; (*Raw service channel output data*)
-	RequestHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in service channel input*)
-	ResponseHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to header in sercive channel output*)
-	Values : UserLogFormatType; (*Runtime values for formatted log messages*)
 END_VAR
 (*Configure Digital Inputs*)
 VAR
