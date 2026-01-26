@@ -11,8 +11,6 @@ END_VAR
 VAR CONSTANT
 	scTASK_READ : USINT := 5; (*Read values from the conveyor*)
 	scTASK_WRITE : USINT := 6; (*Write values to the conveyor*)
-	scTASK_ARRAY_READ : USINT := 5; (*OBSOLETE alias for scTASK_READ*)
-	scTASK_ARRAY_WRITE : USINT := 6; (*OBSOLETE alias for scTASK_WRITE*)
 END_VAR
 (*Service Channel parameter numbers*)
 VAR CONSTANT
@@ -104,18 +102,6 @@ VAR CONSTANT
 	scERR_BUFFER_SIZE : UINT := 13; (*The buffer size is insufficient.*)
 	scERR_INVALID_PACKET : UINT := 14; (*The packet is malformed, or its length is incorrect.*)
 	scERR_INTERNAL_ERROR : UINT := 15; (*An internal error occurred while processing the request.*)
-END_VAR
-(*Service Channel state codes*)
-VAR CONSTANT
-	scSTATE_RECV : USINT := 0; (*The service channel is idle and awaiting a request.*)
-	scSTATE_EXEC : USINT := 1; (*The service channel has received a request, and must begin processing it.*)
-	scSTATE_WAIT : USINT := 2; (*The service channel is processing a request.*)
-	scSTATE_SEND : USINT := 3; (*The service channel must transmit a response.*)
-	scSTATE_ERROR : USINT := 9; (*The service channel has encountered an unrecoverable error.*)
-END_VAR
-(*Service Channel timer control*)
-VAR CONSTANT
-	scTIMER_ABORT : UINT := 16#ffff;
 END_VAR
 (*Service Channel Type Codes*)
 VAR CONSTANT

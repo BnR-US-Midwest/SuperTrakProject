@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="5.07.0" SubType="Binary" Description="SuperTrak control library" xmlns="http://br-automation.co.at/AS/Library">
+<Library Version="6.0.0" SubType="Binary" Description="SuperTrak control library" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
     <File Description="Type declarations">StCom.typ</File>
     <File Description="Variable declarations">StCom.var</File>
@@ -13,6 +13,6 @@
     <Dependency ObjectName="standard" />
     <Dependency ObjectName="AsIecCon" />
     <Dependency ObjectName="runtime" />
-    <Dependency ObjectName="SuperTrak" FromVersion="0.00.0" />
+    <Dependency ObjectName="SuperTrak" FromVersion="0.63.0" ToVersion="2147483647.2147483647.2147483647" />
   </Dependencies>
 </Library>

@@ -23,7 +23,6 @@
     <DataObject Name="ethIPcon" Source="Source.EthIP.ethIPcon.dob" Memory="UserROM" Language="Simple" />
   </DataObjects>
   <Binaries>
-    <BinaryObject Name="STComTexts" Source="Libraries.StCom.STComTexts.br" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="udbdef" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="TCData" Source="" Memory="SystemROM" Language="Binary" />
     <BinaryObject Name="TCLang" Source="" Memory="UserROM" Language="Binary" />
@@ -37,11 +36,9 @@
     <BinaryObject Name="stcyclicvm" Source="" Memory="UserROM" Language="Binary" />
   </Binaries>
   <Libraries>
-    <LibraryObject Name="SuperTrak" Source="Libraries.SuperTrak.lby" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="ArEventLog" Source="Libraries.ArEventLog.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsIOAcc" Source="Libraries.AsIOAcc.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsARCfg" Source="Libraries.AsARCfg.lby" Memory="UserROM" Language="binary" Debugging="true" />
-    <LibraryObject Name="AsArLog" Source="Libraries.AsArLog.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsArProf" Source="Libraries.AsArProf.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsArSdm" Source="Libraries.AsArSdm.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsGuard" Source="Libraries.AsGuard.lby" Memory="UserROM" Language="binary" Debugging="true" />
@@ -59,12 +56,14 @@
     <LibraryObject Name="FileIO" Source="Libraries.FileIO.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="sys_lib" Source="Libraries.sys_lib.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="runtime" Source="Libraries.runtime.lby" Memory="UserROM" Language="binary" Debugging="true" />
-    <LibraryObject Name="StCom" Source="Libraries.StCom.lby" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="AsBrStr" Source="Libraries.AsBrStr.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="standard" Source="Libraries.standard.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsIecCon" Source="Libraries.AsIecCon.lby" Memory="UserROM" Language="binary" Debugging="true" />
-    <LibraryObject Name="UserLog" Source="Libraries.UserLog.lby" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="AsEthIP" Source="Libraries.AsEthIP.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="aspciext" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="StCom" Source="Libraries.StCom.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="SuperTrak" Source="Libraries.SuperTrak.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="ArTextSys" Source="Libraries.ArTextSys.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="UserLog" Source="Libraries.UserLog.lby" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>
