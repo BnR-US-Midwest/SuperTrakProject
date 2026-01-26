@@ -20,9 +20,23 @@ PROGRAM _INIT
     
     CheckTaskClass; // Check that task is running in 800us task class
 	
-	// Initialize SuperTrak, set configuration path
-	SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\SystemControl', '127.0.0.1', 'IF3,IF4');
-	//SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\TrakMasterControl', '127.0.0.1', 'IF3,IF4');
+	// Set Config Path automatically for simulation
+	ConfigPath:= '/DEVICE=USER_PATH\SuperTrak\';
+	// Separate Simulation and Hardware
+	IF DiagCpuIsARsim() THEN
+		brsstrcat(ADR(ConfigPath), ADR('Simulation\'));
+	ELSE
+		brsstrcat(ADR(ConfigPath), ADR('Hardware\'));
+	END_IF
+	// Set constant according to which control method is desired
+	IF ConfigTrakMasterControl THEN
+		brsstrcat(ADR(ConfigPath), ADR('TrakMasterControl'));
+	ELSE
+		brsstrcat(ADR(ConfigPath), ADR('SystemControl'));
+	END_IF
+	
+	// Initialize SuperTrak
+	SuperTrakInit(ConfigPath, '127.0.0.1', 'IF3,IF4');
 	
 	InitializeControlInterface;
     
