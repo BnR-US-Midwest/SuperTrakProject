@@ -24,7 +24,6 @@ PROGRAM _INIT
 	SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\Configuration', '127.0.0.1', 'IF3,IF4');
 	
 	InitializeControlInterface;
-    InitializeServiceChannel;
     
     DeConfigureAllowSectionEnableInputs;
 	
@@ -43,9 +42,6 @@ PROGRAM _CYCLIC
 	
 	// StCom output data
 	SuperTrakProcessStatus(0, InterfaceParameters);
-	
-	// StCom configuration
-	ProcessServiceChannel;
 	
 	// StCom reference
 	ReferenceCyclicData;
