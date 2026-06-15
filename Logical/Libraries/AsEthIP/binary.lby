@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio FileVersion="4.9"?>
-<Library SubType="binary" Description="The AsEthIP library is a communication driver for CIP Ethernet/IP." xmlns="http://br-automation.co.at/AS/Library">
+<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio Version=3.0.0.0?>
+<Library xmlns="http://br-automation.co.at/AS/Library" Description="The AsEthIP library is a communication driver for CIP Ethernet/IP.">
   <Files>
     <File>AsEthIP.fun</File>
     <File>AsEthIP.typ</File>

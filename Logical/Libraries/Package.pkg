@@ -6,7 +6,6 @@
     <Object Type="Library" Language="binary" Description="The ArEventLog library can be used to collect additional error information and for further processing.">ArEventLog</Object>
     <Object Type="Library" Language="binary" Description="This library provides read and write access to non-cyclic I/O data points.">AsIOAcc</Object>
     <Object Type="Library" Language="binary" Description="The AsARCfg library supports reading and writing Automation Runtime configurations.">AsARCfg</Object>
-    <Object Type="Library" Language="binary" Description="OBSOLETE - The AsArLog library is replaced by ArEventLog and exists only for compatibility reasons.">AsArLog</Object>
     <Object Type="Library" Language="binary" Description="The AsArProf library is used to operate the AR Profiler from an application.">AsArProf</Object>
     <Object Type="Library" Language="binary" Description="The AsArSdm library supports the System Diagnostics Manager">AsArSdm</Object>
     <Object Type="Library" Language="binary" Description="The AsGuard library supports technology guarding functions.">AsGuard</Object>
@@ -30,5 +29,6 @@
     <Object Type="Library" Language="binary" Description="This library contains function interfaces for IEC 61131-3 conversion functions.">AsIecCon</Object>
     <Object Type="Library" Language="Binary" Description="Write to logbooks">UserLog</Object>
     <Object Type="Library" Language="binary" Description="The AsEthIP library is a communication driver for CIP Ethernet/IP.">AsEthIP</Object>
+    <Object Type="Library" Language="binary" Description="IEC Text-System Library.">ArTextSys</Object>
   </Objects>
 </Package>

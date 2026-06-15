@@ -329,6 +329,7 @@ TYPE
 		ReadData : {REDUND_UNREPLICABLE} ARRAY[0..stCOM_CONFIG_SERV_CH_MAX_DATA_M1]OF UDINT; (*Internal service channel data*)
 		WriteData : {REDUND_UNREPLICABLE} ARRAY[0..stCOM_CONFIG_SERV_CH_MAX_DATA_M1]OF UDINT; (*Internal service channel data*)
 		ValidReadDataSize : {REDUND_UNREPLICABLE} UDINT; (*Internal service channel data size*)
+		SuperTrakServChannel : {REDUND_UNREPLICABLE} StServiceChannel;
 	END_STRUCT;
 	StCtrlInternalServChMsgType : {REDUND_UNREPLICABLE} 	STRUCT  (*Service channel message strucutre*)
 		Length : {REDUND_UNREPLICABLE} UINT; (*Length of message*)
