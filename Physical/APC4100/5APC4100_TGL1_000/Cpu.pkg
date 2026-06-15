@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Cpu xmlns="http://br-automation.co.at/AS/Cpu">
+  <Objects>
+    <Object Type="File" Description="Software configuration">Cpu.sw</Object>
+    <Object Type="Package">TextSystem</Object>
+    <Object Type="Package">Connectivity</Object>
+  </Objects>
+  <Configuration ModuleId="5APC4100.TGL1-000">
+    <AutomationRuntime Version="6.7.5" />
+    <Build GccVersion="11.3.0" />
+    <DefaultTargetMemory Tasks="UserROM" />
+    <Transfer AddToUserPart="True" AdditionalUserDir="\Logical\UserFiles" AllowDowngrade="False" AllowInitialTransfer="False" AllowPartitioning="False" ExecuteInitExitProgram="True" ForceInitialTransfer="False" IgnoreVersion="True" KeepNonVolatileMemory="False" PreserveVariableValues="False" ProjectConsistent="False" RebootDuringTransfer="True" TargetIdentificationType="Always" TryToBootInRunMode="False" UserFilesIgnoreDifference="True" WaitForReconnectAfterReboot="True" />
+    <Vc />
+    <OnlineConfiguration Name="bolson" DeviceType="TCPIP" DeviceParameters="/IF=tcpip" ConnectionParameters="/COMT=2500 /AM=* /SDT=5 /IP=bolson /PT=11169" Description="" />
+  </Configuration>
+</Cpu>
