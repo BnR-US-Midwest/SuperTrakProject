@@ -24,7 +24,7 @@ ACTION DeConfigureAllowSectionEnableInputs:
     InputCount := MIN(UDINT_TO_UINT(InputParameterDataLength), SIZEOF(DigtalInputFunctions)/SIZEOF(DigtalInputFunctions[0])); 
     SuperTrakServChanRead(0, stPAR_DIGITAL_INPUT_FUNCTION, 0, InputCount, ADR(DigtalInputFunctions), SIZEOF(DigtalInputFunctions));
     
-    FOR InputIndex := 0 TO (SIZEOF(DigtalInputFunctions)/SIZEOF(DigtalInputFunctions[0])) DO
+    FOR InputIndex := 0 TO 7 DO
         IF DigtalInputFunctions[InputIndex] = 25 THEN // 25 means input is configured as Allow Section Enable
             DigtalInputFunctions[InputIndex] := 0; // 0 means Not Configured
             InputConfigChanged := TRUE;
