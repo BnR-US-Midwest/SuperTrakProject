@@ -28,11 +28,11 @@ PROGRAM _CYCLIC
         
         // Link parameters
         TargetParameters[Index].AdvancedReleaseConfig.DestinationTarget := Interface[Index].Par.Release.DestinationTarget;
-        TargetParameters[Index].AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.Release.IncrementalOffset;
-        TargetParameters[Index].AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.Release.TargetOffset;
+        TargetParameters[Index].AdvancedReleaseConfig.IncrementalOffset := LIMIT(-500.0, Interface[Index].Par.Release.IncrementalOffset, 500.0);
+        TargetParameters[Index].AdvancedReleaseConfig.TargetOffset := LIMIT(-500.0, Interface[Index].Par.Release.TargetOffset, 500.0);
         TargetParameters[Index].AdvancedReleaseConfig.Direction := Interface[Index].Par.Release.Direction;
-        TargetParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Release.Acceleration * METERS_TO_MILLIMETERS);
-        TargetParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Release.Velocity);
+        TargetParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(LIMIT(1, Interface[Index].Par.Release.Acceleration, 60) * METERS_TO_MILLIMETERS);
+        TargetParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(LIMIT(10, Interface[Index].Par.Release.Velocity, 4000));
         TargetParameters[Index].PalletConfig.ID := Interface[Index].Par.SetShuttleID;
 	    
         // StTargetExt function block inputs

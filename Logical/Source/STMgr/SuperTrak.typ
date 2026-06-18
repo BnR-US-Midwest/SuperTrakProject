@@ -24,11 +24,11 @@ TYPE
         IncrementOffset : BOOL; (*Increment the shuttle offset. Configure velocity, acceleration, and incremental distance.*)
     END_STRUCT;
     STReleaseParameterType :     STRUCT  (*Release (target and shuttle) parameter structure*)
-        Velocity : REAL; (*[mm/s] Set velocity of release movement*)
-        Acceleration : REAL; (*[m/s^2] Set acceleration of release movement*)
-        Direction : UINT; (*Direction of release movement 0: left (CW) 1: right (CCW)*)
+        Velocity : REAL; (*[mm/s] Set velocity of release movement (10..4000)*)
+        Acceleration : REAL; (*[m/s^2] Set acceleration of release movement (1..60)*)
+        Direction : StParamAdvReleaseConfigDirEnum; (*Direction of release movement 0: left (CW) 1: right (CCW)*)
         DestinationTarget : USINT := 1; (*1..254 Destination target, target configured in TrackMaster, 255 identified for expert mode*)
-        TargetOffset : REAL; (*[mm] Absolute position offset relative to destination target*)
-        IncrementalOffset : REAL; (*[mm] Increment current accumulated offset of current destination target*)
+        TargetOffset : REAL; (*[mm] Absolute position offset relative to destination target (-500..500)*)
+        IncrementalOffset : REAL; (*[mm] Increment current accumulated offset of current destination target (-500..500)*)
     END_STRUCT;
 END_TYPE
