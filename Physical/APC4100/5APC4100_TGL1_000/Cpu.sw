@@ -11,10 +11,10 @@
   <TaskClass Name="Cyclic#2">
     <Task Name="Main" Source="Source.MachineMgr.Main.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
-  <TaskClass Name="Cyclic#3" />
-  <TaskClass Name="Cyclic#4">
+  <TaskClass Name="Cyclic#3">
     <Task Name="EipComm" Source="Source.EthIP.EipComm.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
+  <TaskClass Name="Cyclic#4" />
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
   <TaskClass Name="Cyclic#7" />
@@ -60,10 +60,10 @@
     <LibraryObject Name="standard" Source="Libraries.standard.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsIecCon" Source="Libraries.AsIecCon.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsEthIP" Source="Libraries.AsEthIP.lby" Memory="UserROM" Language="binary" Debugging="true" />
-    <LibraryObject Name="aspciext" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="StCom" Source="Libraries.StCom.lby" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="SuperTrak" Source="Libraries.SuperTrak.lby" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="ArTextSys" Source="Libraries.ArTextSys.lby" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="UserLog" Source="Libraries.UserLog.lby" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="aspciext" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

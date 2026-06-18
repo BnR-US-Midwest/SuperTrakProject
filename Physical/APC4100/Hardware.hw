@@ -65,7 +65,8 @@
     <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC910" />
     <Parameter ID="ConfigVersion" Value="1.1.0" />
     <Parameter ID="UserPartitionSize" Value="100" />
-    <Parameter ID="Simulation" Value="1" />
+    <Parameter ID="RemMemDevice" Value="PCI.2.IPLK.SRAM" />
+    <Parameter ID="RemMemSize" Value="2" />
     <Parameter ID="TimerDeviceType" Value="EPLX2X" />
     <Parameter ID="TimerDevice" Value="5AC901.IPLK-00.IF1" />
     <Parameter ID="TaskClassIdleTime" Value="800" />
@@ -73,8 +74,8 @@
     <Parameter ID="Cyclic1Tolerance" Value="0" />
     <Parameter ID="Cyclic2Duration" Value="1600" />
     <Parameter ID="Cyclic2Tolerance" Value="1600" />
-    <Parameter ID="Cyclic3Duration" Value="49600" />
-    <Parameter ID="Cyclic3Tolerance" Value="49600" />
+    <Parameter ID="Cyclic3Duration" Value="20000" />
+    <Parameter ID="Cyclic3Tolerance" Value="20000" />
     <Parameter ID="Cyclic8Duration" Value="9600" />
     <Group ID="FileDevice1" />
     <Parameter ID="FileDeviceName1" Value="USER" />

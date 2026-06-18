@@ -31,7 +31,7 @@ PROGRAM _CYCLIC
         TargetParameters[Index].AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.Release.IncrementalOffset;
         TargetParameters[Index].AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.Release.TargetOffset;
         TargetParameters[Index].AdvancedReleaseConfig.Direction := Interface[Index].Par.Release.Direction;
-        TargetParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Release.Acceleration);
+        TargetParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Release.Acceleration * METERS_TO_MILLIMETERS);
         TargetParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Release.Velocity);
         TargetParameters[Index].PalletConfig.ID := Interface[Index].Par.SetShuttleID;
 	    

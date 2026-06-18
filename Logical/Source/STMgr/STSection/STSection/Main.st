@@ -34,7 +34,7 @@ PROGRAM _CYCLIC
         // Enable each section
         ControlSection[Index].EnableSection := Interface.Cmd.PowerSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
         // Reset all function blocks
-        ControlSection[Index].ErrorReset := Interface.Cmd.Reset;
+        ControlSection[Index].ErrorReset := gSuperTrak.System.Cmd.Reset AND ControlSection[Index].Error;
         ControlSection[Index]();
 		
         // All sections must be active

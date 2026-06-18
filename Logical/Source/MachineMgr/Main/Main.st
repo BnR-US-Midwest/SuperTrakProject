@@ -27,12 +27,18 @@ END_PROGRAM
 
 PROGRAM _CYCLIC	
     
+    // This program isn't used if control is being handled by a different controller
+    IF ConfgUseExternalControl THEN
+        RETURN;
+    END_IF;
+    
     // Copy inputs
     Interface.Cmd := gMachine.Cmd;
     Interface.Par := gMachine.Par;
     
     // Check for command edges
     r_trig_Power(CLK := Interface.Cmd.Power);
+    r_trig_Run(CLK := Interface.Cmd.Run);
 		
 	// Translate Errors
 	GetErrorType;
@@ -61,7 +67,6 @@ PROGRAM _CYCLIC
 	END_IF;
 	// Reset Errors
 	gSuperTrak.System.Cmd.Reset := Interface.Cmd.ErrorReset;
-	gSuperTrak.Sections.Cmd.Reset := Interface.Cmd.ErrorReset;
     
     // Disable handling
     IF (NOT Interface.Cmd.Power OR NOT gSuperTrak.System.Status.Active) 
@@ -71,7 +76,9 @@ PROGRAM _CYCLIC
     
     // Main state machine
     CASE MainState OF
-		MAIN_STATE_OFF:
+        MAIN_STATE_OFF:
+            gSuperTrak.System.Cmd.PowerAllSections := FALSE;
+            
             // Wait for System and Sections to be Active
             IF gSuperTrak.System.Status.Active AND gSuperTrak.Sections.Status.Active THEN
                 MainState := MAIN_STATE_DISABLED;
@@ -103,7 +110,7 @@ PROGRAM _CYCLIC
             END_IF
             
         MAIN_STATE_READY:
-            IF Interface.Cmd.Run THEN
+            IF r_trig_Run.Q THEN
                 MainState := MAIN_STATE_RUN;
             END_IF;
             

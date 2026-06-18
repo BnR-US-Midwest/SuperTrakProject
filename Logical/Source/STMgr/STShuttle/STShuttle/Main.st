@@ -39,7 +39,7 @@ PROGRAM _CYCLIC
         ShuttleParameters[Index].AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.IncrementalOffset;
         ShuttleParameters[Index].AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.TargetOffset;
         ShuttleParameters[Index].AdvancedReleaseConfig.Direction := Interface[Index].Par.Direction;
-        ShuttleParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Acceleration);
+        ShuttleParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Acceleration * METERS_TO_MILLIMETERS);
         ShuttleParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Velocity);
 	    
         // StShuttleExt function block inputs
@@ -101,7 +101,7 @@ PROGRAM _CYCLIC
         Interface[Index].Status.SetPositionMicrons := PositionSetpoint[Index];
         Interface[Index].Status.SetPosition := DINT_TO_REAL(Interface[Index].Status.SetPositionMicrons)/1000.0;
         Interface[Index].Status.SetVelocity := VelocitySetpoint[Index];
-        Interface[Index].Status.SetAcceleration := AccelerationSetpoint[Index];
+        Interface[Index].Status.SetAcceleration := AccelerationSetpoint[Index] / METERS_TO_MILLIMETERS;
         
         // Log errors only when that error first occurs
         r_trig_ShuttleFBError[Index](CLK := ControlShuttle[Index].Error);

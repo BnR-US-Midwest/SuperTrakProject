@@ -10,29 +10,33 @@
  *  Marcus Mangel, B&R Industrial Automation
  *
 ***************************************************************************************)
+VAR RETAIN
+    ConfgUseExternalControl : BOOL := FALSE; (*If set, Main state machine will be ignored and all control must come via EthIP*)
+END_VAR
 (*Control*)
 VAR
-	MainState : MainState_enum; (*Program state*)
-	Interface : Machine_type; (*Local copy of gMachine*)
-	SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
-	LoopTarget : USINT; (*FOR loop index*)
-	LoopShuttle : USINT; (*FOR loop index*)
-	i : USINT;
+    MainState : MainState_enum; (*Program state*)
+    Interface : Machine_type; (*Local copy of gMachine*)
+    SimulatedProcessTimes : ARRAY[1..ST_TARGET_MAX] OF TIME; (*Times used to simulate machine processes*)
+    LoopTarget : USINT; (*FOR loop index*)
+    LoopShuttle : USINT; (*FOR loop index*)
+    i : USINT;
 END_VAR
 (*Status*)
 VAR
-	TargetsReleased : BOOL; (*All configured target release commands confirmed*)
-	ShuttlesReleased : BOOL; (*All configured shuttle release commands confirmed*)
+    TargetsReleased : BOOL; (*All configured target release commands confirmed*)
+    ShuttlesReleased : BOOL; (*All configured shuttle release commands confirmed*)
 END_VAR
 (*Function Blocks*)
 VAR
-	ProcessTimer : ARRAY[1..ST_TARGET_MAX] OF TON; (*Timers used to simulate machine processes*)
-	r_trig_Power : R_TRIG; (*Rising edge checker for Power command*)
+    ProcessTimer : ARRAY[1..ST_TARGET_MAX] OF TON; (*Timers used to simulate machine processes*)
+    r_trig_Power : R_TRIG; (*Rising edge checker for Power command*)
+    r_trig_Run : R_TRIG; (*Rising edge checker for Run command*)
 END_VAR
 (*Constants*)
 VAR CONSTANT
-	ST_TARGET_LOAD : USINT := 1;
-	ST_TARGET_QUEUE : USINT := 2;
-	ST_TARGET_PROCESS : USINT := 3;
-	ST_TARGET_UNLOAD : USINT := 4;
+    ST_TARGET_LOAD : USINT := 1;
+    ST_TARGET_QUEUE : USINT := 2;
+    ST_TARGET_PROCESS : USINT := 3;
+    ST_TARGET_UNLOAD : USINT := 4;
 END_VAR
