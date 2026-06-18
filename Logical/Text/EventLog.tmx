@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="B&amp;R Automation Studio" creationtoolversion="4.2" datatype="unknown" segtype="sentence" adminlang="en" srclang="en" o-tmf="TMX">
+    <note>Change the namespace to define where this text module should be located within the logical structure of your texts</note>
+    <prop type="x-BR-TS:Namespace">User/EventLog</prop>
+  </header>
+  <body>
+    <tu tuid="-536869912">
+      <note>SuperTrak Error Code: 1000</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak control code must be run in Task Class #1 with 800us cycle time</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869902">
+      <note>SuperTrak Error Code: 1010</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak System Control error: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869812">
+      <note>SuperTrak Error Code 1100</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Section Control error. Section: %i. Status ID: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869810">
+      <note>SuperTrak Error Code 1102</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Section fault. Section: %i. Fault DINT: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869712">
+      <note>SuperTrak Error Code 1200</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Target Control error. Target: %i. Status ID: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536869612">
+      <note>SuperTrak Error Code 1300</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Shuttle Control error. Shuttle: %i. Status ID: %i</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536868912">
+      <note>SuperTrak Error Code: 2000</note>
+      <tuv xml:lang="en">
+        <seg>Timeout while enabling StControl function block</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536868911">
+      <note>SuperTrak Error Code: 2001</note>
+      <tuv xml:lang="en">
+        <seg>Timeout during Enable All Sections (StControl function block)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536868910">
+      <note>SuperTrak Error Code: 2002</note>
+      <tuv xml:lang="en">
+        <seg>Timeout during Disable All Sections (StControl function block)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536868909">
+      <note>SuperTrak Error Code: 2003</note>
+      <tuv xml:lang="en">
+        <seg>Timeout during Error Reset of StControl function block</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610609736">
+      <note>SuperTrak Warning Code: 3000</note>
+      <tuv xml:lang="en">
+        <seg>Sections enabled by alternative source</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610609735">
+      <note>SuperTrak Warning Code: 3001</note>
+      <tuv xml:lang="en">
+        <seg>Sections disabled by alternative source</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610609636">
+      <note>SuperTrak Warning Code: 3100</note>
+      <tuv xml:lang="en">
+        <seg>SuperTrak Section warning. Section: %i. Warning DINT: %i</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

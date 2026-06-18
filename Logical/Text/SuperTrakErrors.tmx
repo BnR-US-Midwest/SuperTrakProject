@@ -2,85 +2,712 @@
 <tmx version="1.4">
   <header creationtool="B&amp;R Automation Studio" creationtoolversion="4.2" datatype="unknown" segtype="sentence" adminlang="en" srclang="en" o-tmf="TMX">
     <note>Change the namespace to define where this text module should be located within the logical structure of your texts</note>
-    <prop type="x-BR-TS:Namespace">User/EventLog</prop>
+    <prop type="x-BR-TS:Namespace">User/SuperTrakErrors</prop>
   </header>
   <body>
-    <tu tuid="-536869912">
-      <note>SuperTrak Error Code: 1000</note>
+    <tu tuid="-536805365">
       <tuv xml:lang="en">
-        <seg>SuperTrak control code must be run in Task Class #1 with 800us cycle time</seg>
+        <seg>CommandComplete flag is true before command execution</seg>
       </tuv>
     </tu>
-    <tu tuid="-536869902">
-      <note>SuperTrak Error Code: 1010</note>
+    <tu tuid="-536805368">
       <tuv xml:lang="en">
-        <seg>SuperTrak System Control error: %i</seg>
+        <seg>Command could not be executed successfully</seg>
       </tuv>
     </tu>
-    <tu tuid="-536869812">
-      <note>SuperTrak Error Code 1100</note>
+    <tu tuid="-536805372">
       <tuv xml:lang="en">
-        <seg>SuperTrak Section Control error. Section: %i. Status ID: %i</seg>
+        <seg>Timeout for communication to SuperTrak</seg>
       </tuv>
     </tu>
-    <tu tuid="-536869810">
-      <note>SuperTrak Error Code 1102</note>
+    <tu tuid="-536805375">
       <tuv xml:lang="en">
-        <seg>SuperTrak Section fault. Section: %i. Fault DINT: %i</seg>
+        <seg>Instance of this function block already registered</seg>
       </tuv>
     </tu>
-    <tu tuid="-536869712">
-      <note>SuperTrak Error Code 1200</note>
+    <tu tuid="-536805371">
       <tuv xml:lang="en">
-        <seg>SuperTrak Target Control error. Target: %i. Status ID: %i</seg>
+        <seg>There is no instance of StControl registered</seg>
       </tuv>
     </tu>
-    <tu tuid="-536869612">
-      <note>SuperTrak Error Code 1300</note>
+    <tu tuid="-536608741">
       <tuv xml:lang="en">
-        <seg>SuperTrak Shuttle Control error. Shuttle: %i. Status ID: %i</seg>
+        <seg>The conveyor controller encountered an unexpected condition. Operation has been stopped to prevent damage to hardware</seg>
       </tuv>
     </tu>
-    <tu tuid="-536868912">
-      <note>SuperTrak Error Code: 2000</note>
+    <tu tuid="-536608764">
       <tuv xml:lang="en">
-        <seg>Timeout while enabling StControl function block</seg>
+        <seg>The motor detected an abnormally large current in one or more coils, and has shut down to prevent overheating and damage to hardware</seg>
       </tuv>
     </tu>
-    <tu tuid="-536868911">
-      <note>SuperTrak Error Code: 2001</note>
+    <tu tuid="-536608760">
       <tuv xml:lang="en">
-        <seg>Timeout during Enable All Sections (StControl function block)</seg>
+        <seg>Pallet control required a large amount of current ("I") for an excessively long time ("T"). The section has been shut down to prevent overheating and damage to hardware</seg>
       </tuv>
     </tu>
-    <tu tuid="-536868910">
-      <note>SuperTrak Error Code: 2002</note>
+    <tu tuid="-536608746">
       <tuv xml:lang="en">
-        <seg>Timeout during Disable All Sections (StControl function block)</seg>
+        <seg>The gateway board has reported a failure in communication with the coil driver board</seg>
       </tuv>
     </tu>
-    <tu tuid="-536868909">
-      <note>SuperTrak Error Code: 2003</note>
+    <tu tuid="-536608757">
       <tuv xml:lang="en">
-        <seg>Timeout during Error Reset of StControl function block</seg>
+        <seg>The motor has shut down due to a fault in the power electronics</seg>
       </tuv>
     </tu>
-    <tu tuid="-1610609736">
-      <note>SuperTrak Warning Code: 3000</note>
+    <tu tuid="-536608759">
       <tuv xml:lang="en">
-        <seg>Sections enabled by alternative source</seg>
+        <seg>The motor is unable to adequately control the current in one or more coils</seg>
       </tuv>
     </tu>
-    <tu tuid="-1610609735">
-      <note>SuperTrak Warning Code: 3001</note>
+    <tu tuid="-536608749">
       <tuv xml:lang="en">
-        <seg>Sections disabled by alternative source</seg>
+        <seg>Two pallets have been commanded to travel toward each other, such that they would collide. The conveyor stops both pallets</seg>
       </tuv>
     </tu>
-    <tu tuid="-1610609636">
-      <note>SuperTrak Warning Code: 3100</note>
+    <tu tuid="-536608744">
       <tuv xml:lang="en">
-        <seg>SuperTrak Section warning. Section: %i. Warning DINT: %i</seg>
+        <seg>The "heartbeat" control bit on an active PLC interface has not changed state, within the configured time limit</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608745">
+      <tuv xml:lang="en">
+        <seg>The conveyor has detected an error in pallet position detection. Two pallets appear to occupy the same physical space</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608742">
+      <tuv xml:lang="en">
+        <seg>An open-loop pallet has arrived on an enabled section</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608754">
+      <tuv xml:lang="en">
+        <seg>Perform encoder calibration. This must be completed before the system can run</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608743">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a failure in communication with the encoders</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608747">
+      <tuv xml:lang="en">
+        <seg>An encoder has indicated a sudden change in pallet position, which is incorrect, because it is too large to be physically possible</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608737">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller encountered an unexpected condition. Operation has been stopped. The conveyor must be restarted to resume operation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608761">
+      <tuv xml:lang="en">
+        <seg>The network that connects the sections to the conveyor controller has experienced excessive data loss</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608738">
+      <tuv xml:lang="en">
+        <seg>The conveyor cannot run, due to an error that was encountered during startup</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608763">
+      <tuv xml:lang="en">
+        <seg>The motor detected that its operating temperature has exceeded the configured limits</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608748">
+      <tuv xml:lang="en">
+        <seg>The conveyor was unable to determine a pallet's position</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608766">
+      <tuv xml:lang="en">
+        <seg>The application has requested the use of a feature for which a license is required, but not present.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608768">
+      <tuv xml:lang="en">
+        <seg>The motor supply voltage is either too low or too high to allow the motor to operate</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608752">
+      <tuv xml:lang="en">
+        <seg>The conveyor has detected the presence of one or more additional pallets, but has been unable to determine their precise locations</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608753">
+      <tuv xml:lang="en">
+        <seg>One or more pallets cannot be adequately controlled</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608767">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608765">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608762">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608758">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608756">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608755">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608751">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608750">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608740">
+      <tuv xml:lang="en">
+        <seg>The conveyor was enabled by the PLC, but a disable request was received from the configuration software</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536608739">
+      <tuv xml:lang="en">
+        <seg>The number of installed pallets exceeds the conveyor's capabilities. Remove pallets as necessary.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536805366">
+      <tuv xml:lang="en">
+        <seg>SuperTrak responded with an error to a service channel request</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536805367">
+      <tuv xml:lang="en">
+        <seg>SuperTrak reported an section error</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536805370">
+      <tuv xml:lang="en">
+        <seg>SuperTrak reported an system error</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739813">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller encountered an unexpected condition. Operation has been stopped to prevent damage to hardware</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739836">
+      <tuv xml:lang="en">
+        <seg>The motor detected an abnormally large current in one or more coils, and has shut down to prevent overheating and damage to hardware</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739832">
+      <tuv xml:lang="en">
+        <seg>Pallet control required a large amount of current ("I") for an excessively long time ("T"). The section has been shut down to prevent overheating and damage to hardware</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739818">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a failure in communication with the coil driver board</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739829">
+      <tuv xml:lang="en">
+        <seg>The motor has shut down due to a fault in the power electronics</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739831">
+      <tuv xml:lang="en">
+        <seg>The motor is unable to adequately control the current in one or more coils</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739821">
+      <tuv xml:lang="en">
+        <seg>Two pallets have been commanded to travel toward each other, such that they would collide. The conveyor stops both pallets</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739816">
+      <tuv xml:lang="en">
+        <seg>The "heartbeat" control bit on an active PLC interface has not changed state, within the configured time limit</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739817">
+      <tuv xml:lang="en">
+        <seg>The conveyor has detected an error in pallet position detection. Two pallets appear to occupy the same physical space</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739814">
+      <tuv xml:lang="en">
+        <seg>An open-loop pallet has arrived on an enabled section</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739826">
+      <tuv xml:lang="en">
+        <seg>Perform encoder calibration. This must be completed before the system can run</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739815">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a failure in communication with the encoders</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739819">
+      <tuv xml:lang="en">
+        <seg>An encoder has indicated a sudden change in pallet position, which is incorrect, because it is too large to be physically possible</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739809">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller encountered an unexpected condition. Operation has been stopped. The conveyor must be restarted to resume operation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739833">
+      <tuv xml:lang="en">
+        <seg>The network that connects the sections to the conveyor controller has experienced excessive data loss</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739810">
+      <tuv xml:lang="en">
+        <seg>The conveyor cannot run, due to an error that was encountered during startup</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739835">
+      <tuv xml:lang="en">
+        <seg>The motor detected that its operating temperature has exceeded the configured limits</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739820">
+      <tuv xml:lang="en">
+        <seg>The conveyor was unable to determine a pallet's position</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739840">
+      <tuv xml:lang="en">
+        <seg>The motor supply voltage is either too low or too high to allow the motor to operate</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739824">
+      <tuv xml:lang="en">
+        <seg>The conveyor has detected the presence of one or more additional pallets, but has been unable to determine their precise locations</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739825">
+      <tuv xml:lang="en">
+        <seg>One or more pallets cannot be adequately controlled</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739839">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739838">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739837">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739834">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739830">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739828">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739827">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739823">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739822">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739811">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536739812">
+      <tuv xml:lang="en">
+        <seg>The conveyor was enabled by the PLC, but a disable request was received from the configuration software</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536805369">
+      <tuv xml:lang="en">
+        <seg>Address not valid, or Target/Section/ShuttleID not vaild</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-536805373">
+      <tuv xml:lang="en">
+        <seg>Wrong parameter</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610547097">
+      <tuv xml:lang="en">
+        <seg>Enable signal source configuration doesn't allow this command</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350561">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller encountered an unexpected condition. Operation will continue, but further errors may occur</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350591">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller detected an application-specific error. This often indicates a problem with I/O hardware or a PLC interface</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350584">
+      <tuv xml:lang="en">
+        <seg>Pallet control required a large amount of current ("I") for a long time ("T"). The conveyor continues to operate. This message indicates that the conveyor is operating near to its limits</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350570">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a temporary failure in communication with the coil driver board</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350583">
+      <tuv xml:lang="en">
+        <seg>The motor is unable to adequately control the current in one or more coils</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350573">
+      <tuv xml:lang="en">
+        <seg>This warning provides additional diagnostic information for the PLC interface</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350562">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller's gateway network interface hardware has reported a communication failure or other abnormal condition</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350568">
+      <tuv xml:lang="en">
+        <seg>A target position was changed while a pallet was moving to that target. The pallet arrived at the old target position, and is being redirected to the new target position</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350566">
+      <tuv xml:lang="en">
+        <seg>An open-loop pallet has arrived on an enabled section</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350579">
+      <tuv xml:lang="en">
+        <seg>The conveyor has detected that two or more pallets share the same ID number. This may cause confusion for the controlling PLC</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350567">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a temporary failure in communication with the encoders</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350577">
+      <tuv xml:lang="en">
+        <seg>While transferring a pallet from one encoder to the next, the conveyor found that these two encoders do not substantially agree on the pallet's location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350571">
+      <tuv xml:lang="en">
+        <seg>The encoder system has produced an erroneous result</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350576">
+      <tuv xml:lang="en">
+        <seg>An encoder has indicated a sudden change in pallet position, which is incorrect, because it is too large to be physically possible</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350585">
+      <tuv xml:lang="en">
+        <seg>The network that connects the sections to the conveyor controller has experienced unusual data loss</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350587">
+      <tuv xml:lang="en">
+        <seg>The motor detected that its operating temperature has exceeded the configured warning threshold</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350574">
+      <tuv xml:lang="en">
+        <seg>An invalid configuration value was encountered</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350575">
+      <tuv xml:lang="en">
+        <seg>One or more regions is currently non-functional due to a configuration error</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350572">
+      <tuv xml:lang="en">
+        <seg>Please consult the configuration software for details</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350590">
+      <tuv xml:lang="en">
+        <seg>The application has requested the use of a feature for which a license is required, but not present.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350578">
+      <tuv xml:lang="en">
+        <seg>Two pallets have been commanded to travel toward each other, such that they would collide. The conveyor stops both pallets.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350580">
+      <tuv xml:lang="en">
+        <seg>The conveyor's integrated Pallet ID tag system reported an error</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350581">
+      <tuv xml:lang="en">
+        <seg>A pallet was unable to stop at its requested destination, and is being redirected to the correct location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350563">
+      <tuv xml:lang="en">
+        <seg>A pallet has completed its deceleration trajectory, but has not settled to its destination position within the configured time limit</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350569">
+      <tuv xml:lang="en">
+        <seg>Changes have been made to the conveyor's configuration parameters, but they have not yet been saved. If the conveyor is restarted, the changes will be lost</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350592">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350589">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350582">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350564">
+      <tuv xml:lang="en">
+        <seg>A configuration change has been made, which will take effect after the conveyor controller is restarted.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350588">
+      <tuv xml:lang="en">
+        <seg>A thermal sensor is disconnected or damaged</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350565">
+      <tuv xml:lang="en">
+        <seg>The number of installed pallets exceeds the conveyor's capabilities. Remove pallets as necessary</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610350586">
+      <tuv xml:lang="en">
+        <seg>A pallet has arrived at its destination position, but the conveyor is not reporting the pallet as "in-position" due to insufficient certainty of the pallet's true position.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610547098">
+      <tuv xml:lang="en">
+        <seg>SuperTrak reported a section warning</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610547099">
+      <tuv xml:lang="en">
+        <seg>SuperTrak reported a system warning</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481633">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller encountered an unexpected condition. Operation will continue, but further errors may occur</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481663">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller detected an application-specific error. This often indicates a problem with I/O hardware or a PLC interface</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481656">
+      <tuv xml:lang="en">
+        <seg>Pallet control required a large amount of current ("I") for a long time ("T"). The conveyor continues to operate. This message indicates that the conveyor is operating near to its limits</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481642">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a temporary failure in communication with the coil driver board</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481655">
+      <tuv xml:lang="en">
+        <seg>The motor is unable to adequately control the current in one or more coils</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481645">
+      <tuv xml:lang="en">
+        <seg>Command failed</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481634">
+      <tuv xml:lang="en">
+        <seg>The conveyor controller's gateway network interface hardware has reported a communication failure or other abnormal condition</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481640">
+      <tuv xml:lang="en">
+        <seg>A target position was changed while a pallet was moving to that target. The pallet arrived at the old target position, and is being redirected to the new target position</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481638">
+      <tuv xml:lang="en">
+        <seg>An open-loop pallet has arrived on an enabled section</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481651">
+      <tuv xml:lang="en">
+        <seg>The conveyor has detected that two or more pallets share the same ID number. This may cause confusion for the controlling PLC</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481639">
+      <tuv xml:lang="en">
+        <seg>The gateway board has reported a temporary failure in communication with the encoders</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481649">
+      <tuv xml:lang="en">
+        <seg>While transferring a pallet from one encoder to the next, the conveyor found that these two encoders do not substantially agree on the pallet's location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481643">
+      <tuv xml:lang="en">
+        <seg>The encoder system has produced an erroneous result</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481648">
+      <tuv xml:lang="en">
+        <seg>An encoder has indicated a sudden change in pallet position, which is incorrect, because it is too large to be physically possible</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481657">
+      <tuv xml:lang="en">
+        <seg>The network that connects the sections to the conveyor controller has experienced unusual data loss</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481659">
+      <tuv xml:lang="en">
+        <seg>The motor detected that its operating temperature has exceeded the configured warning threshold</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481646">
+      <tuv xml:lang="en">
+        <seg>An invalid configuration value was encountered</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481647">
+      <tuv xml:lang="en">
+        <seg>One or more regions is currently non-functional due to a configuration error</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481644">
+      <tuv xml:lang="en">
+        <seg>Please consult the configuration software for details</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481652">
+      <tuv xml:lang="en">
+        <seg>The conveyor's integrated Pallet ID tag system reported an error</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481653">
+      <tuv xml:lang="en">
+        <seg>A pallet was unable to stop at its requested destination, and is being redirected to the correct location</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481635">
+      <tuv xml:lang="en">
+        <seg>A pallet has completed its deceleration trajectory, but has not settled to its destination position within the configured time limit</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481641">
+      <tuv xml:lang="en">
+        <seg>Changes have been made to the conveyor's configuration parameters, but they have not yet been saved. If the conveyor is restarted, the changes will be lost</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481664">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481662">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481661">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481658">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481654">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481650">
+      <tuv xml:lang="en">
+        <seg>This event ID is currently not used and is reserved for future implementation</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481636">
+      <tuv xml:lang="en">
+        <seg>Reset required to activate configuration changes</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481660">
+      <tuv xml:lang="en">
+        <seg>A thermal sensor is disconnected or damaged</seg>
+      </tuv>
+    </tu>
+    <tu tuid="-1610481637">
+      <tuv xml:lang="en">
+        <seg>The number of installed pallets exceeds the conveyor's capabilities. Remove pallets as necessary</seg>
       </tuv>
     </tu>
   </body>
