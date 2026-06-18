@@ -77,6 +77,9 @@ ACTION UnpackIncomingData:
             // Command: Release To Target. Unpack from a DINT bitwise
             gSuperTrak.Target[i].Cmd.Release.ReleaseToTarget := BIT_TST(IO.In.TargetReleaseToTarget, i);
             
+            // Command: Release To Offset. Unpack from a DINT bitwise
+            gSuperTrak.Target[i].Cmd.Release.ReleaseToOffset := BIT_TST(IO.In.TargetReleaseToOffset, i);
+            
             // Parameter: Destination Target. Copy out of a fixed-size array
             gSuperTrak.Target[i].Par.Release.DestinationTarget := IO.In.TargetDestinationTarget[i];
             
@@ -85,6 +88,12 @@ ACTION UnpackIncomingData:
             
             // Parameter: Release Velocity. Copy out of a fixed-size array
             gSuperTrak.Target[i].Par.Release.Velocity := IO.In.TargetReleaseVelocity[i];
+            
+            // Parameter: Release Direction. Copy out of a fixed-size array
+            gSuperTrak.Target[i].Par.Release.Direction := IO.In.TargetReleaseDirection[i];
+            
+            // Parameter: Release Target Offset. Copy out of a fixed-size array
+            gSuperTrak.Target[i].Par.Release.TargetOffset := IO.In.TargetReleaseOffset[i];
         END_IF;
     END_FOR;
     
