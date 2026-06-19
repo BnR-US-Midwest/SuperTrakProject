@@ -98,6 +98,9 @@ PROGRAM _CYCLIC
         ControlTarget[Index]();
         
         // Read StTargetExt function block outputs
+        Interface[Index].Status.Active := ControlTarget[Index].Active;
+        Interface[Index].Status.Error := ControlTarget[Index].Error;
+        Interface[Index].Status.StatusID := ControlTarget[Index].StatusID;
         Interface[Index].Status.ShuttleID := ControlTarget[Index].PalletID;
         Interface[Index].Status.ShuttleOffsetIndex := ControlTarget[Index].PalletOffsetIdx;
         Interface[Index].Status.ShuttlePresent := ControlTarget[Index].PalletPresent;
@@ -115,7 +118,7 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlTarget[Index].StatusID;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1200, 'SuperTrak Target Control error. Target: %i. Status ID: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869712, 0, '', '', UserLogArguments);
         END_IF;
         
         // Check for release commands and update ShuttleCount status

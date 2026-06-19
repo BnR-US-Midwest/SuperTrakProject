@@ -21,8 +21,8 @@ PROGRAM _CYCLIC
     // Initialize common statuses, assume true/false then disqualify
     Interface.Status.Active := TRUE;
     Interface.Status.Error := FALSE;
-	Interface.Status.SectionError := FALSE;
-	Interface.Status.SectionWarning := FALSE;
+	Interface.Status.SectionError := 0;
+	Interface.Status.SectionWarning := 0;
 	
     FOR Index := 1 TO ST_SECTION_MAX DO
         ControlSection[Index].StLink := ADR(gSTSystemLink);
@@ -47,10 +47,10 @@ PROGRAM _CYCLIC
             Interface.Status.StatusID := ControlSection[Index].StatusID;
         END_IF
         IF ControlSection[Index].Info.SuperTrak.SectionFaultActive THEN
-            Interface.Status.SectionError := TRUE;
+            Interface.Status.SectionError := Index;
 		END_IF;
 		IF ControlSection[Index].Info.SuperTrak.SectionWarningActive THEN
-			Interface.Status.SectionWarning:= TRUE;
+			Interface.Status.SectionWarning:= Index;
         END_IF;			
         
         // Log errors only when that error first occurs
@@ -62,19 +62,19 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].StatusID;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1100, 'SuperTrak Section Control error. Section: %i. Status ID: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869812, 0, '', '', UserLogArguments);
         END_IF;
         IF r_trig_SectionWarning[Index].Q THEN
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionWarningBits;
-            UserLogAdvanced(USERLOG_SEVERITY_WARNING, 3100, 'SuperTrak Section warning. Section: %i. Warning DINT: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -1610609636, 0, '', '', UserLogArguments);
         END_IF;
-        IF r_trig_SectionFault[Index].Q THEN
+        IF r_trig_SectionFault[Index].Q THEN  
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionFaultBits;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR,1102, 'SuperTrak Section fault. Section: %i. Fault DINT: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869810, 0, '', '', UserLogArguments);
         END_IF;
         
         // Read other statuses

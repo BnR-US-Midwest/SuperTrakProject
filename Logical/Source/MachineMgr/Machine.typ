@@ -41,7 +41,9 @@ TYPE
         errST_SYSTEM := 10, (*See "Faults" section in TrakMaster Help *)
         warnST_SYSTEM := 11, (*See "Warnings" section in TrakMaster Help *)
         errST_SECTION := 20, (*See "Faults" section in TrakMaster Help *)
-        warnST_SECTION := 21 (*See "Warnings" section in TrakMaster Help *)
+        warnST_SECTION := 21, (*See "Warnings" section in TrakMaster Help *)
+        errST_TARGET := 30, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
+        errST_SHUTTLE := 40 (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
         );
     SuperTrak_Diag_type :     STRUCT  (*Fault and Warning information from the SuperTrak library*)
         SuperTrakDiagIndex : USINT; (*Index 0 is the System, others are for a specific section. Set to a relevant index when Errors occur*)

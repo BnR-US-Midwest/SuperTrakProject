@@ -83,6 +83,9 @@ PROGRAM _CYCLIC
         ControlShuttle[Index]();
         
         // Read function outputs
+        Interface[Index].Status.Active := ControlShuttle[Index].Active;
+        Interface[Index].Status.Error := ControlShuttle[Index].Error;
+        Interface[Index].Status.StatusID := ControlShuttle[Index].StatusID;
         Interface[Index].Status.ShuttleID := ShuttleInfo[Index].palletID;
         Interface[Index].Status.Present := ShuttleInfo[Index].status.stPALLET_PRESENT;
         Interface[Index].Status.Recovering := ShuttleInfo[Index].status.stPALLET_RECOVERING;
@@ -110,7 +113,7 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlShuttle[Index].StatusID;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1300, 'SuperTrak Shuttle Control error. Shuttle: %i. Status ID: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869612, 0, '', '', UserLogArguments);
         END_IF;
                 
         // Check for release commands and update Target ShuttleCount statuses

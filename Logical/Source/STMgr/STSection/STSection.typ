@@ -25,8 +25,8 @@ TYPE
         Active : BOOL; (*All section control function blocks are Active*)
         Error : BOOL; (*At least one section function block is reporting an Error*)
         StatusID : DINT; (*StatusID of section function block reporting an error*)
-        SectionError : BOOL; (*At least one section has an active error*)
-        SectionWarning : BOOL; (*At least one section has an active warning*)
+        SectionError : USINT; (*Section number reporting a Fault. 0 means all sections are OK*)
+        SectionWarning : USINT; (*Section number reporting a Warning. 0 means all sections are OK*)
     END_STRUCT;
     STSectionInterfaceInfoType :     STRUCT  (*Information about each individual section*)
         SectionEnabled : BOOL; (*Sections that are Enabled have a TRUE value in this array*)

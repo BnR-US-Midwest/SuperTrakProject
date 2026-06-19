@@ -18,6 +18,9 @@ TYPE
         Par : STReleaseParameterType; (*Shuttle release parameters*)
     END_STRUCT;
     STShuttleStatusType :     STRUCT  (*Shuttle status structure*)
+        Active : BOOL; (*Shuttle Control function block is active*)
+        Error : BOOL; (*Shuttle Control function block is reporting an error*)
+        StatusID : DINT; (*Status ID from the Shuttle Control function block*)
         ShuttleID : USINT; (*(StPalletStatusBits_e) ID Number assigned to the shuttle*)
         Present : BOOL; (*(StPalletStatusBits_e) Present on system*)
         Recovering : BOOL; (*(StPalletStatusBits_e) Will recover or recovering to last controlled position*)

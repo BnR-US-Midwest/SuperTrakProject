@@ -8,6 +8,7 @@
  *
  * Authors:
  *  Marcus Mangel, B&R Industrial Automation
+ *  Bryan Olson, B&R Industrial Automation
  *
 ***************************************************************************************)
 
@@ -82,10 +83,12 @@ END_ACTION
 ACTION GetErrorType:
 	
 	// Clear ErrorType
-	Interface.Status.ErrorType:= errNONE;
-	
+    IF Interface.Cmd.ErrorReset OR MainState <> MAIN_STATE_ERROR THEN
+	    Interface.Status.ErrorType:= errNONE;
+	END_IF
+        
 	// Default to User Error
-	IF MainState = MAIN_STATE_ERROR THEN
+	IF MainState = MAIN_STATE_ERROR AND Interface.Status.ErrorType = errNONE THEN
 		Interface.Status.ErrorType:= errUSER;
 	END_IF
 	// System FUB Errors
@@ -115,7 +118,21 @@ ACTION GetErrorType:
 	IF gSuperTrak.Sections.Status.SectionError THEN
 		MainState:= MAIN_STATE_ERROR;
 		Interface.Status.ErrorType:= errST_SECTION;
-	END_IF
+    END_IF
+    // Target Errors
+    FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+        IF gSuperTrak.Target[LoopTarget].Status.Error THEN
+            MainState:= MAIN_STATE_ERROR;
+            Interface.Status.ErrorType:= errST_TARGET;
+        END_IF
+    END_FOR
+    // Shuttle Errors
+    FOR LoopShuttle := 1 TO ST_SHUTTLE_MAX DO
+        IF gSuperTrak.Shuttle[LoopShuttle].Status.Error THEN
+            MainState:= MAIN_STATE_ERROR;
+            Interface.Status.ErrorType:= errST_SHUTTLE;
+        END_IF
+    END_FOR
 	
 END_ACTION
 
