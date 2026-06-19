@@ -73,9 +73,9 @@ END_ACTION
 (* Reset all process timers *)
 ACTION ResetProcessTimer:
 	
-	FOR LoopTarget := 1 TO ST_TARGET_MAX DO
-		ProcessTimer[LoopTarget](IN := FALSE);
-	END_FOR
+    FOR LoopTarget := 1 TO ST_TARGET_MAX DO
+        ProcessTimer[LoopTarget](IN := FALSE);
+    END_FOR
 	
 END_ACTION
 
@@ -84,53 +84,69 @@ ACTION GetErrorType:
 	
 	// Clear ErrorType
     IF Interface.Cmd.ErrorReset OR MainState <> MAIN_STATE_ERROR THEN
-	    Interface.Status.ErrorType:= errNONE;
-	END_IF
+        Interface.Status.ErrorType:= errNONE;
+    END_IF
         
-	// Default to User Error
-	IF MainState = MAIN_STATE_ERROR AND Interface.Status.ErrorType = errNONE THEN
-		Interface.Status.ErrorType:= errUSER;
-	END_IF
-	// System FUB Errors
-	IF gSuperTrak.System.Status.Error THEN
-		MainState:= MAIN_STATE_ERROR;
-		Interface.Status.ErrorType:= errST_COM;
-	END_IF
-	// Section FUB Errors
-	IF gSuperTrak.Sections.Status.Error THEN
-		MainState:= MAIN_STATE_ERROR;
-		Interface.Status.ErrorType:= errST_COM;
-	END_IF
-	// System Warnings
-	IF gSuperTrak.System.Info.WarningPresent THEN
-		Interface.Status.ErrorType:= warnST_SYSTEM;
-	END_IF
-	// System Errors
-	IF gSuperTrak.System.Info.FaultPresent THEN
-		MainState:= MAIN_STATE_ERROR;
-		Interface.Status.ErrorType:= errST_SYSTEM;
-	END_IF
-	// Section Warnings
-	IF gSuperTrak.Sections.Status.SectionWarning THEN
-		Interface.Status.ErrorType:= warnST_SECTION;
-	END_IF
-	// Section Errors
-	IF gSuperTrak.Sections.Status.SectionError THEN
-		MainState:= MAIN_STATE_ERROR;
-		Interface.Status.ErrorType:= errST_SECTION;
+    // Default to User Error
+    IF MainState = MAIN_STATE_ERROR AND Interface.Status.ErrorType = errNONE THEN
+        Interface.Status.ErrorType:= errUSER;
+    END_IF
+    // System FUB Errors
+    IF gSuperTrak.System.Status.Error THEN
+        MainState:= MAIN_STATE_ERROR;
+        Interface.Status.ErrorType:= errST_COM_SYSTEM;
+        TextID := DINT_TO_STRING(gSuperTrak.System.Status.ErrorID);
+        fb_ArTextSysGetText.TextID := ADR(TextID);
+        fb_ArTextSysGetText.Execute := TRUE; // Set false after function block call
+    END_IF
+    // Section FUB Errors
+    IF gSuperTrak.Sections.Status.Error THEN
+        MainState:= MAIN_STATE_ERROR;
+        Interface.Status.ErrorType:= errST_COM_SECTION;
+        TextID := DINT_TO_STRING(gSuperTrak.Sections.Status.StatusID);
+        fb_ArTextSysGetText.TextID := ADR(TextID);
+        fb_ArTextSysGetText.Execute := TRUE; // Set false after function block call
+    END_IF
+    // System Warnings
+    IF gSuperTrak.System.Info.WarningPresent THEN
+        Interface.Status.ErrorType:= warnST_SYSTEM;
+    END_IF
+    // System Errors
+    IF gSuperTrak.System.Info.FaultPresent THEN
+        MainState:= MAIN_STATE_ERROR;
+        Interface.Status.ErrorType:= errST_SYSTEM;
+    END_IF
+    // Section Warnings
+    IF gSuperTrak.Sections.Status.SectionWarning <> 0 THEN
+        Interface.Status.ErrorType:= warnST_SECTION;
+    END_IF
+    // Section Errors
+    IF gSuperTrak.Sections.Status.SectionError <> 0 THEN
+        MainState:= MAIN_STATE_ERROR;
+        Interface.Status.ErrorType:= errST_SECTION;
     END_IF
     // Target Errors
+    TargetErrorPresent := FALSE;
     FOR LoopTarget := 1 TO ST_TARGET_MAX DO
         IF gSuperTrak.Target[LoopTarget].Status.Error THEN
             MainState:= MAIN_STATE_ERROR;
-            Interface.Status.ErrorType:= errST_TARGET;
+            TargetErrorPresent := TRUE;
+            Interface.Status.ErrorType:= errST_COM_TARGET;
+            TextID := DINT_TO_STRING(gSuperTrak.Target[LoopTarget].Status.StatusID);
+            fb_ArTextSysGetText.TextID := ADR(TextID);
+            fb_ArTextSysGetText.Execute := TRUE; // Set false after function block call
         END_IF
     END_FOR
     // Shuttle Errors
+    ShuttleErrorPresent := FALSE;
     FOR LoopShuttle := 1 TO ST_SHUTTLE_MAX DO
         IF gSuperTrak.Shuttle[LoopShuttle].Status.Error THEN
             MainState:= MAIN_STATE_ERROR;
-            Interface.Status.ErrorType:= errST_SHUTTLE;
+            ShuttleErrorPresent := TRUE;
+            Interface.Status.ErrorType:= errST_COM_SHUTTLE;
+            TextID := DINT_TO_STRING(gSuperTrak.Shuttle[LoopShuttle].Status.StatusID);
+            fb_ArTextSysGetText.TextID := ADR(TextID);
+            fb_ArTextSysGetText.Execute := TRUE; // Set false after function block call
         END_IF
     END_FOR
 	
@@ -139,19 +155,34 @@ END_ACTION
 (* Translate bit-packed Errors and Warnings into Booleans *)
 ACTION GetTrakMasterWarningsAndErrors:
 
-	IF Interface.Status.SuperTrakDiag.SuperTrakDiagIndex = 0 THEN
-		// System
-		FOR i := 0 TO 31 DO
-			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.System.Info.Warnings, i);
-			Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.System.Info.Faults, i);
-		END_FOR
-	ELSE
-		// Sections
-		FOR i := 0 TO 31 DO
-			Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Warnings, i);
-			Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Faults, i);
-		END_FOR
-	END_IF
+    IF Interface.Status.SuperTrakDiag.SuperTrakDiagIndex = 0 THEN
+        // System
+        FOR i := 0 TO 31 DO
+            Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.System.Info.Warnings, i);
+            Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.System.Info.Faults, i);
+        END_FOR
+    ELSE
+        // Sections
+        FOR i := 0 TO 31 DO
+            Interface.Status.SuperTrakDiag.Warnings[i]	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Warnings, i);
+            Interface.Status.SuperTrakDiag.Errors[i] 	:= BIT_TST(gSuperTrak.Sections.Info[Interface.Status.SuperTrakDiag.SuperTrakDiagIndex].Faults, i);
+        END_FOR
+    END_IF
 	
 END_ACTION
 
+ACTION MakeStComErrorList:
+    
+    IF Interface.Cmd.ErrorReset THEN
+        brsmemset(ADR(Interface.Status.StComErrorList), 0, SIZEOF(Interface.Status.StComErrorList));
+    ELSE
+        NextErrorListIndex := 0;
+        
+        IF gSuperTrak.System.Status.Error THEN
+            Interface.Status.StComErrorList[NextErrorListIndex].Source = errSTCOM_SYSTEM;
+            Interface.Status.StComErrorList[NextErrorListIndex].Source = errSTCOM_SYSTEM;
+        END_IF;
+        
+    END_IF;
+
+END_ACTION

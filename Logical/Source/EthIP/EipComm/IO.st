@@ -65,7 +65,7 @@ ACTION UnpackIncomingData:
     
     // Copy System values directly
     gSuperTrak.System.Cmd.PowerAllSections := IO.In.SystemEnable;
-    gSuperTrak.System.Cmd.Reset := IO.In.SystemErrorReset;
+    gMachine.Cmd.ErrorReset := IO.In.SystemErrorReset;
 
     // Loop through all possible Target values
     // If target numbers > 31 are used, the communication

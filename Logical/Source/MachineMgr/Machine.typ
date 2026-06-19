@@ -31,19 +31,21 @@ TYPE
         Ready : BOOL; (*The program is ready to run*)
         Error : BOOL; (*There is an active error present*)
         ErrorType : Error_Type_enum; (*Source of the last error*)
+        ErrorText : STRING[255];
         SuperTrakDiag : SuperTrak_Diag_type; (*Fault and Warning information from the SuperTrak library*)
     END_STRUCT;
     Error_Type_enum : 
         ( (*Source of the last error*)
         errNONE := 0,
         errUSER := 1, (*See Automation Studio code*)
-        errST_COM := 2, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
+        errST_COM_SYSTEM := 2, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
+        errST_COM_SECTION := 3, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
         errST_SYSTEM := 10, (*See "Faults" section in TrakMaster Help *)
         warnST_SYSTEM := 11, (*See "Warnings" section in TrakMaster Help *)
         errST_SECTION := 20, (*See "Faults" section in TrakMaster Help *)
         warnST_SECTION := 21, (*See "Warnings" section in TrakMaster Help *)
-        errST_TARGET := 30, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
-        errST_SHUTTLE := 40 (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
+        errST_COM_TARGET := 30, (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
+        errST_COM_SHUTTLE := 40 (*See documentation for the StCom or SuperTrak libraries in Automation Studio*)
         );
     SuperTrak_Diag_type :     STRUCT  (*Fault and Warning information from the SuperTrak library*)
         SuperTrakDiagIndex : USINT; (*Index 0 is the System, others are for a specific section. Set to a relevant index when Errors occur*)
