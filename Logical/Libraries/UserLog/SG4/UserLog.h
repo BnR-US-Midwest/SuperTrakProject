@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* UserLog 2.0.3 */
+/* UserLog 2.1.0 */
 
 #ifndef _USERLOG_
 #define _USERLOG_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _UserLog_VERSION
-#define _UserLog_VERSION 2.0.3
+#define _UserLog_VERSION 2.1.0
 #endif
 
 #include <bur/plctypes.h>
@@ -67,7 +67,7 @@ _BUR_PUBLIC unsigned short UserLogGetCode(signed long Event);
 
 /* Constants */
 #ifdef _REPLACE_CONST
- #define USERLOG_EXAMPLE_TEXT_ID 1632259616
+ #define USERLOG_EXAMPLE_TEXT_ID 1611615776
  #define USERLOG_FORMAT_LENGTH 80U
  #define USERLOG_FORMAT_INDEX 5U
  #define USERLOG_ERROR_CREATE (-515234012)

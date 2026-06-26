@@ -113,7 +113,7 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlShuttle[Index].StatusID;
-            UserLogEventText('$$arlogusr', -536869612, 0, '', '', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869612, 0, '', '%i %i', UserLogArguments);
         END_IF;
                 
         // Check for release commands and update Target ShuttleCount statuses

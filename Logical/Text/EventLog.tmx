@@ -14,31 +14,31 @@
     <tu tuid="-536869902">
       <note>SuperTrak Error Code: 1010</note>
       <tuv xml:lang="en">
-        <seg>SuperTrak System Control error: %i</seg>
+        <seg>SuperTrak System Control error: {1}</seg>
       </tuv>
     </tu>
     <tu tuid="-536869812">
       <note>SuperTrak Error Code 1100</note>
       <tuv xml:lang="en">
-        <seg>SuperTrak Section Control error. Section: %i. Status ID: %i</seg>
+        <seg>SuperTrak Section Control error. Section: {1}. Status ID: {2}</seg>
       </tuv>
     </tu>
     <tu tuid="-536869810">
       <note>SuperTrak Error Code 1102</note>
       <tuv xml:lang="en">
-        <seg>SuperTrak Section fault. Section: %i. Fault DINT: %i</seg>
+        <seg>SuperTrak Section fault. Section: {1}. Fault DINT: {2}</seg>
       </tuv>
     </tu>
     <tu tuid="-536869712">
       <note>SuperTrak Error Code 1200</note>
       <tuv xml:lang="en">
-        <seg>SuperTrak Target Control error. Target: %i. Status ID: %i</seg>
+        <seg>SuperTrak Target Control error. Target: {1}. Status ID: {2}</seg>
       </tuv>
     </tu>
     <tu tuid="-536869612">
       <note>SuperTrak Error Code 1300</note>
       <tuv xml:lang="en">
-        <seg>SuperTrak Shuttle Control error. Shuttle: %i. Status ID: %i</seg>
+        <seg>SuperTrak Shuttle Control error. Shuttle: {1}. Status ID: {2}</seg>
       </tuv>
     </tu>
     <tu tuid="-536868912">
@@ -80,7 +80,7 @@
     <tu tuid="-1610609636">
       <note>SuperTrak Warning Code: 3100</note>
       <tuv xml:lang="en">
-        <seg>SuperTrak Section warning. Section: %i. Warning DINT: %i</seg>
+        <seg>SuperTrak Section warning. Section: {1}. Warning DINT: {2}</seg>
       </tuv>
     </tu>
   </body>

@@ -48,7 +48,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN
@@ -71,7 +71,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 		
@@ -85,7 +85,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
 			
             ELSIF Timeout.Q THEN
@@ -109,7 +109,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 			
@@ -123,7 +123,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN

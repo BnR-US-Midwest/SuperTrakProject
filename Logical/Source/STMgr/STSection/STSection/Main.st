@@ -53,7 +53,7 @@ PROGRAM _CYCLIC
 			Interface.Status.SectionWarning:= Index;
         END_IF;			
         
-        // Log errors only when that error first occurs
+        // Log errors only when that error first occurs     
         r_trig_SectionFBError[Index](CLK := ControlSection[Index].Error);
         r_trig_SectionWarning[Index](CLK := ControlSection[Index].Info.SuperTrak.SectionWarningActive);
         r_trig_SectionFault[Index](CLK := ControlSection[Index].Info.SuperTrak.SectionFaultActive);
@@ -62,21 +62,21 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].StatusID;
-            UserLogEventText('$$arlogusr', -536869812, 0, '', '', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869812, 0, '', '%i %i', UserLogArguments);
         END_IF;
         IF r_trig_SectionWarning[Index].Q THEN
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionWarningBits;
-            UserLogEventText('$$arlogusr', -1610609636, 0, '', '', UserLogArguments);
+            UserLogEventText('$$arlogusr', -1610609636, 0, '', '%i %i', UserLogArguments);
         END_IF;
         IF r_trig_SectionFault[Index].Q THEN  
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionFaultBits;
-            UserLogEventText('$$arlogusr', -536869810, 0, '', '', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869810, 0, '', '%i %i', UserLogArguments);
         END_IF;
-        
+
         // Read other statuses
         Interface.Info[Index].SectionEnabled := ControlSection[Index].SectionEnabled;
         Interface.Info[Index].UnrecognizedShuttles := ControlSection[Index].UnrecognizedPallets;
