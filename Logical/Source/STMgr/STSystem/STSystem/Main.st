@@ -42,6 +42,11 @@ PROGRAM _CYCLIC
             ControlSystem.Enable := TRUE;
 			
             IF ControlSystem.Active THEN
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := SystemParameters.NrOfSections;
+                UserLogArguments.i[1] := SystemParameters.NrOfTargets;
+                UserLogArguments.i[2] := SystemParameters.NrOfPallets;
+                UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 31, 0, '', 'StControl Active. Max: Sections %i, Targets %i, Shuttles %i', UserLogArguments);
                 State := STATE_IDLE;
 				
             ELSIF ControlSystem.Error THEN
@@ -79,6 +84,8 @@ PROGRAM _CYCLIC
             ControlSystem.EnableAllSections := TRUE;
             
             IF ControlSystem.SectionsEnabled THEN
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 32, 0, '', 'StControl: All Sections Enabled', UserLogArguments);
                 State := STATE_EXECUTE;
 				
             ELSIF ControlSystem.Error THEN
@@ -117,6 +124,8 @@ PROGRAM _CYCLIC
             ControlSystem.EnableAllSections := FALSE;
 			
             IF Interface.Info.SectionsDisabled THEN
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 33, 0, '', 'StControl: All Sections Disabled', UserLogArguments);
                 State := STATE_IDLE;
 				
             ELSIF ControlSystem.Error THEN

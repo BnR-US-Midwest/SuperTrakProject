@@ -20,6 +20,7 @@ VAR
     InitHandle : UDINT; (*Handle provided by EIPInit*)
     InitExitStatus : STRING[80]; (*Exit Status provided by EIPInit. Contains error information*)
     i : USINT;
+    UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
 END_VAR
 (*Function Blocks*)
 VAR

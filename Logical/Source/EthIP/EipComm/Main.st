@@ -37,9 +37,14 @@ PROGRAM _INIT
     IF fb_EIPInit.status = 0 THEN
         Initialized := TRUE;
         InitHandle := fb_EIPInit.handle;
+        brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+        UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 30, 0, '', 'EtherNet/IP data object initialized successfully', UserLogArguments);
     ELSE
         Initialized := FALSE;
         InitHandle := 0;
+        brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+        brsstrcpy(ADR(UserLogArguments.s[0]), ADR(fb_EIPInit.extstatus));
+        UserLogCustom('$$arlogusr', USERLOG_SEVERITY_ERROR, 1, 10, 0, '', 'EtherNet/IP data object initialization failed! Status: %s', UserLogArguments);
         CommState := COMM_STATE_ERROR;
     END_IF;
     
@@ -50,7 +55,10 @@ PROGRAM _CYCLIC
     // Check for errors
     // Function Block may return ERR_FUB_ENABLE_FALSE or ERR_FUB_BUSY during normal operation
     // Any other nonzero status is an error
-    IF (fb_EIPCyclic.status <> 0) AND (fb_EIPCyclic.status <> ERR_FUB_ENABLE_FALSE) AND (fb_EIPCyclic.status <> ERR_FUB_BUSY) THEN
+    IF EDGEPOS((fb_EIPCyclic.status <> 0) AND (fb_EIPCyclic.status <> ERR_FUB_ENABLE_FALSE) AND (fb_EIPCyclic.status <> ERR_FUB_BUSY)) THEN
+        brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+        UserLogArguments.i[0] := fb_EIPCyclic.status;
+        UserLogCustom('$$arlogusr', USERLOG_SEVERITY_ERROR, 1, 11, 0, '', 'EtherNet/IP communication error: %i', UserLogArguments);
         CommState := COMM_STATE_ERROR;
     END_IF;
     
