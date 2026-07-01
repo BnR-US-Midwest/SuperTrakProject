@@ -51,7 +51,13 @@ PROGRAM _INIT
 END_PROGRAM
 
 PROGRAM _CYCLIC
-	
+    
+    (** !!! Disable this task in the Software Configuration if it is not used!
+         This prevents data from being overwritten !!! **)
+    
+    // If this task is running, tell the Main task that control is being done externally
+	gUseExternalControl := TRUE;
+    
     // Check for errors
     // Function Block may return ERR_FUB_ENABLE_FALSE or ERR_FUB_BUSY during normal operation
     // Any other nonzero status is an error

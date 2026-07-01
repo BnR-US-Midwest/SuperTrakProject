@@ -10,9 +10,6 @@
  *  Marcus Mangel, B&R Industrial Automation
  *
 ***************************************************************************************)
-VAR RETAIN
-    ConfigUseExternalControl : BOOL := FALSE; (*If set, Main state machine will be ignored and all control must come via EthIP*)
-END_VAR
 (*Control*)
 VAR
     MainState : MainState_enum; (*Program state*)

@@ -44,18 +44,15 @@ PROGRAM _CYCLIC
         OR gSuperTrak.Sections.Status.Error OR (gSuperTrak.Sections.Status.SectionError <> 0)
         OR TargetErrorPresent OR ShuttleErrorPresent THEN
 		
-        // Set Diag Index once
-        IF MainState <> MAIN_STATE_ERROR THEN
-            IF gSuperTrak.System.Info.FaultPresent THEN
-                Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= 0;
-            ELSE
-                FOR i:= 1 TO SIZEOF(gSuperTrak.Sections.Info)/SIZEOF(gSuperTrak.Sections.Info[1]) DO
-                    IF gSuperTrak.Sections.Info[i].FaultPresent THEN
-                        Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= i;
-                        EXIT;
-                    END_IF
-                END_FOR
-            END_IF
+        IF gSuperTrak.System.Info.FaultPresent THEN
+            Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= 0;
+        ELSE
+            FOR i:= 1 TO SIZEOF(gSuperTrak.Sections.Info)/SIZEOF(gSuperTrak.Sections.Info[1]) DO
+                IF gSuperTrak.Sections.Info[i].FaultPresent THEN
+                    Interface.Status.SuperTrakDiag.SuperTrakDiagIndex:= i;
+                    EXIT;
+                END_IF
+            END_FOR
         END_IF
 		
         // Then go to Error State
@@ -67,8 +64,8 @@ PROGRAM _CYCLIC
     
     // Disable handling
     // Go to the Disabled state whenever gSuperTrak.System.Status.Active drops, but only respond to
-    // Interface.Command.Run if ConfigUseExternalControl is false
-    IF ((NOT ConfigUseExternalControl AND NOT Interface.Cmd.Power) OR NOT gSuperTrak.System.Status.Active) 
+    // Interface.Command.Run if gUseExternalControl is false
+    IF ((NOT gUseExternalControl AND NOT Interface.Cmd.Power) OR NOT gSuperTrak.System.Status.Active) 
         AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
         MainState := MAIN_STATE_DISABLING;
     END_IF;
@@ -79,7 +76,7 @@ PROGRAM _CYCLIC
     // control the SuperTrak
     CASE MainState OF
         MAIN_STATE_OFF:
-            IF NOT ConfigUseExternalControl THEN
+            IF NOT gUseExternalControl THEN
                 gSuperTrak.System.Cmd.PowerAllSections := FALSE;
             END_IF;
             
@@ -90,20 +87,20 @@ PROGRAM _CYCLIC
             
         MAIN_STATE_DISABLED:
             // Reset commands and timers
-            IF NOT ConfigUseExternalControl THEN
+            IF NOT gUseExternalControl THEN
                 ResetTargetRelease;
                 ResetShuttleRelease;
                 ResetProcessTimer;
             END_IF; 
             
-            IF r_trig_Power.Q AND gSuperTrak.System.Status.Ready AND NOT ConfigUseExternalControl THEN
+            IF r_trig_Power.Q AND gSuperTrak.System.Status.Ready AND NOT gUseExternalControl THEN
                 MainState := MAIN_STATE_POWER_SECTIONS;
-            ELSIF ConfigUseExternalControl AND gSuperTrak.System.Info.SectionsEnabled THEN
+            ELSIF gUseExternalControl AND gSuperTrak.System.Info.SectionsEnabled THEN
                 MainState := MAIN_STATE_READY; // Power and Recovery steps should be handled externally
             END_IF; 
             
         MAIN_STATE_POWER_SECTIONS:      
-            IF NOT ConfigUseExternalControl THEN
+            IF NOT gUseExternalControl THEN
                 gSuperTrak.System.Cmd.PowerAllSections := TRUE;
             END_IF;
                 
@@ -120,19 +117,19 @@ PROGRAM _CYCLIC
             END_IF
             
         MAIN_STATE_READY:
-            IF r_trig_Run.Q AND NOT ConfigUseExternalControl THEN
+            IF r_trig_Run.Q AND NOT gUseExternalControl THEN
                 MainState := MAIN_STATE_RUN;
             END_IF;
             
         MAIN_STATE_RUN:
-            IF ConfigUseExternalControl OR NOT Interface.Cmd.Run THEN
+            IF gUseExternalControl OR NOT Interface.Cmd.Run THEN
                 MainState := MAIN_STATE_READY;
             ELSE
                 MainLogic; // Target release code goes in this Action
             END_IF
             
         MAIN_STATE_DISABLING:
-            IF NOT ConfigUseExternalControl THEN
+            IF NOT gUseExternalControl THEN
                 gSuperTrak.System.Cmd.PowerAllSections := FALSE;
             END_IF;
             
@@ -141,7 +138,7 @@ PROGRAM _CYCLIC
             END_IF;
         
         MAIN_STATE_ERROR:
-            IF NOT ConfigUseExternalControl THEN
+            IF NOT gUseExternalControl THEN
                 gSuperTrak.System.Cmd.PowerAllSections := FALSE;
                 
                 // Reset commands and timers

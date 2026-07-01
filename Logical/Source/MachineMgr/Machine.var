@@ -11,5 +11,6 @@
  *
 ***************************************************************************************)
 VAR
-	gMachine : Machine_type; (*Machine interface*)
+    gMachine : Machine_type; (*Machine interface*)
+    gUseExternalControl : BOOL;
 END_VAR
