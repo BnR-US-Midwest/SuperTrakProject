@@ -24,7 +24,7 @@ PROGRAM _INIT
 	ConfigPath:= '/DEVICE=USER_PATH\SuperTrak\';
 	
 	// Initialize SuperTrak
-	SuperTrakInit(ConfigPath, '127.0.0.1', 'IF3,IF4');
+	SuperTrakInit(ConfigPath, '127.0.0.1', 'IF3,IF4,IF5,IF6');
 	
 	InitializeControlInterface;
     
