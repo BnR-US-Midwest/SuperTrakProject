@@ -26,7 +26,7 @@ PROGRAM _INIT
 	SystemParameters.NrOfTargets := ST_TARGET_MAX;
 	SystemParameters.NrOfPallets := ST_SHUTTLE_MAX;
 	
-	Timeout.PT := T#500ms;
+	Timeout.PT := T#5000ms;
 	
 END_PROGRAM
 
