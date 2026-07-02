@@ -49,7 +49,7 @@ Error logging is implemented with the [UserLog library](https://github.com/BnR-U
 5. When `gMachine.Status.Ready` is True, toggle `gMachine.Cmd.Run` to True
 6. The simulation will begin running and can be visualized in TrakMaster
 
-ToDo GIF
+<img width="1426" height="376" alt="RunningExample" src="https://github.com/user-attachments/assets/09d7edff-2544-4842-af18-c750bb2b5e74" />
 
 ## Adapting the simulation to a real machine
 1. Transfer the project to a real target. To keep your simulated TrakMaster settings, ensure your simulation's .dat files are copied to the real target's USER partition. If the project has already been run in ARSim, these files are located at `PROJECT_DIRECTORY\Temp\Simulation\APC4100\5APC4100_TGL1_000\USER`. Otherwise, ensure the template files located at `Logical\UserFiles` are copied in the Automation Studio transfer settings
