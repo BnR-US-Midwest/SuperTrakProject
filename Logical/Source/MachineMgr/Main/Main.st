@@ -63,8 +63,8 @@ PROGRAM _CYCLIC
     gSuperTrak.System.Cmd.Reset := Interface.Cmd.ErrorReset;
     
     // Disable handling
-    // Go to the Disabled state whenever gSuperTrak.System.Status.Active drops, but only respond to
-    // Interface.Command.Run if gUseExternalControl is false
+    // Go to the Disabled state whenever gSuperTrak.System.Status.Active drops
+    // Only respond to Interface.Command.Power if gUseExternalControl is false
     IF ((NOT gUseExternalControl AND NOT Interface.Cmd.Power) OR NOT gSuperTrak.System.Status.Active) 
         AND (MainState > MAIN_STATE_DISABLED) AND (MainState < MAIN_STATE_DISABLING) THEN
         MainState := MAIN_STATE_DISABLING;

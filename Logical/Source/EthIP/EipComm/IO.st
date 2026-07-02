@@ -23,6 +23,9 @@ ACTION PackOutgoingData:
     IO.Out.SystemFaults := gSuperTrak.System.Info.Faults;
     IO.Out.SystemWarningPresent := gSuperTrak.System.Info.WarningPresent;
     IO.Out.SystemWarnings := gSuperTrak.System.Info.Warnings;
+    IO.Out.SectionError := gSuperTrak.Sections.Status.SectionError;
+    IO.Out.SectionWarning := gSuperTrak.Sections.Status.SectionWarning;
+    IO.Out.ProgramError := gMachine.Status.Error; // In External Control mode, this is just feedback that an StCom block is errored out
     IO.Out.SystemSectionCount := gSuperTrak.System.Info.SectionCount;
     IO.Out.SystemShuttleCount := gSuperTrak.System.Info.ShuttleCount;
     
@@ -45,6 +48,29 @@ ACTION PackOutgoingData:
             
             // Status: Shuttle Count. Copy into a fixed-size array
             IO.Out.TargetShuttleCount[i] := gSuperTrak.Target[i].Status.ShuttleCount;
+            
+            // Status: Error on StTargetExt function block
+            IF gSuperTrak.Target[i].Status.Error THEN
+                IO.Out.TargetError := BIT_SET(IO.Out.TargetError, i);
+            ELSE
+                IO.Out.TargetError := BIT_CLR(IO.Out.TargetError, i);
+            END_IF;
+        END_IF;
+    END_FOR;
+    
+    // Loop through all possible Shuttle values
+    // If shuttle numbers > 31 are used, the communication
+    // definitions must be changed
+    FOR i := 1 TO 31 DO
+        IF i > ST_SHUTTLE_MAX THEN
+            EXIT;
+        ELSE
+            // Status: Error on StPallet function block
+            IF gSuperTrak.Shuttle[i].Status.Error THEN
+                IO.Out.ShuttleError := BIT_SET(IO.Out.ShuttleError, i);
+            ELSE
+                IO.Out.ShuttleError := BIT_CLR(IO.Out.ShuttleError, i);
+            END_IF;
         END_IF;
     END_FOR;
 
