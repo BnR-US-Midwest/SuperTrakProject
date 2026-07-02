@@ -170,19 +170,3 @@ ACTION GetTrakMasterWarningsAndErrors:
     END_IF
 	
 END_ACTION
-
-ACTION MakeStComErrorList:
-    
-    IF Interface.Cmd.ErrorReset THEN
-        brsmemset(ADR(Interface.Status.StComErrorList), 0, SIZEOF(Interface.Status.StComErrorList));
-    ELSE
-        NextErrorListIndex := 0;
-        
-        IF gSuperTrak.System.Status.Error THEN
-            Interface.Status.StComErrorList[NextErrorListIndex].Source = errSTCOM_SYSTEM;
-            Interface.Status.StComErrorList[NextErrorListIndex].Source = errSTCOM_SYSTEM;
-        END_IF;
-        
-    END_IF;
-
-END_ACTION

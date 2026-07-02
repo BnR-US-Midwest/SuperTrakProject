@@ -140,7 +140,7 @@ PROGRAM _CYCLIC
                 Interface[Index].Status.ShuttleCount := Interface[Index].Status.ShuttleCount - 1;
             END_IF;
             // Increment destination target's shuttle count
-            IF Interface[Index].Par.Release.DestinationTarget > 0 AND Interface[Index].Par.Release.DestinationTarget < ST_TARGET_MAX THEN
+            IF Interface[Index].Par.Release.DestinationTarget > 0 AND Interface[Index].Par.Release.DestinationTarget <= ST_TARGET_MAX THEN
                 Interface[Interface[Index].Par.Release.DestinationTarget].Status.ShuttleCount := 
                 Interface[Interface[Index].Par.Release.DestinationTarget].Status.ShuttleCount + 1;
             END_IF;

@@ -139,14 +139,14 @@ PROGRAM _CYCLIC
                     END_IF;
                 END_FOR;
 
-                IF ShuttleAtTarget > 0 AND ShuttleAtTarget < ST_TARGET_MAX THEN
+                IF ShuttleAtTarget > 0 AND ShuttleAtTarget <= ST_TARGET_MAX THEN
                     IF gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount > 0 THEN
                         gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount := gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount - 1;
                     END_IF;
                 END_IF;
             END_IF;
             // Increment destination target's shuttle count
-            IF gSuperTrak.Shuttle[Index].Par.DestinationTarget > 0 AND gSuperTrak.Shuttle[Index].Par.DestinationTarget < ST_TARGET_MAX THEN
+            IF gSuperTrak.Shuttle[Index].Par.DestinationTarget > 0 AND gSuperTrak.Shuttle[Index].Par.DestinationTarget <= ST_TARGET_MAX THEN
                 gSuperTrak.Target[gSuperTrak.Shuttle[Index].Par.DestinationTarget].Status.ShuttleCount := 
                 gSuperTrak.Target[gSuperTrak.Shuttle[Index].Par.DestinationTarget].Status.ShuttleCount + 1;
             END_IF;
