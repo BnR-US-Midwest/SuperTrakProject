@@ -49,6 +49,14 @@ PROGRAM _CYCLIC
         ControlShuttle[Index].Parameters := ADR(ShuttleParameters[Index]);
         ControlShuttle[Index].PalletID := Index;
         
+        // If the function block errored out, reset it's commands to prevent an error loop
+        IF ControlShuttle[Index].ErrorReset THEN
+            ControlShuttle[Index].ReleaseToTarget := FALSE;
+            ControlShuttle[Index].ReleaseToOffset := FALSE;
+            ControlShuttle[Index].IncrementOffset := FALSE;
+            ShuttleControlState[Index] := SHUTTLE_STATE_WAIT_FOR_CMD_RESET;
+        END_IF;
+        
         CASE ShuttleControlState[Index] OF
             SHUTTLE_STATE_WAIT_FOR_COMMAND:
                 IF Interface[Index].Cmd.ReleaseToTarget OR Interface[Index].Cmd.ReleaseToOffset OR Interface[Index].Cmd.IncrementOffset THEN

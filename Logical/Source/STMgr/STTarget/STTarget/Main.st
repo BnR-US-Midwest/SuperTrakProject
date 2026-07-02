@@ -42,6 +42,14 @@ PROGRAM _CYCLIC
         ControlTarget[Index].Parameters := ADR(TargetParameters[Index]);
         ControlTarget[Index].Target := Index;
         
+        // If the function block errored out, reset it's commands to prevent an error loop
+        IF ControlTarget[Index].ErrorReset THEN
+            ControlTarget[Index].ReleaseToTarget := FALSE;
+            ControlTarget[Index].ReleaseToOffset := FALSE;
+            ControlTarget[Index].IncrementOffset := FALSE;
+	        TargetControlState[Index] := TARGET_STATE_WAIT_FOR_CMD_RESET;
+        END_IF;
+        
         CASE TargetControlState[Index] OF
             TARGET_STATE_WAIT_FOR_SHUTTLE:
                 IF ControlTarget[Index].PalletPresent THEN
