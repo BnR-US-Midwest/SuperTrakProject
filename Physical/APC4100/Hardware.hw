@@ -65,8 +65,6 @@
     <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC910" />
     <Parameter ID="ConfigVersion" Value="2.0.0" />
     <Parameter ID="UserPartitionSize" Value="100" />
-    <Parameter ID="RemMemDevice" Value="PCI.2.IPLK.SRAM" />
-    <Parameter ID="RemMemSize" Value="2" />
     <Parameter ID="EnableDebugger" Value="1" />
     <Parameter ID="TimerDeviceType" Value="EPLX2X" />
     <Parameter ID="TimerDevice" Value="5AC901.IPLK-00.IF1" />
