@@ -85,6 +85,7 @@ ACTION GetErrorType:
 	// Clear ErrorType
     IF Interface.Cmd.ErrorReset OR MainState <> MAIN_STATE_ERROR THEN
         Interface.Status.ErrorType:= errNONE;
+        brsmemset(ADR(Interface.Status.ErrorText), 0, SIZEOF(Interface.Status.ErrorText));
     END_IF
         
     // Default to User Error
