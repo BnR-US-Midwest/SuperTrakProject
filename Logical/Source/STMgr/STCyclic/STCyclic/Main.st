@@ -35,10 +35,13 @@ END_PROGRAM
 PROGRAM _CYCLIC
 	
 	// Data addresses for PLC control interface
-	AddressControlInterface;
+    AddressControlInterface;
+        
+    // Overwrite StCom data to clear System and Section Faults
+    ResetControlLevelFaults;
 	
 	// StCom input data
-	SuperTrakProcessControl(0, InterfaceParameters);
+    SuperTrakProcessControl(0, InterfaceParameters);
 	
 	// SuperTrak cyclic update
 	SuperTrakCyclic1();
