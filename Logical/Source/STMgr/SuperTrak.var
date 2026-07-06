@@ -12,11 +12,15 @@
 ****************************************************************************************)
 (*SuperTrak Structure*)
 VAR
-	gSuperTrak : SuperTrak_type; (*Main SuperTrak command/parameter/status structure*)
+    gSuperTrak : SuperTrak_type; (*Main SuperTrak command/parameter/status structure*)
 END_VAR
 (*Array Size Constants*)
 VAR CONSTANT
-	ST_SECTION_MAX : USINT := 8; (*Maximum Section number (change if adding sections).*)
-	ST_TARGET_MAX : USINT := 20; (*Maximum Target number (change if adding targets). MUST BE DIVISIBLE BY 4*)
-	ST_SHUTTLE_MAX : USINT := 30; (*Maximum Shuttle number (change if adding shuttles)*)
+    ST_SECTION_MAX : USINT := 8; (*Maximum Section number (change if adding sections)*)
+    ST_TARGET_MAX : USINT := 20; (*MUST BE DIVISIBLE BY 4. Maximum Target number (change if adding targets). Should be > actual number of targets*)
+    ST_SHUTTLE_MAX : USINT := 30; (*Maximum Shuttle number (change if adding shuttles)*)
+END_VAR
+(*Conversion*)
+VAR CONSTANT
+    METERS_TO_MILLIMETERS : REAL := 1000.0; (*Convert acceleration values from m/s^2 to mm/s^2*)
 END_VAR

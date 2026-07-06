@@ -12,10 +12,15 @@
  *
 ***************************************************************************************)
 VAR
-	ControlInterfaceRevision : UINT; (*Revision number 0 required for StCom*)
-	ControlData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw input data to control interface*)
-	StatusData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw output data from control interface*)
-	InterfaceParameters : SuperTrakControlInterface_t; (*Control interface parameters*)
-	UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
-	fb_RTInfo : RTInfo; (*Gets information about the current runtime task*)
+    ControlInterfaceRevision : UINT; (*Revision number 0 required for StCom*)
+    ControlData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw input data to control interface*)
+    StatusData : ARRAY[0..499] OF USINT := [500(0)]; (*Raw output data from control interface*)
+    InterfaceParameters : SuperTrakControlInterface_t; (*Control interface parameters*)
+    UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
+    fb_RTInfo : RTInfo; (*Gets information about the current runtime task*)
+    ConfigPath : STRING[80]; (*Location of TrakMaster .dat files*)
+    PLCInterfaceConfiguration : SuperTrakControlIfConfig_t; (*PLC Interface Configuration, used to access configured section count*)
+    SystemControl : REFERENCE TO USINT; (*System Control data. Used to write Fault Reset bit*)
+    SectionControl : REFERENCE TO USINT; (*Individual Section Control data. Used to write Fault Reset bit*)
+    Index : UINT; (*FOR loop index*)
 END_VAR

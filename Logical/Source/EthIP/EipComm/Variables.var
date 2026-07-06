@@ -12,22 +12,19 @@
  *
 ***************************************************************************************)
 VAR
-	CommState : CommState_enum; (*State of the communication program*)
-	Interface : EipComm_type; (*Ethernet IP Communication program interface*)
-	StationStatus : UDINT; (*Communication status data. See .dat file*)
-	i : USINT;
-END_VAR
-(*Packed Data*)
-VAR
-	Target_ShuttleAtTarget : DINT; (*Each bit represents "ShuttleInPosition" status for that Target number*)
-	Target_ShuttleNumber : ARRAY[0..31] OF USINT; (*Each array position is the associated target number*)
-	Target_ShuttleCount : ARRAY[0..31] OF USINT; (*Each array position is the associated target number*)
-	Target_Release : DINT; (*Each bit represents "ReleaseToTarget" command for that Target number*)
-	Target_NextDestination : ARRAY[0..31] OF USINT; (*Each array position is the associated target number*)
+    CommState : CommState_enum; (*State of the communication program*)
+    IO : IO_type; (*Data communicated via EtherNet/IP*)
+    StationStatus : UDINT; (*Communication status data. See .dat file*)
+    TaskIsSimulated : BOOL; (*If true, Input data will be ignored (allows setting via the Watch window)*)
+    Initialized : BOOL; (*EIPInit block sucessfully initialized the interface in the INIT program*)
+    InitHandle : UDINT; (*Handle provided by EIPInit*)
+    InitExitStatus : STRING[80]; (*Exit Status provided by EIPInit. Contains error information*)
+    i : USINT;
+    UserLogArguments : UserLogFormatType; (*Arguments used in Logger messages (UserLog library)*)
 END_VAR
 (*Function Blocks*)
 VAR
-	fb_EIPInit : EIPInit; (*Initializes communication. Call in INIT*)
-	fb_EIPCyclic : EIPCyclic; (*Cyclically performs communication. Call in CYCLIC*)
-	fb_EIPExit : EIPExit; (*Shuts down communication. Call in EXIT*)
+    fb_EIPInit : EIPInit; (*Initializes communication. Call in INIT*)
+    fb_EIPCyclic : EIPCyclic; (*Cyclically performs communication. Call in CYCLIC*)
+    fb_EIPExit : EIPExit; (*Shuts down communication. Call in EXIT*)
 END_VAR

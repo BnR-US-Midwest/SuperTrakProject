@@ -36,11 +36,11 @@ PROGRAM _CYCLIC
         
         // Link parameters
         ShuttleParameters[Index].AdvancedReleaseConfig.DestinationTarget := Interface[Index].Par.DestinationTarget;
-        ShuttleParameters[Index].AdvancedReleaseConfig.IncrementalOffset := Interface[Index].Par.IncrementalOffset;
-        ShuttleParameters[Index].AdvancedReleaseConfig.TargetOffset := Interface[Index].Par.TargetOffset;
+        ShuttleParameters[Index].AdvancedReleaseConfig.IncrementalOffset := LIMIT(-500.0, Interface[Index].Par.IncrementalOffset, 500.0);
+        ShuttleParameters[Index].AdvancedReleaseConfig.TargetOffset := LIMIT(-500.0, Interface[Index].Par.TargetOffset, 500.0);
         ShuttleParameters[Index].AdvancedReleaseConfig.Direction := Interface[Index].Par.Direction;
-        ShuttleParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(Interface[Index].Par.Acceleration);
-        ShuttleParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(Interface[Index].Par.Velocity);
+        ShuttleParameters[Index].PalletConfig.Motion.Acceleration := REAL_TO_UINT(LIMIT(1, Interface[Index].Par.Acceleration, 60) * METERS_TO_MILLIMETERS);
+        ShuttleParameters[Index].PalletConfig.Motion.Velocity := REAL_TO_UINT(LIMIT(10, Interface[Index].Par.Velocity, 4000));
 	    
         // StShuttleExt function block inputs
         ControlShuttle[Index].StLink := ADR(gSTSystemLink);
@@ -48,6 +48,14 @@ PROGRAM _CYCLIC
         ControlShuttle[Index].ErrorReset := gSuperTrak.System.Cmd.Reset AND ControlShuttle[Index].Error;
         ControlShuttle[Index].Parameters := ADR(ShuttleParameters[Index]);
         ControlShuttle[Index].PalletID := Index;
+        
+        // If the function block errored out, reset it's commands to prevent an error loop
+        IF ControlShuttle[Index].ErrorReset THEN
+            ControlShuttle[Index].ReleaseToTarget := FALSE;
+            ControlShuttle[Index].ReleaseToOffset := FALSE;
+            ControlShuttle[Index].IncrementOffset := FALSE;
+            ShuttleControlState[Index] := SHUTTLE_STATE_WAIT_FOR_CMD_RESET;
+        END_IF;
         
         CASE ShuttleControlState[Index] OF
             SHUTTLE_STATE_WAIT_FOR_COMMAND:
@@ -83,6 +91,9 @@ PROGRAM _CYCLIC
         ControlShuttle[Index]();
         
         // Read function outputs
+        Interface[Index].Status.Active := ControlShuttle[Index].Active;
+        Interface[Index].Status.Error := ControlShuttle[Index].Error;
+        Interface[Index].Status.StatusID := ControlShuttle[Index].StatusID;
         Interface[Index].Status.ShuttleID := ShuttleInfo[Index].palletID;
         Interface[Index].Status.Present := ShuttleInfo[Index].status.stPALLET_PRESENT;
         Interface[Index].Status.Recovering := ShuttleInfo[Index].status.stPALLET_RECOVERING;
@@ -101,7 +112,7 @@ PROGRAM _CYCLIC
         Interface[Index].Status.SetPositionMicrons := PositionSetpoint[Index];
         Interface[Index].Status.SetPosition := DINT_TO_REAL(Interface[Index].Status.SetPositionMicrons)/1000.0;
         Interface[Index].Status.SetVelocity := VelocitySetpoint[Index];
-        Interface[Index].Status.SetAcceleration := AccelerationSetpoint[Index];
+        Interface[Index].Status.SetAcceleration := AccelerationSetpoint[Index] / METERS_TO_MILLIMETERS;
         
         // Log errors only when that error first occurs
         r_trig_ShuttleFBError[Index](CLK := ControlShuttle[Index].Error);
@@ -110,7 +121,7 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlShuttle[Index].StatusID;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1300, 'SuperTrak Shuttle Control error. Shuttle: %i. Status ID: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869612, 0, '', '%i %i', UserLogArguments);
         END_IF;
                 
         // Check for release commands and update Target ShuttleCount statuses
@@ -128,14 +139,14 @@ PROGRAM _CYCLIC
                     END_IF;
                 END_FOR;
 
-                IF ShuttleAtTarget > 0 AND ShuttleAtTarget < ST_TARGET_MAX THEN
+                IF ShuttleAtTarget > 0 AND ShuttleAtTarget <= ST_TARGET_MAX THEN
                     IF gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount > 0 THEN
                         gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount := gSuperTrak.Target[ShuttleAtTarget].Status.ShuttleCount - 1;
                     END_IF;
                 END_IF;
             END_IF;
             // Increment destination target's shuttle count
-            IF gSuperTrak.Shuttle[Index].Par.DestinationTarget > 0 AND gSuperTrak.Shuttle[Index].Par.DestinationTarget < ST_TARGET_MAX THEN
+            IF gSuperTrak.Shuttle[Index].Par.DestinationTarget > 0 AND gSuperTrak.Shuttle[Index].Par.DestinationTarget <= ST_TARGET_MAX THEN
                 gSuperTrak.Target[gSuperTrak.Shuttle[Index].Par.DestinationTarget].Status.ShuttleCount := 
                 gSuperTrak.Target[gSuperTrak.Shuttle[Index].Par.DestinationTarget].Status.ShuttleCount + 1;
             END_IF;

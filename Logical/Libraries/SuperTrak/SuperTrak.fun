@@ -43,12 +43,6 @@ FUNCTION SuperTrakProcessStatus : BOOL (*Process the status and service channel 
 	END_VAR
 END_FUNCTION
 
-FUNCTION SuperTrakServiceChannel : BOOL (*See also SuperTrakServChanRead/Write and StServiceChannel*) (*True on success, False on failure*)
-	VAR_IN_OUT
-		sc : ServiceChannel_t; (*Service channel structure*)
-	END_VAR
-END_FUNCTION
-
 FUNCTION SuperTrakServChanRead : UINT (*Reads data from the conveyor*) (*One of the scERR constants*)
 	VAR_INPUT
 		section : USINT; (*User-assigned section address, or 0 to access system parameters*) (* *) (*#PAR*)
@@ -279,9 +273,9 @@ FUNCTION SuperTrakLogWrite : ArEventLogRecordIDType (*Writes a message to the Su
 END_FUNCTION
 (*AsArLog helpers (please use ArEventLog instead where possible)*)
 
-FUNCTION SuperTrakLegacyLogWrite : BOOL (*Writes a message to the SuperTrak logbook using legacy B&R error codes*)
+FUNCTION SuperTrakLegacyLogWrite : ArEventLogRecordIDType (*Writes a message to the SuperTrak logbook using legacy B&R error codes*)
 	VAR_INPUT
-		logLevel : UDINT; (*use arlogLEVEL_* constants*) (* *) (*#PAR*)
+		severity : USINT; (*use arEVENTLOG_SEVERITY_**) (* *) (*#PAR*)
 		errornr : UDINT; (*status from B&R legacy function block*) (* *) (*#PAR*)
 		message : STRING[127]; (* *) (* *) (*#PAR*)
 	END_VAR

@@ -209,20 +209,6 @@ TYPE
 		statusSize : UINT; (*Size of status data buffer, in bytes*)
 		connectionType : USINT; (*Connection type; use stCONNECTION constants*)
 	END_STRUCT;
-	ServiceChannel_t : 	STRUCT  (*Data for the SuperTrakServiceChannel function*)
-		channelId : USINT; (*Uniquely identifies this service channel instance (use values 1 through 15)*)
-		state : USINT; (*Indicates the current state of this service channel*)
-		requestSequence : USINT; (*Tracks the most recent request sequence number*)
-		reserved0 : USINT; (*Not used; should always be zero*)
-		timeLimit : UINT; (*Maximum time allowed for request completion, in milliseconds*)
-		timer : UINT; (*Used to implement a timeout mechanism for requests that must be processed asynchronously*)
-		pRequestHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to the request header*)
-		pResponseHeader : REFERENCE TO ServiceChannelHeader_t; (*Pointer to the response header*)
-		requestBufferSize : UINT; (*Size of the pRequestValues buffer, in bytes*)
-		responseBufferSize : UINT; (*Size of the pResponseValues buffer, in bytes*)
-		pRequestValues : UDINT; (*Pointer to the request values, or zero if not applicable*)
-		pResponseValues : UDINT; (*Pointer to the response values, or zero if not applicable*)
-	END_STRUCT;
 	SuperTrakControlIfConfig_t : 	STRUCT  (*Control interface configuration information*)
 		options : WORD; (*Control interface options (for bit assignments, see StControlIfOptions)*)
 		revision : UINT;
@@ -301,7 +287,8 @@ TYPE
 		stPALLET_IN_POSITION := 3,
 		stPALLET_SERVO_ENABLED := 4,
 		stPALLET_INITIALIZING := 5,
-		stPALLET_LOST := 6
+		stPALLET_LOST := 6,
+		stPALLET_POSITION_UNCERTAIN := 12
 		);
 	StTargetStatusBits_e : 
 		( (*Target Status bit definitions*)
@@ -321,11 +308,15 @@ TYPE
 		stSECTION_LOCATING_PALLETS := 4,
 		stSECTION_DISABLED_EXTERNALLY := 5,
 		stSECTION_WARNING := 6,
-		stSECTION_FAULT := 7
+		stSECTION_FAULT := 7,
+		stSECTION_DISABLED_SHUTTLE := 8,
+		stSECTION_SHUTTLE_DEST_LOAD_TGT := 9,
+		stSECTION_ZERO_ID_SHUTTLE := 13
 		);
 	StSectionControlBits_e : 
 		( (*Section Control bit definitions*)
 		stSECTION_ENABLE := 0,
+		stSECTION_RESUME_SHUTTLES := 2,
 		stSECTION_ACKNOWLEDGE_FAULTS := 7
 		);
 	StSystemControlBits_e : 

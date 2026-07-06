@@ -5,6 +5,7 @@
     <File Description="Init, cyclic, exit code">Main.st</File>
     <File Description="Local data types" Private="true">Types.typ</File>
     <File Description="Local variables" Private="true">Variables.var</File>
-    <File>Subroutines.st</File>
+    <File Description="Main state machine">MainLogic.st</File>
+    <File Description="Helper actions">Subroutines.st</File>
   </Files>
 </Program>

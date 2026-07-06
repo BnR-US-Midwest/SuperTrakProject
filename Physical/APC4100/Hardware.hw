@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio WorkingVersion="6.7" FileVersion="4.9"?>
+<Hardware xmlns="http://br-automation.co.at/AS/Hardware">
+  <Module Name="5AC901.IPLK-00" Type="5AC901.IPLK-00" Version="2.1.0.0">
+    <Connection Connector="SS" TargetModule="5APC4100_TGL1_000" TargetConnector="SS2" />
+    <Connector Name="IF1">
+      <Parameter ID="CycleTime" Value="800" />
+    </Connector>
+  </Module>
+  <Module Name="5ACPCE.FMIO-K01" Type="5ACPCE.FMIO-K01" Version="1.0.6.0">
+    <Connection Connector="SL" TargetModule="5APC4100.BX02-000" TargetConnector="SL1" />
+  </Module>
+  <Module Name="5APC4100.BX02-000" Type="5APC4100.BX02-000" Version="1.0.0.0">
+    <Connection Connector="SY" TargetModule="5APC4100_TGL1_000" TargetConnector="SY3" />
+  </Module>
+  <Module Name="5APC4100_TGL1_000" Type="5APC4100.TGL1-000" Version="1.4.0.0">
+    <Connector Name="IF3">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="apc4100_supertrak" />
+      <Parameter ID="Mode" Value="Manual" />
+      <Parameter ID="InternetAddress" Value="192.168.1.100" />
+      <Parameter ID="SubnetMask" Value="255.255.255.0" />
+      <Parameter ID="ActivateSnmp" Value="2" />
+    </Connector>
+    <Connector Name="IF4">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="apc4100_supertrak" />
+      <Parameter ID="Mode" Value="Manual" />
+      <Parameter ID="InternetAddress" Value="10.10.6.10" />
+      <Parameter ID="SubnetMask" Value="255.255.255.0" />
+      <Parameter ID="ActivateSnmp" Value="2" />
+    </Connector>
+    <Connector Name="IF5">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="apc4100_supertrak" />
+      <Parameter ID="ActivateSnmp" Value="2" />
+    </Connector>
+    <Connector Name="IF6">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="apc4100_supertrak" />
+      <Parameter ID="ActivateSnmp" Value="2" />
+    </Connector>
+    <Connector Name="IF7">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Connector Name="IF8">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Connector Name="IF9">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Connector Name="IF10">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Connector Name="IF11">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Connector Name="IF12">
+      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
+    </Connector>
+    <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC910" />
+    <Parameter ID="ConfigVersion" Value="2.0.0" />
+    <Parameter ID="UserPartitionSize" Value="100" />
+    <Parameter ID="EnableDebugger" Value="1" />
+    <Parameter ID="TimerDeviceType" Value="EPLX2X" />
+    <Parameter ID="TimerDevice" Value="5AC901.IPLK-00.IF1" />
+    <Parameter ID="TaskClassIdleTime" Value="800" />
+    <Parameter ID="Cyclic1Duration" Value="800" />
+    <Parameter ID="Cyclic1Tolerance" Value="0" />
+    <Parameter ID="Cyclic2Duration" Value="1600" />
+    <Parameter ID="Cyclic2Tolerance" Value="1600" />
+    <Parameter ID="Cyclic3Duration" Value="20000" />
+    <Parameter ID="Cyclic3Tolerance" Value="20000" />
+    <Parameter ID="Cyclic8Duration" Value="9600" />
+    <Group ID="FileDevice1" />
+    <Parameter ID="FileDeviceName1" Value="USER" />
+    <Parameter ID="FileDevicePath1" Value="USER_PATH" />
+    <Parameter ID="EthernetHostName" Value="apc4100_supertrak" />
+    <Parameter ID="ActivateFtpServer" Value="1" />
+    <Group ID="FtpUser1" />
+    <Parameter ID="FtpUsername1" Value="SuperTrakUser" />
+    <Parameter ID="FtpUserPassword1" Value="ss9kzLCmIlqrwmUb/fXl5DaWp4kAdzlsqUsPLdKHEtE=" Description="SuperTrak" />
+    <Parameter ID="FtpUserSalt1" Value="yN37R9W0" />
+    <Parameter ID="FTPAccessRight1" Value="0" />
+    <Parameter ID="ActivateWebServer" Value="1" />
+    <Parameter ID="WebServerProtocol" Value="1" />
+    <Parameter ID="ActivateSdm" Value="1" />
+    <Parameter ID="Authentication" Value="0" />
+  </Module>
+</Hardware>

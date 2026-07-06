@@ -20,11 +20,13 @@ PROGRAM _INIT
     
     CheckTaskClass; // Check that task is running in 800us task class
 	
-	// Initialize SuperTrak, set configuration path
-	SuperTrakInit('/DEVICE=USER_PATH\SuperTrak\Configuration', '127.0.0.1', 'IF3,IF4');
+	// Set Config Path automatically for simulation
+	ConfigPath:= '/DEVICE=USER_PATH\SuperTrak\';
+	
+	// Initialize SuperTrak
+	SuperTrakInit(ConfigPath, '127.0.0.1', 'IF3,IF4,IF5,IF6');
 	
 	InitializeControlInterface;
-    InitializeServiceChannel;
     
     DeConfigureAllowSectionEnableInputs;
 	
@@ -33,19 +35,19 @@ END_PROGRAM
 PROGRAM _CYCLIC
 	
 	// Data addresses for PLC control interface
-	AddressControlInterface;
+    AddressControlInterface;
+        
+    // Overwrite StCom data to clear System and Section Faults
+    ResetControlLevelFaults;
 	
 	// StCom input data
-	SuperTrakProcessControl(0, InterfaceParameters);
+    SuperTrakProcessControl(0, InterfaceParameters);
 	
 	// SuperTrak cyclic update
 	SuperTrakCyclic1();
 	
 	// StCom output data
 	SuperTrakProcessStatus(0, InterfaceParameters);
-	
-	// StCom configuration
-	ProcessServiceChannel;
 	
 	// StCom reference
 	ReferenceCyclicData;

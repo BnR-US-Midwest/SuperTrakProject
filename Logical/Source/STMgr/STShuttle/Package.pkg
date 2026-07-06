@@ -2,7 +2,7 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File">STShuttle.typ</Object>
-    <Object Type="Program" Language="IEC">STShuttle</Object>
+    <Object Type="File" Description="Global types">STShuttle.typ</Object>
+    <Object Type="Program" Language="IEC" Description="StCom shuttle control">STShuttle</Object>
   </Objects>
 </Package>

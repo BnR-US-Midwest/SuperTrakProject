@@ -21,8 +21,8 @@ PROGRAM _CYCLIC
     // Initialize common statuses, assume true/false then disqualify
     Interface.Status.Active := TRUE;
     Interface.Status.Error := FALSE;
-	Interface.Status.SectionError := FALSE;
-	Interface.Status.SectionWarning := FALSE;
+	Interface.Status.SectionError := 0;
+	Interface.Status.SectionWarning := 0;
 	
     FOR Index := 1 TO ST_SECTION_MAX DO
         ControlSection[Index].StLink := ADR(gSTSystemLink);
@@ -34,7 +34,7 @@ PROGRAM _CYCLIC
         // Enable each section
         ControlSection[Index].EnableSection := Interface.Cmd.PowerSection[Index] AND ControlSection[Index].MotorPowerOn AND NOT ControlSection[Index].Error;
         // Reset all function blocks
-        ControlSection[Index].ErrorReset := Interface.Cmd.Reset;
+        ControlSection[Index].ErrorReset := gSuperTrak.System.Cmd.Reset AND ControlSection[Index].Error;
         ControlSection[Index]();
 		
         // All sections must be active
@@ -47,13 +47,13 @@ PROGRAM _CYCLIC
             Interface.Status.StatusID := ControlSection[Index].StatusID;
         END_IF
         IF ControlSection[Index].Info.SuperTrak.SectionFaultActive THEN
-            Interface.Status.SectionError := TRUE;
+            Interface.Status.SectionError := Index;
 		END_IF;
 		IF ControlSection[Index].Info.SuperTrak.SectionWarningActive THEN
-			Interface.Status.SectionWarning:= TRUE;
+			Interface.Status.SectionWarning:= Index;
         END_IF;			
         
-        // Log errors only when that error first occurs
+        // Log errors only when that error first occurs     
         r_trig_SectionFBError[Index](CLK := ControlSection[Index].Error);
         r_trig_SectionWarning[Index](CLK := ControlSection[Index].Info.SuperTrak.SectionWarningActive);
         r_trig_SectionFault[Index](CLK := ControlSection[Index].Info.SuperTrak.SectionFaultActive);
@@ -62,21 +62,21 @@ PROGRAM _CYCLIC
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].StatusID;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR, 1100, 'SuperTrak Section Control error. Section: %i. Status ID: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869812, 0, '', '%i %i', UserLogArguments);
         END_IF;
         IF r_trig_SectionWarning[Index].Q THEN
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionWarningBits;
-            UserLogAdvanced(USERLOG_SEVERITY_WARNING, 3100, 'SuperTrak Section warning. Section: %i. Warning DINT: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -1610609636, 0, '', '%i %i', UserLogArguments);
         END_IF;
-        IF r_trig_SectionFault[Index].Q THEN
+        IF r_trig_SectionFault[Index].Q THEN  
             brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
             UserLogArguments.i[0] := Index; 
             UserLogArguments.i[1] := ControlSection[Index].Info.SuperTrak.SectionFaultBits;
-            UserLogAdvanced(USERLOG_SEVERITY_ERROR,1102, 'SuperTrak Section fault. Section: %i. Fault DINT: %i', UserLogArguments);
+            UserLogEventText('$$arlogusr', -536869810, 0, '', '%i %i', UserLogArguments);
         END_IF;
-        
+
         // Read other statuses
         Interface.Info[Index].SectionEnabled := ControlSection[Index].SectionEnabled;
         Interface.Info[Index].UnrecognizedShuttles := ControlSection[Index].UnrecognizedPallets;

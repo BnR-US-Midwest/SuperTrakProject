@@ -19,14 +19,14 @@
 PROGRAM _INIT
 	
     // Set "number of" parameters to be size of their respective arrays
-    // If more Sections, Pallets, or Targets are added these constants must be
-    // updated! But follow the instructions in the constant's description!
+    // If more Sections, Pallets, or Targets are added these constants must be updated.
+    // But follow the instructions in the constant's description!
 	SystemParameters.NrOfCommands := ST_COMMAND_MAX;
 	SystemParameters.NrOfSections := ST_SECTION_MAX;
-	SystemParameters.NrOfTargets := ST_TARGET_MAX;
+	SystemParameters.NrOfTargets := ST_TARGET_MAX; // This must be divisible by 4 and must be at least 1 more than the actual number of Targets
 	SystemParameters.NrOfPallets := ST_SHUTTLE_MAX;
 	
-	Timeout.PT := T#500ms;
+	Timeout.PT := T#5000ms;
 	
 END_PROGRAM
 
@@ -42,13 +42,18 @@ PROGRAM _CYCLIC
             ControlSystem.Enable := TRUE;
 			
             IF ControlSystem.Active THEN
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogArguments.i[0] := SystemParameters.NrOfSections;
+                UserLogArguments.i[1] := SystemParameters.NrOfTargets;
+                UserLogArguments.i[2] := SystemParameters.NrOfPallets;
+                UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 31, 0, '', 'StControl Active. Max: Sections %i, Targets %i, Shuttles %i', UserLogArguments);
                 State := STATE_IDLE;
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN
@@ -71,7 +76,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 		
@@ -79,13 +84,15 @@ PROGRAM _CYCLIC
             ControlSystem.EnableAllSections := TRUE;
             
             IF ControlSystem.SectionsEnabled THEN
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 32, 0, '', 'StControl: All Sections Enabled', UserLogArguments);
                 State := STATE_EXECUTE;
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
 			
             ELSIF Timeout.Q THEN
@@ -109,7 +116,7 @@ PROGRAM _CYCLIC
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
             END_IF
 			
@@ -117,13 +124,15 @@ PROGRAM _CYCLIC
             ControlSystem.EnableAllSections := FALSE;
 			
             IF Interface.Info.SectionsDisabled THEN
+                brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
+                UserLogCustom('$$arlogusr', USERLOG_SEVERITY_INFORMATION, 1, 33, 0, '', 'StControl: All Sections Disabled', UserLogArguments);
                 State := STATE_IDLE;
 				
             ELSIF ControlSystem.Error THEN
                 Interface.Status.ErrorID := ControlSystem.StatusID;
                 brsmemset(ADR(UserLogArguments), 0, SIZEOF(UserLogArguments));
                 UserLogArguments.i[0] := ControlSystem.StatusID;
-                UserLogEventText('$$arlogusr', -536869902, 0, '', '', UserLogArguments);
+                UserLogEventText('$$arlogusr', -536869902, 0, '', '%i', UserLogArguments);
                 State := STATE_ERROR;
 				
             ELSIF Timeout.Q THEN
