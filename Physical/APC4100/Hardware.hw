@@ -62,7 +62,7 @@
     <Connector Name="IF12">
       <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
     </Connector>
-    <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC910" />
+    <Parameter ID="ConfigurationID" Value="SuperTrakProject_APC4100" />
     <Parameter ID="ConfigVersion" Value="2.0.0" />
     <Parameter ID="UserPartitionSize" Value="100" />
     <Parameter ID="EnableDebugger" Value="1" />
