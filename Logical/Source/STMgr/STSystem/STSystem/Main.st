@@ -23,7 +23,7 @@ PROGRAM _INIT
     // But follow the instructions in the constant's description!
 	SystemParameters.NrOfCommands := ST_COMMAND_MAX;
 	SystemParameters.NrOfSections := ST_SECTION_MAX;
-	SystemParameters.NrOfTargets := ST_TARGET_MAX;
+	SystemParameters.NrOfTargets := ST_TARGET_MAX; // This must be divisible by 4 and must be at least 1 more than the actual number of Targets
 	SystemParameters.NrOfPallets := ST_SHUTTLE_MAX;
 	
 	Timeout.PT := T#5000ms;

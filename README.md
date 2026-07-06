@@ -15,7 +15,6 @@ This is a fully functional Automation Studio project for controlling a SuperTrak
 # Table of Contents
 - [Hardware and Software Requirements](#hardware-and-software-requirements)
 - [Quick Start](#quick-start)
-  - [Adapting the simulation to a real machine](#adapting-the-simulation-to-a-real-machine)
 - [Project Components](#project-components)
   - [MachineMgr](#machinemgr)
   - [STMgr](#stmgr)
@@ -24,7 +23,7 @@ This is a fully functional Automation Studio project for controlling a SuperTrak
   - [Number of Sections, Targets, and Shuttles](#number-of-sections-targets-and-shuttles)
   - [Recovery](#recovery)
   - [Process Sequence](#process-sequence)
-  - [SuperTrak Configuration Files](#supertrak-configuration-files)
+  - [TrakMaster Settings](#trakmaster-settings)
 
 # Hardware and Software Requirements
 >**Compatibility note:** This project has been upgraded to Automation Studio 6 and is not backwards compatible with Automation Studio 4. To use a version of this project compatible with Automation Studio 4, download the [last AS4 compatible release](https://github.com/BnR-US-Midwest/SuperTrakProject/releases/tag/1.1.0) or visit the [archive/AS412](https://github.com/BnR-US-Midwest/SuperTrakProject/tree/archive/AS412) branch.
@@ -51,10 +50,6 @@ Error logging is implemented with the [UserLog library](https://github.com/BnR-U
 
 <img width="1426" height="376" alt="RunningExample" src="https://github.com/user-attachments/assets/09d7edff-2544-4842-af18-c750bb2b5e74" />
 
-## Adapting the simulation to a real machine
-1. Transfer the project to a real target. To keep your simulated TrakMaster settings, ensure your simulation's .dat files are copied to the real target's USER partition. If the project has already been run in ARSim, these files are located at `PROJECT_DIRECTORY\Temp\Simulation\APC4100\5APC4100_TGL1_000\USER`. Otherwise, ensure the template files located at `Logical\UserFiles` are copied in the Automation Studio transfer settings
-2. In TrakMaster, use the Advanced -> System Layout page to configure your trak's layout
-3. In TrakMaster, set Global Parameters -> Enable Simulation to False
 # Project Components
 ## MachineMgr
 The MachineMgr package contains the `Main` machine task. This task implements a state machine for controlling the SuperTrak, and can be adjusted to control any other B&R hardware that is added to this project. This state machine includes the following functionality:
@@ -65,7 +60,7 @@ The MachineMgr package contains the `Main` machine task. This task implements a 
 
 Commands are processed using the `gMachine.Cmd` and `gMachine.Par` structures. Statuses are returned via the `gMachine.Status` structure.
 
-This *MainLogic* Action demonstrates the sequence of checking targets for a present shuttle and then having the target release that shuttle when a machine component is done working on the shuttle.
+The *MainLogic* Action demonstrates the sequence of checking each target for a present shuttle, and then having the target release that shuttle when a machine component is done working on it.
 For the purposes of simulation, shuttles are released after a timer which simulates the completion of a machine process. This Action runs within the `MAIN_STATE_RUN` state and is gated by the boolean variable `gUseExternalControl`. This allows the sequence to be handled externally, in which case incoming commands are written directly to the `gSuperTrak` structure by the `EipComm` task.
 
 ## STMgr
@@ -76,19 +71,19 @@ The STMgr package contains the programs used to interface with the SuperTrak via
 4. `STTarget` - individual Target control using StTargetExt. Can be interfaced with by other programs using the variable `gSuperTrak.Target[TARGET_NUMBER]` where `TARGET_NUMBER` is in the range of 1..`ST_TARGET_MAX`
 5. `STShuttle` - individual Shuttle control using StPallet. Can be interfaced with by other programs using the variable `gSuperTrak.Shuttle[SHUTTLE_NUMBER]` where `SHUTTLE_NUMBER` is in the range of 1..`ST_SHUTTLE_MAX`
 
->⚠️ **STCyclic must always be called in Cyclic #1 with a Cycle Time of 800 microseconds and 0 Tolerance.**
+>⚠️ STCyclic must always be called in Cyclic #1 with a Cycle Time of 800 microseconds and 0 Tolerance.
 
 ## EthIP
-The EthIP package contains the `EipComm` task, which enables an external PLC to command and monitor the SuperTrak over EtherNet/IP. When this task is running it sets `gUseExternalControl` True each cycle, which causes the `Main` task to skip its internal process sequence and accept commands from the external controller instead.
+The EthIP package contains the `EipComm` task, which enables an external PLC to command and monitor the SuperTrak via EtherNet/IP communication. When this task is running it sets `gUseExternalControl` True each cycle, which causes the `Main` task to skip its internal process sequence and accept commands from the external controller instead.
 
-> ⚠️ **This task is disabled in the Software Configuration by default. It should not be enabled unless there is an external controller connected.**
+> ⚠️ This task is disabled in the Software Configuration by default. Enabling it as-is will overwrite the`gSuperTrak` structure data with I/O data each cycle and prevent the Main task release logic from running.
 
 Communication is handled using the [AsEthIP library](https://help.br-automation.com/#/en/6/libraries%2Fasethip%2Fasethip.html). The `ethIPcon` data object defines the Input and Output assemblies:
 
 - **Input Assembly** (APC → external controller, `IO.Out.*`): system and section statuses, diagnostic information, per-target shuttle data
 - **Output Assembly** (external controller → APC, `IO.In.*`): system enable and error-reset commands, and per-target release commands/parameters
 
-Because EtherNet/IP does not support arrays of BOOLs, per-target and per-shuttle BOOL values are bit-packed into `DINT` fields (bit position = target/shuttle number). The current DINT bitmask approach supports up to 32 targets and 32 shuttles.
+Because EtherNet/IP does not support arrays of BOOLs, per-target and per-shuttle BOOL values are bit-packed into DINT fields (bit position = target/shuttle number). The current DINT bitmask approach supports up to 32 targets and 32 shuttles.
 
 
 # Modifying the Starter Project for Your Application
@@ -100,17 +95,21 @@ There are constants declared in the SuperTrak.var file within the Source -> STMg
  - `ST_TARGET_MAX`
  - `ST_SHUTTLE_MAX`
 
-These constants must be checked and updated if sections, targets, or shuttles are added to the system. Keep in mind that there are restrictions noted in the description of some of the constants.
+These constants must be checked and updated if sections, targets, or shuttles are added to the system.
+ > ⚠️ ST_TARGET_MAX must be divisble by 4 and also must be greater than the number of targets actually configured in TrakMaster by at least 1. For example, if there are 8 targets used in TrakMaster, this constant should be set to 12.
 
 ## Recovery
 Any application-specific recovery code should be added to the `MAIN_STATE_RECOVER` state of the Main task. The basic recovery sequence just checks that all shuttles are on their way to the Load Target.
 
 ## Process Sequence
-Sample code for controlling SuperTrak targets is in the `MAIN_STATE_RUN` state of the Main task. This is where the main process control code should be written. Each target is checked with the following flow:
+Sample code for controlling SuperTrak targets is in the `MAIN_STATE_RUN` state of the Main task. This is where the main process control code should be written. Each target is checked with the following flow: 
 
 >Shuttle At Target -> Processing Complete -> Set Shuttle Parameters and Release Shuttle
 
 This flow can be duplicated for additional targets.
 
-## SuperTrak Configuration Files
-The SuperTrak Configuration (.dat) files will be transferred to `USER_PATH\SuperTrak` on an initial installation. After making changes in TrakMaster, make sure to back these files up or copy them back into the Logical View directory!
+## TrakMaster Settings
+- Use the Advanced -> System Layout page to configure your trak's layout
+- Set Global Parameters -> Enable Simulation to False if running on a real APC
+
+The TrakMaster configuration (.dat) files in the project's UserFiles package will be transferred to `USER_PATH\SuperTrak` during an initial installation. This is true for ARSim targets as well. These files will be modified whenever changes are made in TrakMaster (e.g., adding targets). To backup any changes made in TrakMaster, these files should be backed up or copied back into the Logical View directory.
