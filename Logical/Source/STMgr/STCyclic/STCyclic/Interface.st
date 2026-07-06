@@ -9,6 +9,7 @@
  *
  * Authors:
  *  Tyler Matijevich, B&R Industrial Automation
+ *  Marcus Mangel, B&R Industrial Automation
  *
 ***************************************************************************************)
 
@@ -47,7 +48,7 @@ ACTION AddressControlInterface:
 	
 END_ACTION
 
-(* This ACTION will reset Faults AND Warnings FOR all Sections as well as the System *)
+(* Reset Faults and Warnkngs for all Sections as well as the System *)
 // This functionality is not implemented by StCom and so it must be done from the
 // cyclic control layer. The same functionality can be achieved with the Clear Faults
 // button in TrakMaster.

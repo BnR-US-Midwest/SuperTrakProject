@@ -30,46 +30,46 @@ ACTION PackOutgoingData:
     IO.Out.SystemShuttleCount := gSuperTrak.System.Info.ShuttleCount;
     
     // Loop through all possible Target values
-    // If target numbers > 31 are used, the communication
+    // If target numbers > 32 are used, the communication
     // definitions must be changed
-    FOR i := 1 TO 31 DO
+    FOR i := 1 TO 32 DO
         IF i > ST_TARGET_MAX THEN
             EXIT;
         ELSE
             // Status: Shuttle Present. Pack into a DINT bitwise
             IF gSuperTrak.Target[i].Status.ShuttlePresent THEN
-                IO.Out.TargetShuttlePresent := BIT_SET(IO.Out.TargetShuttlePresent, i);
+                IO.Out.TargetShuttlePresent := BIT_SET(IO.Out.TargetShuttlePresent, i-1);
             ELSE
-                IO.Out.TargetShuttlePresent := BIT_CLR(IO.Out.TargetShuttlePresent, i);
+                IO.Out.TargetShuttlePresent := BIT_CLR(IO.Out.TargetShuttlePresent, i-1);
             END_IF;
             
             // Status: Shuttle ID. Copy into a fixed-size array
-            IO.Out.TargetShuttleID[i] := gSuperTrak.Target[i].Status.ShuttleID;
+            IO.Out.TargetShuttleID[i-1] := gSuperTrak.Target[i].Status.ShuttleID;
             
             // Status: Shuttle Count. Copy into a fixed-size array
-            IO.Out.TargetShuttleCount[i] := gSuperTrak.Target[i].Status.ShuttleCount;
+            IO.Out.TargetShuttleCount[i-1] := gSuperTrak.Target[i].Status.ShuttleCount;
             
             // Status: Error on StTargetExt function block
             IF gSuperTrak.Target[i].Status.Error THEN
-                IO.Out.TargetError := BIT_SET(IO.Out.TargetError, i);
+                IO.Out.TargetError := BIT_SET(IO.Out.TargetError, i-1);
             ELSE
-                IO.Out.TargetError := BIT_CLR(IO.Out.TargetError, i);
+                IO.Out.TargetError := BIT_CLR(IO.Out.TargetError, i-1);
             END_IF;
         END_IF;
     END_FOR;
     
     // Loop through all possible Shuttle values
-    // If shuttle numbers > 31 are used, the communication
+    // If shuttle numbers > 32 are used, the communication
     // definitions must be changed
-    FOR i := 1 TO 31 DO
+    FOR i := 1 TO 32 DO
         IF i > ST_SHUTTLE_MAX THEN
             EXIT;
         ELSE
             // Status: Error on StPallet function block
             IF gSuperTrak.Shuttle[i].Status.Error THEN
-                IO.Out.ShuttleError := BIT_SET(IO.Out.ShuttleError, i);
+                IO.Out.ShuttleError := BIT_SET(IO.Out.ShuttleError, i-1);
             ELSE
-                IO.Out.ShuttleError := BIT_CLR(IO.Out.ShuttleError, i);
+                IO.Out.ShuttleError := BIT_CLR(IO.Out.ShuttleError, i-1);
             END_IF;
         END_IF;
     END_FOR;
@@ -94,32 +94,32 @@ ACTION UnpackIncomingData:
     gMachine.Cmd.ErrorReset := IO.In.SystemErrorReset;
 
     // Loop through all possible Target values
-    // If target numbers > 31 are used, the communication
+    // If target numbers > 32 are used, the communication
     // definitions must be changed
-    FOR i := 1 TO 31 DO
+    FOR i := 1 TO 32 DO
         IF i > ST_TARGET_MAX THEN
             EXIT;
         ELSE
             // Command: Release To Target. Unpack from a DINT bitwise
-            gSuperTrak.Target[i].Cmd.Release.ReleaseToTarget := BIT_TST(IO.In.TargetReleaseToTarget, i);
+            gSuperTrak.Target[i].Cmd.Release.ReleaseToTarget := BIT_TST(IO.In.TargetReleaseToTarget, i-1);
             
             // Command: Release To Offset. Unpack from a DINT bitwise
-            gSuperTrak.Target[i].Cmd.Release.ReleaseToOffset := BIT_TST(IO.In.TargetReleaseToOffset, i);
+            gSuperTrak.Target[i].Cmd.Release.ReleaseToOffset := BIT_TST(IO.In.TargetReleaseToOffset, i-1);
             
             // Parameter: Destination Target. Copy out of a fixed-size array
-            gSuperTrak.Target[i].Par.Release.DestinationTarget := IO.In.TargetDestinationTarget[i];
+            gSuperTrak.Target[i].Par.Release.DestinationTarget := IO.In.TargetDestinationTarget[i-1];
             
             // Parameter: Release Acceleration. Copy out of a fixed-size array
-            gSuperTrak.Target[i].Par.Release.Acceleration := IO.In.TargetReleaseAccel[i];
+            gSuperTrak.Target[i].Par.Release.Acceleration := IO.In.TargetReleaseAccel[i-1];
             
             // Parameter: Release Velocity. Copy out of a fixed-size array
-            gSuperTrak.Target[i].Par.Release.Velocity := IO.In.TargetReleaseVelocity[i];
+            gSuperTrak.Target[i].Par.Release.Velocity := IO.In.TargetReleaseVelocity[i-1];
             
             // Parameter: Release Direction. Copy out of a fixed-size array
-            gSuperTrak.Target[i].Par.Release.Direction := IO.In.TargetReleaseDirection[i];
+            gSuperTrak.Target[i].Par.Release.Direction := IO.In.TargetReleaseDirection[i-1];
             
             // Parameter: Release Target Offset. Copy out of a fixed-size array
-            gSuperTrak.Target[i].Par.Release.TargetOffset := IO.In.TargetReleaseOffset[i];
+            gSuperTrak.Target[i].Par.Release.TargetOffset := IO.In.TargetReleaseOffset[i-1];
         END_IF;
     END_FOR;
     

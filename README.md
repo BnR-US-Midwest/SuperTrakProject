@@ -88,7 +88,7 @@ Communication is handled using the [AsEthIP library](https://help.br-automation.
 - **Input Assembly** (APC → external controller, `IO.Out.*`): system and section statuses, diagnostic information, per-target shuttle data
 - **Output Assembly** (external controller → APC, `IO.In.*`): system enable and error-reset commands, and per-target release commands/parameters
 
-Because EtherNet/IP does not support arrays of BOOLs, per-target and per-shuttle BOOL values are bit-packed into `DINT` fields (bit position = target/shuttle number). The current DINT bitmask approach supports up to 31 targets and 31 shuttles.
+Because EtherNet/IP does not support arrays of BOOLs, per-target and per-shuttle BOOL values are bit-packed into `DINT` fields (bit position = target/shuttle number). The current DINT bitmask approach supports up to 32 targets and 32 shuttles.
 
 
 # Modifying the Starter Project for Your Application

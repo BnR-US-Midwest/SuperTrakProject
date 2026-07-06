@@ -19,8 +19,8 @@
 PROGRAM _INIT
 	
     // Set "number of" parameters to be size of their respective arrays
-    // If more Sections, Pallets, or Targets are added these constants must be
-    // updated! But follow the instructions in the constant's description!
+    // If more Sections, Pallets, or Targets are added these constants must be updated.
+    // But follow the instructions in the constant's description!
 	SystemParameters.NrOfCommands := ST_COMMAND_MAX;
 	SystemParameters.NrOfSections := ST_SECTION_MAX;
 	SystemParameters.NrOfTargets := ST_TARGET_MAX;
