@@ -51,6 +51,10 @@ Error logging is implemented with the [UserLog library](https://github.com/BnR-U
 <img width="1426" height="376" alt="RunningExample" src="https://github.com/user-attachments/assets/09d7edff-2544-4842-af18-c750bb2b5e74" />
 
 # Project Components
+
+This diagram shows the relationship between the tasks and SuperTrak related libraries in the project:
+<img width="443" height="363" alt="STDiagram" src="https://github.com/user-attachments/assets/eaee546e-c0fa-4c0e-8758-659d0ab79a2e" />
+
 ## MachineMgr
 The MachineMgr package contains the `Main` machine task. This task implements a state machine for controlling the SuperTrak, and can be adjusted to control any other B&R hardware that is added to this project. This state machine includes the following functionality:
 - Enabling/Disabling the SuperTrak
