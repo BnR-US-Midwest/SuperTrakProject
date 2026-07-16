@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="30.00" TargetName="SuperTrak" TargetType="Program" ContainsContext="true" ExportDate="Wed Jul 15 2026" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies">
+  <Controller Use="Context" Name="SuperTrak">
+    <DataTypes Use="Context">
+      <!-- ============================================================= -->
+      <!-- AB INPUT assembly  (B&R INPUTASSEMBLY "Assem1", instance 101) -->
+      <!-- Data produced by the B&R PLC (EipComm:IO.Out.*) and consumed  -->
+      <!-- by the Allen-Bradley PLC. Total size = 96 bytes.              -->
+      <!-- Member order/offsets reproduce the B&R SG4 assembly layout.   -->
+      <!-- ============================================================= -->
+      <DataType Use="Context" Name="ST_EthIP_Input" Family="NoFamily" Class="User">
+        <Description>
+          <![CDATA[SuperTrak -> AB. Maps B&R INPUTASSEMBLY (EipComm:IO.Out.*). 96 bytes. Overlay onto Connection I data (Comm Format Data - SINT).]]>
+        </Description>
+        <Members>
+          <!-- Bytes 0..3 : status bits packed into one 32-bit word -->
+          <Member Name="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+          <Member Name="SystemEnabled" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="0" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.0 - Status: All sections are Enabled]]></Description>
+          </Member>
+          <Member Name="SystemDisabled" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="1" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.1 - Status: All sections are Disabled]]></Description>
+          </Member>
+          <Member Name="SystemReadyToEnable" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="2" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.2 - Status: System is ready to Enable]]></Description>
+          </Member>
+          <Member Name="SystemFaultPresent" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="3" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.3 - Status: System is reporting a Fault]]></Description>
+          </Member>
+          <Member Name="SystemWarningPresent" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="4" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.4 - Status: System is reporting a Warning]]></Description>
+          </Member>
+          <Member Name="ProgramError" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="5" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.5 - Status: Program/logic error]]></Description>
+          </Member>
+          <!-- Byte 4..7 -->
+          <Member Name="SystemFaults" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 4-7 - Status: System fault bitmask]]></Description>
+          </Member>
+          <!-- Byte 8..11 -->
+          <Member Name="SystemWarnings" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 8-11 - Status: System warning bitmask]]></Description>
+          </Member>
+          <!-- Byte 12..15 -->
+          <Member Name="TargetError" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 12-15 - Status: A Target control function block is reporting an error. Bit packed (bit position = Target #)]]></Description>
+          </Member>
+          <!-- Byte 16..19 -->
+          <Member Name="ShuttleError" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 16-19 - Status: A Shuttle control function block is reporting an error. Bit packed (bit position = Shuttle #)]]></Description>
+          </Member>
+          <!-- Byte 20..23 -->
+          <Member Name="TargetShuttlePresent" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 20-23 - Status: A Shuttle has arrived at the Target. Bit packed (bit position = Target #)]]></Description>
+          </Member>
+          <!-- Byte 24..25 -->
+          <Member Name="SystemSectionCount" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 24-25 - Status: # of configured Sections (only read once on Enable)]]></Description>
+          </Member>
+          <!-- Byte 26..27 -->
+          <Member Name="SystemShuttleCount" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 26-27 - Status: # of Shuttles currently on the system (read Cyclically)]]></Description>
+          </Member>
+          <!-- Byte 28 -->
+          <Member Name="SectionError" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte 28 - Status: Section # reporting a Fault]]></Description>
+          </Member>
+          <!-- Byte 29 -->
+          <Member Name="SectionWarning" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte 29 - Status: Section # reporting a Warning]]></Description>
+          </Member>
+          <!-- Byte 30..61 -->
+          <Member Name="TargetShuttleID" DataType="SINT" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 30-61 - Status: ID of the Shuttle at the Target (Target# = Array Position)]]></Description>
+          </Member>
+          <!-- Byte 62..93 (bytes 94-95 are trailing alignment pad to 96) -->
+          <Member Name="TargetShuttleCount" DataType="SINT" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 62-93 - Status: Number of Shuttles at the Target (Target# = Array Position)]]></Description>
+          </Member>
+        </Members>
+      </DataType>
+
+      <!-- ============================================================== -->
+      <!-- AB OUTPUT assembly (B&R OUTPUTASSEMBLY "Assem2", instance 102) -->
+      <!-- Data produced by the Allen-Bradley PLC and consumed by the     -->
+      <!-- B&R PLC (EipComm:IO.In.*). Total size = 492 bytes.             -->
+      <!-- ============================================================== -->
+      <DataType Use="Context" Name="ST_EthIP_Output" Family="NoFamily" Class="User">
+        <Description>
+          <![CDATA[AB -> SuperTrak. Maps B&R OUTPUTASSEMBLY (EipComm:IO.In.*). 492 bytes. Overlay onto Connection O data (Comm Format Data - SINT).]]>
+        </Description>
+        <Members>
+          <!-- Bytes 0..3 : control bits packed into one 32-bit word -->
+          <Member Name="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+          <Member Name="SystemEnable" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="0" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.0 - Command: Power all Sections]]></Description>
+          </Member>
+          <Member Name="SystemErrorReset" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZZZZZZZZZZZZZZZHidden0" BitNumber="1" ExternalAccess="Read/Write">
+            <Description><![CDATA[Byte0.1 - Command: SuperTrak Error Reset]]></Description>
+          </Member>
+          <!-- Byte 4..7 -->
+          <Member Name="TargetReleaseToTarget" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 4-7 - Command: Release the Shuttle at the Target to a new Target. Bit packed (bit position = Source Target #)]]></Description>
+          </Member>
+          <!-- Byte 8..11 -->
+          <Member Name="TargetReleaseToOffset" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 8-11 - Command: Release the Shuttle to a Target with an Offset. Bit packed (bit position = Source Target #)]]></Description>
+          </Member>
+          <!-- Byte 12..43 -->
+          <Member Name="TargetDestinationTarget" DataType="SINT" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 12-43 - Parameter: Destination Target for the ReleaseToTarget command]]></Description>
+          </Member>
+          <!-- Byte 44..107 -->
+          <Member Name="TargetReleaseDirection" DataType="INT" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 44-107 - Parameter: Direction of Release. 0=CW, 1=CCW. Source Target# = Byte position]]></Description>
+          </Member>
+          <!-- Byte 108..235 -->
+          <Member Name="TargetReleaseAccel" DataType="REAL" Dimension="32" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 108-235 - Parameter: Acceleration [m/s^2] for Release commands (Source Target# = Byte position)]]></Description>
+          </Member>
+          <!-- Byte 236..363 -->
+          <Member Name="TargetReleaseVelocity" DataType="REAL" Dimension="32" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 236-363 - Parameter: Velocity [mm/s] for Release commands (Source Target# = Byte position)]]></Description>
+          </Member>
+          <!-- Byte 364..491 -->
+          <Member Name="TargetReleaseOffset" DataType="REAL" Dimension="32" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+            <Description><![CDATA[Bytes 364-491 - Parameter: Absolute position offset from Target [mm]. (Source Target# = Byte Position)]]></Description>
+          </Member>
+        </Members>
+      </DataType>
+    </DataTypes>
+
+    <!-- Controller-scoped overlay tags (created as dependencies on import) -->
+    <Tags Use="Context">
+      <Tag Name="SuperTrak_In" TagType="Base" DataType="ST_EthIP_Input" Constant="false" ExternalAccess="Read/Write">
+        <Description><![CDATA[SuperTrak -> AB status/data. Copied from the EtherNet/IP module Input tag.]]></Description>
+      </Tag>
+      <Tag Name="SuperTrak_Out" TagType="Base" DataType="ST_EthIP_Output" Constant="false" ExternalAccess="Read/Write">
+        <Description><![CDATA[AB -> SuperTrak commands/data. Copied to the EtherNet/IP module Output tag.]]></Description>
+      </Tag>
+    </Tags>
+
+    <Programs Use="Context">
+      <Program Use="Target" Name="SuperTrak" TestEdits="false" MainRoutineName="CopyEipData" Disabled="false" UseAsFolder="false">
+        <Tags/>
+        <Routines>
+          <Routine Name="CopyEipData" Type="RLL">
+            <RLLContent>
+              <Rung Number="0" Type="N">
+                <Comment><![CDATA[Copy raw input assembly (SINT array) from the Generic Ethernet module into the typed overlay tag. Rename 'Connection1' to match your module name.]]></Comment>
+                <Text><![CDATA[CPS(Connection1:I.Data[0],SuperTrak_In,1);]]></Text>
+              </Rung>
+              <Rung Number="1" Type="N">
+                <Comment><![CDATA[Copy the typed overlay tag into the raw output assembly (SINT array) sent to the Generic Ethernet module.]]></Comment>
+                <Text><![CDATA[CPS(SuperTrak_Out,Connection1:O.Data[0],1);]]></Text>
+              </Rung>
+            </RLLContent>
+          </Routine>
+        </Routines>
+      </Program>
+    </Programs>
+  </Controller>
+</RSLogix5000Content>

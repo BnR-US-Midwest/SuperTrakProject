@@ -4,5 +4,7 @@
   <Objects>
     <Object Type="Program" Language="IEC" Description="EtherNet/IP communication task">EipComm</Object>
     <Object Type="DataObject" Language="Simple" Description="Configuration Data Object for the EthernetIP Communication">ethIPcon</Object>
+    <Object Type="File" Description="Allen Bradley import file">SuperTrak.L5X</Object>
+    <Object Type="File" Description="EtherNet/IP Communication Instructions">ReadMe.txt</Object>
   </Objects>
 </Package>
